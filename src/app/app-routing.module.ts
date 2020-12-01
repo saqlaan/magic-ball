@@ -5,19 +5,19 @@ import { AuthGuard } from './shared/guards';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
-  },
-  {
-    path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-  },
+  // {
+  //   path: '',
+  //   component: HomeComponent,
+  //   canActivate: [AuthGuard],
+  // },
+  // {
+  //   path: 'auth',
+  //   loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+  // },
+  // {
+  //   path: 'admin',
+  //   loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+  // },
 ];
 
 @NgModule({
