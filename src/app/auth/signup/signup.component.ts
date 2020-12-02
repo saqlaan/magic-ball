@@ -28,7 +28,8 @@ export class SignupComponent implements OnInit {
   signup(): void {
     const firstName =  this.userForm.value.firstName;
     const lastName =  this.userForm.value.lastName;
-    this.authService.signup(firstName, lastName).subscribe(() => {
+    this.authService.signup(firstName, lastName).subscribe((user) => {
+      this.router.navigate(['']);
     });
   }
 }
