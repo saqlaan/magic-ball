@@ -13,9 +13,10 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { AuthService } from './shared/services';
 
-export function appInitializerFactory(authService: AuthService) {
-  return () => authService.checkTheUserOnTheFirstLoad();
-}
+
+// export function appInitializerFactory(authService: AuthService) {
+//
+// }
 
 @NgModule({
   imports: [BrowserAnimationsModule, HttpClientModule, SharedModule, AppRoutingModule],
@@ -30,12 +31,6 @@ export function appInitializerFactory(authService: AuthService) {
       provide: HTTP_INTERCEPTORS,
       useClass: CatchErrorInterceptor,
       multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerFactory,
-      multi: true,
-      deps: [AuthService],
     },
   ],
   bootstrap: [AppComponent],

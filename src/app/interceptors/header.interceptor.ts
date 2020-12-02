@@ -11,7 +11,7 @@ export class AuthHeaderInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
-      setHeaders: this.authService.getAuthorizationHeaders(),
+
     });
 
     return next.handle(req);

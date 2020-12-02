@@ -13,7 +13,7 @@ import {FormControl, FormGroup} from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
 
    ws = '';
@@ -22,12 +22,12 @@ export class AppComponent implements OnInit {
     message: new FormControl(''),
 
   });
-  user$: Observable<User | null> = merge(
-    // Init on startup
-    this.authService.me(),
-    // Update after login/register/logout
-    this.authService.getUser()
-  );
+  // user$: Observable<User | null> = merge(
+  //   // Init on startup
+  //   this.authService.me(),
+  //   // Update after login/register/logout
+  //   this.authService.getUser()
+  // );
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -38,21 +38,6 @@ export class AppComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
-    if (ws) {
-      ws.onerror = ws.onopen = ws.onclose = null;
-      ws.close();
-    }
-
-    ws = new WebSocket('ws://localhost:6969');
-    ws.onopen = () => {
-      console.log('Connection opened!');
-    }
-    ws.onmessage = ({ data }) => this.showMessage(data);
-    ws.onclose = function() {
-      ws = null;
-    }
-  }
 
 
   registerSvgIcons() {
@@ -100,13 +85,13 @@ export class AppComponent implements OnInit {
   //   this.newTaskForm.value.message += `\n\n${message}`;
   //   this.newTaskForm.value.text ;
   // }
-  showMessage(message: string) {
-    this.newTaskForm.value.text = '';
-  }
-
-  click(): void {
-    this.newTaskForm.value.message += this.newTaskForm.value.text);
-    alert(this.newTaskForm.value.text );
-  }
+  // showMessage(message: string) {
+  //   this.newTaskForm.value.text = '';
+  // }
+  //
+  // click(): void {
+  //   this.newTaskForm.value.message += this.newTaskForm.value.text);
+  //   alert(this.newTaskForm.value.text );
+  // }
 }
 
