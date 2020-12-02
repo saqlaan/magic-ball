@@ -7,7 +7,7 @@ export class WebSocketService {
   ws: WebSocket = new WebSocket('ws://localhost:5050');
   private send = (obj: any) => {
     this.ws.send(JSON.stringify(obj));
-  }
+  };
 
   constructor() {
     this.ws.onopen = () => {
@@ -21,10 +21,10 @@ export class WebSocketService {
   init(type: any) {
     this.send({
       method: 'init',
-      userType: type,
-      userId: Math.random()
+      data: {
+        userType: type,
+        userId: Math.random()
+      }
     });
   }
-
-
 }

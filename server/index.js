@@ -12,7 +12,7 @@ if (!module.parent) {
   });
   socketApp.listen(config.websocketPort, () => {
     console.info(`websocket started on port ${config.websocketPort} (${config.env})`);
-  })
+  });
 }
 
 module.exports = app;
