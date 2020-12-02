@@ -5,13 +5,14 @@ import { Observable, BehaviorSubject, EMPTY } from 'rxjs';
 import { tap, pluck } from 'rxjs/operators';
 
 import { User } from '@app/shared/interfaces';
-
+import { Game } from '@app/shared/interfaces/game.interface';
 import { TokenStorage } from './token.storage';
 
 interface AuthResponse {
   token: string;
   user: User;
 }
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -28,10 +29,14 @@ export class AuthService {
         lastName
       })
       .pipe(
-        tap(({ token, user }) => {
+        tap(({token, user}) => {
         }),
         pluck('user')
       );
+  }
+    game(): Observable<Game> {
+      return this.http.get<Game>('/api/auth/addgame');
+
   }
 
 
