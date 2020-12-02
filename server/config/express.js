@@ -16,9 +16,7 @@ const passport = require('./passport')
 
 const app = express();
 
-if (config.env === 'development') {
-  app.use(logger('dev'));
-}
+
 
 // Choose what fronten framework to serve the dist from
 var distDir = '../../dist/';

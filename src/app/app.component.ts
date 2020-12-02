@@ -1,12 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-
-import { merge, Observable } from 'rxjs';
-
-import { User } from './shared/interfaces';
-import { AuthService } from './shared/services';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Component} from '@angular/core';
+import {MatIconRegistry} from '@angular/material/icon';
+import {DomSanitizer} from '@angular/platform-browser';
+import {AuthService} from './shared/services';
 
 @Component({
   selector: 'app-root',
@@ -15,20 +10,6 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class AppComponent {
 
-
-   ws = '';
-  newTaskForm = new FormGroup({
-    text: new FormControl(''),
-    message: new FormControl(''),
-
-  });
-  // user$: Observable<User | null> = merge(
-  //   // Init on startup
-  //   this.authService.me(),
-  //   // Update after login/register/logout
-  //   this.authService.getUser()
-  // );
-
   constructor(
     private domSanitizer: DomSanitizer,
     private matIconRegistry: MatIconRegistry,
@@ -36,8 +17,6 @@ export class AppComponent {
   ) {
     this.registerSvgIcons();
   }
-
-
 
 
   registerSvgIcons() {
@@ -81,6 +60,7 @@ export class AppComponent {
       );
     });
   }
+
   // showMessage(message) {
   //   this.newTaskForm.value.message += `\n\n${message}`;
   //   this.newTaskForm.value.text ;

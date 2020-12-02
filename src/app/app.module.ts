@@ -1,17 +1,16 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgModule} from '@angular/core';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
-import { SharedModule } from './shared/shared.module';
+import {SharedModule} from './shared/shared.module';
 
-import { AppComponent } from './app.component';
-import { AuthHeaderInterceptor } from './interceptors/header.interceptor';
-import { CatchErrorInterceptor } from './interceptors/http-error.interceptor';
+import {AppComponent} from './app.component';
+import {AuthHeaderInterceptor} from './interceptors/header.interceptor';
+import {CatchErrorInterceptor} from './interceptors/http-error.interceptor';
 
-import { AppRoutingModule } from './app-routing.module';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { AuthService } from './shared/services';
+import {AppRoutingModule} from './app-routing.module';
+import {HeaderComponent} from './header/header.component';
+import {HomeComponent} from './home/home.component';
 
 
 // export function appInitializerFactory(authService: AuthService) {
@@ -19,7 +18,12 @@ import { AuthService } from './shared/services';
 // }
 
 @NgModule({
-  imports: [BrowserAnimationsModule, HttpClientModule, SharedModule, AppRoutingModule],
+  imports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
+    SharedModule,
+    AppRoutingModule,
+  ],
   declarations: [AppComponent, HeaderComponent, HomeComponent],
   providers: [
     {
