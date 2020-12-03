@@ -8,6 +8,6 @@ module.exports = {
 async function insert(game) {
   return await new Game(game).save();
 }
-async function find(id) {
-  return await  Game.findById(id);
+async function find(code) {
+  return await  Game.find({gameCode:  code});
 }
