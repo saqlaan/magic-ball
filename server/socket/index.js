@@ -3,7 +3,8 @@ const socket = {
   init: (client, data) => {
     socket.clients.push({
       client: client,
-      type: data.data.userType
+      type: data.data.userType,
+      code: data.data.code
     });
   },
   connect: (client) => {

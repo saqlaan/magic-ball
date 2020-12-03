@@ -18,12 +18,13 @@ export class WebSocketService {
     };
   }
 
-  init(type: any) {
+  init(type: any, code: any) {
     this.send({
       method: 'init',
       data: {
         userType: type,
-        userId: Math.random()
+        gamecode: code,
+        userId: Math.random() 
       }
     });
   }

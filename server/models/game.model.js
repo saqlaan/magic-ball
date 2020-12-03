@@ -6,6 +6,10 @@ const GameSchema = new mongoose.Schema({
     type: String,
     default: () => uuidv4().replace(/\-/g, ""),
   },
+  status: {
+    type: String,
+    required: true,
+  }
 
 
 });

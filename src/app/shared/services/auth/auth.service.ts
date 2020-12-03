@@ -6,6 +6,8 @@ import { tap, pluck } from 'rxjs/operators';
 
 import { User } from '@app/shared/interfaces';
 import { Game } from '@app/shared/interfaces/game.interface';
+import { SearchGame } from '@app/shared/interfaces/serachgame.interface';
+
 import { TokenStorage } from './token.storage';
 
 interface AuthResponse {
@@ -34,10 +36,20 @@ export class AuthService {
         pluck('user')
       );
   }
-    game(): Observable<Game> {
-      return this.http.get<Game>('/api/auth/addgame');
+    game(
+      status: string,
+    ): Observable<Game> {
+      return this.http.post<Game>('/api/auth/addgame', {
+        status
+      });
 
   }
+  searchgame(
+    code: string,
+  ): Observable<SearchGame> {
+    return this.http.get<SearchGame>('/api/auth/getgame/'+code);
+
+}
 
 
 

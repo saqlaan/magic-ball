@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from '@app/shared/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import {WebSocketService} from '@app/shared/services';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private ws: WebSocketService) {
+  constructor(private router:Router, private ws: WebSocketService) {
 
   }
 
@@ -16,9 +17,18 @@ export class HomeComponent implements OnInit {
   }
 
   clickMe() {
+  
   }
 
   setMeUpAs(host: string) {
-    this.ws.init(host);
+
+
+
+    if (host == 'host'){
+    this.router.navigate(['/auth/game']);
+    }
+    else{
+    this.router.navigate(['/auth/searchgame']);
+    }
   }
 }

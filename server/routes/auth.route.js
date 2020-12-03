@@ -6,7 +6,7 @@ const router = express.Router();
 module.exports = router;
 
 router.post('/signup',asyncHandler(signup) );
-router.get('/addgame',asyncHandler(addgame) );
+router.post('/addgame',asyncHandler(addgame) );
 router.get('/getgame/:id',asyncHandler(getgame) );
 
 async function signup(req, res) {
@@ -14,11 +14,10 @@ async function signup(req, res) {
   res.json(user);
 }
 async function addgame(req,res){
-  let game = await gameCtrl.insert();
+  let game = await gameCtrl.insert(req.body);
   res.json(game);
 }
 async function getgame(req,res){
-  console.log(req.params.id);
   let game = await gameCtrl.find(req.params.id);
   res.json(game);
 }

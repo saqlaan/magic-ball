@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/shared/services';
+import {WebSocketService} from '@app/shared/services';
 import { Router } from '@angular/router';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ValidationErrors,
+  AbstractControl,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-game',
@@ -9,12 +17,23 @@ import { Router } from '@angular/router';
 })
 export class GameComponent implements OnInit {
 
-  constructor( private router: Router, private authService: AuthService) { }
+ gameForm = new FormGroup({
+  gameStatus: new FormControl('', [Validators.required]),
+ });
+
+   
+
+  constructor( private router: Router, private authService: AuthService, private ws: WebSocketService) { }
 
   ngOnInit(): void {
+  
   }
-  game(): void{
-    this.authService.game().subscribe((game) => {
+  game(status: string): void{
+    var host="host";
+     status = this.gameForm.value.gameStatus;
+     alert(status);
+    this.authService.game(status).subscribe((game) => {
+      this.ws.init(host, game.gameCode);
       this.router.navigate(['']);
     });
   }
