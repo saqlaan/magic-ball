@@ -11,6 +11,9 @@ import {CatchErrorInterceptor} from './interceptors/http-error.interceptor';
 import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './header/header.component';
 import {HomeComponent} from './home/home.component';
+import {GameComponent} from './game/game.component';
+import { SearchgameComponent } from './searchgame/searchgame.component';
+import { PlayerComponent } from './player/player.component';
 
 
 // export function appInitializerFactory(authService: AuthService) {
@@ -24,7 +27,7 @@ import {HomeComponent} from './home/home.component';
     SharedModule,
     AppRoutingModule,
   ],
-  declarations: [AppComponent, HeaderComponent, HomeComponent],
+  declarations: [AppComponent, HeaderComponent, HomeComponent, GameComponent, SearchgameComponent, PlayerComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

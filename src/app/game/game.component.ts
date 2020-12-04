@@ -21,15 +21,16 @@ export class GameComponent implements OnInit {
   gameStatus: new FormControl('', [Validators.required]),
  });
 
-   
+
 
   constructor( private router: Router, private authService: AuthService, private ws: WebSocketService) { }
 
   ngOnInit(): void {
-  
+
   }
-  game(status: string): void{
-    var host="host";
+  game(): void{
+    let status;
+    const host = 'host';
      status = this.gameForm.value.gameStatus;
      alert(status);
     this.authService.game(status).subscribe((game) => {

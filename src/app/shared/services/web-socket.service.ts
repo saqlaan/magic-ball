@@ -14,7 +14,7 @@ export class WebSocketService {
       console.log('Connection opened!');
     };
     this.ws.onmessage = (data) => {
-      console.log(data.data);
+      console.log(data.data );
     };
   }
 
@@ -24,7 +24,7 @@ export class WebSocketService {
       data: {
         userType: type,
         gamecode: code,
-        userId: Math.random() 
+        userId: Math.random()
       }
     });
   }

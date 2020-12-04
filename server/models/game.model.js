@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'), Schema = mongoose.Schema;
+const mongodb = require('mongodb')
+const Player = require ('../models/player.model');
 const { v4: uuidv4 } = require('uuid');
 
 const GameSchema = new mongoose.Schema({
@@ -9,7 +11,11 @@ const GameSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-  }
+  },
+  players: [{
+    type: Schema.ObjectId,
+    ref:Player
+  }]
 
 
 });

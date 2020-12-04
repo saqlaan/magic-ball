@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router:Router, private ws: WebSocketService) {
+  constructor(private router: Router, private ws: WebSocketService) {
 
   }
 
@@ -17,18 +17,17 @@ export class HomeComponent implements OnInit {
   }
 
   clickMe() {
-  
+
   }
 
   setMeUpAs(host: string) {
 
 
 
-    if (host == 'host'){
-    this.router.navigate(['/auth/game']);
-    }
-    else{
-    this.router.navigate(['/auth/searchgame']);
+    if (host === 'host'){
+    this.router.navigate(['/host']);
+    } else{
+    this.router.navigate(['/player']);
     }
   }
 }
