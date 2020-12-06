@@ -35,7 +35,7 @@ export class PlayerComponent implements OnInit {
     playerName = this.playerForm.value.playerName;
     this.authService.player(playerName).subscribe((player) => {
       console.log(player._id);
-      localStorage.setItem('game_id', JSON.stringify(player._id));
+      localStorage.setItem('id', player._id);
       this.router.navigate(['/searchgame']);
     });
 

@@ -19,7 +19,7 @@ import { AuthService } from '@app/shared/services';
 })
 export class SearchgameComponent implements OnInit {
 
-  public parameterValue: string;
+  public parameterValue: string ;
 
 
 
@@ -30,8 +30,8 @@ export class SearchgameComponent implements OnInit {
 
 
   constructor( private router: Router,  private route: ActivatedRoute,  private authService: AuthService, private ws: WebSocketService) {
-      this.parameterValue = JSON.parse ( localStorage.getItem('game_id')!);
-
+      const userId = localStorage.getItem('id');
+      this.parameterValue = ((userId != null) ? userId : '');
   }
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class SearchgameComponent implements OnInit {
       const player_id = this.parameterValue;
       const code = this.searchgameForm.value.gameCode;
       this.authService.searchgame(code, player_id ).subscribe((game) => {
-        this.ws.init(player, game.Code);
+        // this.ws.init(player, game.Code);
         this.router.navigate(['']);
       });
   }
