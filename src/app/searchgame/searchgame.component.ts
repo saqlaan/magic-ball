@@ -42,7 +42,7 @@ export class SearchgameComponent implements OnInit {
       const player_id = this.parameterValue;
       const code = this.searchgameForm.value.gameCode;
       this.authService.searchgame(code, player_id ).subscribe((game) => {
-        // this.ws.init(player, game.Code);
+        this.ws.init(player, game.Code);
         this.router.navigate(['']);
       });
   }
