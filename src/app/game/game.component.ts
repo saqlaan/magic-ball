@@ -32,10 +32,10 @@ export class GameComponent implements OnInit {
     let status;
     const host = 'host';
      status = this.gameForm.value.gameStatus;
-     alert(status);
     this.authService.game(status).subscribe((game) => {
-      this.ws.init(host, game.gameCode);
-      this.router.navigate(['']);
+      this.ws.init(host, game.code);
+      localStorage.setItem('game_id', game._id);
+      this.router.navigate(['/gamedashboard']);
     });
   }
 

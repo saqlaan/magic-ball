@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'), Schema = mongoose.Schema;
-const mongodb = require('mongodb')
-const Player = require ('../models/player.model');
+const mongodb = require('mongodb');
+const { Player } = require ('../models/player.model');
 const { v4: uuidv4 } = require('uuid');
 
 const GameSchema = new mongoose.Schema({

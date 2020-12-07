@@ -14,6 +14,9 @@ import {HomeComponent} from './home/home.component';
 import {GameComponent} from './game/game.component';
 import { SearchgameComponent } from './searchgame/searchgame.component';
 import { PlayerComponent } from './player/player.component';
+import { PlayerdashboardComponent } from './player/playerdashboard/playerdashboard.component';
+import { GamedashboardComponent } from './game/gamedashboard/gamedashboard.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 // export function appInitializerFactory(authService: AuthService) {
@@ -26,8 +29,9 @@ import { PlayerComponent } from './player/player.component';
     HttpClientModule,
     SharedModule,
     AppRoutingModule,
+    MatProgressSpinnerModule,
   ],
-  declarations: [AppComponent, HeaderComponent, HomeComponent, GameComponent, SearchgameComponent, PlayerComponent],
+  declarations: [AppComponent, HeaderComponent, HomeComponent, GameComponent, SearchgameComponent, PlayerComponent, PlayerdashboardComponent, GamedashboardComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

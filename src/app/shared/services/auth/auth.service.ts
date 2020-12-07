@@ -48,8 +48,8 @@ export class AuthService {
   searchgame(
     code: string,
     player_id: string,
-  ): Observable<SearchGame> {
-    return this.http.post<SearchGame>('/api/game/searchgame/',{
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/searchgame/',{
       code,
       player_id,
     } );

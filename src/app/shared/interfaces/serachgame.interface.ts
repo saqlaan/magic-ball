@@ -1,5 +1,5 @@
 export interface SearchGame {
-    Code: string;
+    code: string;
     status: string;
     player: string;
 }

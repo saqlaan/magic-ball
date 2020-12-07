@@ -16,15 +16,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  clickMe() {
 
-  }
 
   setMeUpAs(host: string) {
-
-
-
-    if (host === 'host'){
+    if (host === 'host') {
     this.router.navigate(['/host']);
     } else{
     this.router.navigate(['/player']);

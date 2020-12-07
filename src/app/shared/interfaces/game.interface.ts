@@ -1,4 +1,5 @@
 export interface Game {
-  gameCode: string;
+  code: string;
   status: string;
+  _id: string;
 }

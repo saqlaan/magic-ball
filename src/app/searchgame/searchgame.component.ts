@@ -20,7 +20,7 @@ import { AuthService } from '@app/shared/services';
 export class SearchgameComponent implements OnInit {
 
   public parameterValue: string ;
-
+  public notfound: boolean;
 
 
   searchgameForm = new FormGroup({
@@ -32,18 +32,24 @@ export class SearchgameComponent implements OnInit {
   constructor( private router: Router,  private route: ActivatedRoute,  private authService: AuthService, private ws: WebSocketService) {
       const userId = localStorage.getItem('id');
       this.parameterValue = ((userId != null) ? userId : '');
+      this.notfound = false;
   }
 
   ngOnInit(): void {
   }
 
-  game(): void{
+  game(): void {
       const player = 'player';
       const player_id = this.parameterValue;
       const code = this.searchgameForm.value.gameCode;
       this.authService.searchgame(code, player_id ).subscribe((game) => {
-        this.ws.init(player, game.Code);
-        this.router.navigate(['']);
+        if (game) {
+          this.ws.init(player, game);
+          localStorage.removeItem('id');
+          this.router.navigate(['/playerdashboard']);
+        } else {
+          this.notfound = true;
+        }
       });
   }
 

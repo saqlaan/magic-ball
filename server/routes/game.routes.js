@@ -17,16 +17,4 @@ async function addgame(req,res){
 async function searchgame(req,res){
   let game = await gameCtrl.addUserInGame(req.body);
   return res.json(game);
-  // let game = await gameCtrl.find(req.body.code);
-  // if(!game){
-  //   res.json(game);
-  //   console.log("in !gsme");
-  // }
-  // else{
-  //   let updategame = await gameCtrl.update(req.body);
-  //   res.json(updategame);
-  // }
-
-
-
 }
