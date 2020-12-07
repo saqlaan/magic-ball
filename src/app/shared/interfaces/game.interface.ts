@@ -1,5 +1,5 @@
 export interface Game {
-  code: string;
+  gameCode: string;
   status: string;
   _id: string;
 }

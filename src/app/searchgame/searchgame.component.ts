@@ -44,8 +44,7 @@ export class SearchgameComponent implements OnInit {
       const code = this.searchgameForm.value.gameCode;
       this.authService.searchgame(code, player_id ).subscribe((game) => {
         if (game) {
-          this.ws.init(player, game);
-          localStorage.removeItem('id');
+          this.ws.init(player, code, player_id);
           this.router.navigate(['/playerdashboard']);
         } else {
           this.notfound = true;

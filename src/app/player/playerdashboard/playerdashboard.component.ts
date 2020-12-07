@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GameService} from '@app/shared/services/game.service';
 
 
 @Component({
@@ -8,15 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlayerdashboardComponent implements OnInit {
 
-  public Players: Array<Object> = [
-    {id: 1, name: 'Player 1'},
-    {id: 2, name: 'Player 2'},
-    {id: 3, name: 'Player 3'},
-    {id: 4, name: 'Player 4 '},
-  ];
-  constructor() { }
+  public players: Array<any> = [];
+  constructor(private gameService: GameService) { }
 
   ngOnInit(): void {
+    this.gameService.getGamePlayers().subscribe(players => {
+      this.players = players;
+    });
   }
 
 }

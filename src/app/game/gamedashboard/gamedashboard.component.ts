@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import {AuthService, WebSocketService} from '@app/shared/services';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {GameService} from '@app/shared/services/game.service';
 
 @Component({
   selector: 'app-gamedashboard',
@@ -12,20 +13,16 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class GamedashboardComponent implements OnInit {
 
   public game_id!: string ;
-  public Players!: Array<object>;
+  public players: Array<any> = [];
 
-  constructor(private router: Router,  private route: ActivatedRoute,  private authService: AuthService, private ws: WebSocketService) {  }
+  constructor(private gameService: GameService) {  }
 
   ngOnInit(): void {
       const _id = localStorage.getItem('game_id');
       this.game_id = ((_id != null) ? _id : '');
-
-      this.Players = [
-        {id: 1, name: 'Player 1'},
-        {id: 2, name: 'Player 2'},
-        {id: 3, name: 'Player 3'},
-        {id: 4, name: 'Player 4 '},
-      ];
+      this.gameService.getGamePlayers().subscribe(players => {
+        this.players = players;
+      });
   }
 
 }

@@ -10,14 +10,14 @@
           </mat-toolbar>
         </p>
 
-        <mat-spinner [diameter]="100"></mat-spinner>
+        <mat-spinner *ngIf="players.length === 0" [diameter]="100"></mat-spinner>
 
     <mat-nav-list>
-      <mat-list-item *ngFor="let player of Players">
+      <mat-list-item *ngFor="let id of players">
         <mat-icon matListIcon>person</mat-icon>
         <p matLine>
-          <span> {{player.id}} </span>
-          <span class="demo-2"> -- {{player.name}} </span>
+          <span> {{id}} </span>
+<!--          <span class="demo-2"> &#45;&#45; {{player.name}} </span>-->
         </p>
       </mat-list-item>
     </mat-nav-list>

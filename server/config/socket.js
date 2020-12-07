@@ -12,4 +12,7 @@ if (config.env === 'development') {
 const server = require('http').createServer(app);
 global.wss = new WebSocket.Server({server})
 global.wss.on('connection', MyWebsocket.connect);
+global.wss.on('error', function (e) {
+  console.log(e);
+})
 module.exports = server;
