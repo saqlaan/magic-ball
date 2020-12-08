@@ -11,12 +11,12 @@ import {CatchErrorInterceptor} from './interceptors/http-error.interceptor';
 import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './header/header.component';
 import {HomeComponent} from './home/home.component';
-import {GameComponent} from './game/game.component';
-import { SearchgameComponent } from './searchgame/searchgame.component';
-import { PlayerComponent } from './player/player.component';
+import { SearchgameComponent } from './player/searchgame/searchgame.component';
 import { PlayerdashboardComponent } from './player/playerdashboard/playerdashboard.component';
-import { GamedashboardComponent } from './game/gamedashboard/gamedashboard.component';
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { GamedashboardComponent } from './host/gamedashboard/gamedashboard.component';
+import { AddgameComponent } from './host/addgame/addgame.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AddplayerComponent } from './player/addplayer/addplayer.component';
 
 
 // export function appInitializerFactory(authService: AuthService) {
@@ -31,7 +31,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     AppRoutingModule,
     MatProgressSpinnerModule,
   ],
-  declarations: [AppComponent, HeaderComponent, HomeComponent, GameComponent, SearchgameComponent, PlayerComponent, PlayerdashboardComponent, GamedashboardComponent],
+  declarations: [AppComponent, HeaderComponent, HomeComponent,  SearchgameComponent,  PlayerdashboardComponent, GamedashboardComponent, AddgameComponent, AddplayerComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

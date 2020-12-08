@@ -3,11 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 import { HomeComponent } from './home/home.component';
-import {GameComponent} from '@app/game/game.component';
-import {SearchgameComponent} from '@app/searchgame/searchgame.component';
-import {PlayerComponent} from '@app/player/player.component';
+import {AddgameComponent} from '@app/host/addgame/addgame.component';
+import {SearchgameComponent} from '@app/player/searchgame/searchgame.component';
+import {AddplayerComponent} from '@app/player/addplayer/addplayer.component';
 import {PlayerdashboardComponent} from '@app/player/playerdashboard/playerdashboard.component';
-import { GamedashboardComponent } from '@app/game/gamedashboard/gamedashboard.component';
+import { GamedashboardComponent } from '@app/host/gamedashboard/gamedashboard.component';
 
 const routes: Routes = [
   {
@@ -16,12 +16,12 @@ const routes: Routes = [
   },
   {
     path: 'host',
-    component: GameComponent,
+    component: AddgameComponent,
 
   },
   {
     path: 'player',
-    component: PlayerComponent,
+    component: AddplayerComponent,
 
   },
   {

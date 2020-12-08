@@ -17,11 +17,21 @@ export class WebSocketService {
     this.ws.onmessage = (message) => {
       const data = JSON.parse(message.data);
       switch (data.method) {
-        case 'locationUpdate':
-          break;
         case  'playerAdded':
           this.gameService.addPlayers(data.payload.userId);
           break;
+        case 'ballReceived':
+          this.gameService.ballReceived();
+          break;
+        case 'ballPositionUpdated':
+          this.gameService.updateBallPosition(data.payload.userId);
+          //  For host
+          //  Update ball for player for host dashboard
+          //  {payload:{userId}}
+          break;
+        case 'gameStarted':
+          this.gameService.gameStarted(data.payload.userId);
+
       }
     };
   }
@@ -37,6 +47,23 @@ export class WebSocketService {
     });
   }
 
+  moveBall(gameCode: any) {
+    // Called move ball button is pressed
+    // code: game code
+    this.send({
+      method: 'moveBall',
+      data: null,
+    });
+  }
+
+  startGame(gameCode: any){
+    this.send({
+      method: 'startGame',
+      data: {
+        gameCode: gameCode,
+      }
+    });
+  }
   addPlayer(code: any, userId:any) {
     this.send({
       method: 'init',

@@ -6,23 +6,21 @@
         <mat-label>Game Code</mat-label>
         <p>
           <mat-toolbar>
-            <span>{{game_id}}</span>
+            <span>{{game_code}}</span>
           </mat-toolbar>
         </p>
-
         <mat-spinner *ngIf="players.length === 0" [diameter]="100"></mat-spinner>
-
     <mat-nav-list>
-      <mat-list-item *ngFor="let id of players">
+      <mat-list-item *ngFor="let playerId of players">
         <mat-icon matListIcon>person</mat-icon>
         <p matLine>
-          <span> {{id}} </span>
-<!--          <span class="demo-2"> &#45;&#45; {{player.name}} </span>-->
+          <span> {{playerId}} </span>
         </p>
       </mat-list-item>
     </mat-nav-list>
-
-
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="startgame()" color="primary">Start Game</button>
+  </mat-card-actions>
 </mat-card>
 

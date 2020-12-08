@@ -30,7 +30,7 @@ export class SearchgameComponent implements OnInit {
 
 
   constructor( private router: Router,  private route: ActivatedRoute,  private authService: AuthService, private ws: WebSocketService) {
-      const userId = localStorage.getItem('id');
+      const userId = localStorage.getItem('player_id');
       this.parameterValue = ((userId != null) ? userId : '');
       this.notfound = false;
   }

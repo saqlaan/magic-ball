@@ -12,17 +12,20 @@ import {GameService} from '@app/shared/services/game.service';
 })
 export class GamedashboardComponent implements OnInit {
 
-  public game_id!: string ;
+  public game_code!: string ;
   public players: Array<any> = [];
 
-  constructor(private gameService: GameService) {  }
+  constructor(private gameService: GameService, private ws: WebSocketService) {  }
 
   ngOnInit(): void {
-      const _id = localStorage.getItem('game_id');
-      this.game_id = ((_id != null) ? _id : '');
+      const game_code = localStorage.getItem('game_code');
+      this.game_code = ((game_code != null) ? game_code : '');
       this.gameService.getGamePlayers().subscribe(players => {
         this.players = players;
       });
+  }
+  startgame(): void {
+    this.ws.startGame(this.game_code);
   }
 
 }
