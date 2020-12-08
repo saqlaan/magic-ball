@@ -1,74 +1,101 @@
 const socket = {
   clients: [],
-  init: (client, data) => {
-    socket.clients.push({
-      client: client,
-      type: data.data.userType,
-      code: data.data.gameCode,
-      userId:data.data.userId,
-    });
-  },
-
+  games: {},
   connect: (client) => {
     client.onmessage = (data) => {
       data = JSON.parse(data.data);
       switch (data.method) {
-        case 'init': {
+        case 'init':
           socket.init(client, data);
-          if (data.data.userType === 'player') {
-            const hostClient = socket.getHostByGameCode(data.data.gameCode);
-            const playersClient = socket.getPlayersByCode(data.data.gameCode);
-            if(hostClient !== null) {
-              socket.alertPlayerAdded([hostClient,...playersClient],data.data.userId);
-            }
-          }
-        }
+          break;
+        case 'startGame':
+        //  send the message to all the clients that game has started
+        //  send gameStarted event to host and ballReceived to the player
+          socket.startGame(data.data.gameCode);
+          break;
+        case 'moveBall':
+          socket.moveBall(data.data.gameCode);
+          break;
       }
     };
   },
 
-  send: (client,data) => {
-    client.send(JSON.stringify(data));
+  init: (client, data) => {
+    let userData = data.data;
+    if(userData.userType === 'host') {
+      socket.games[userData.gameCode] = {
+        host:{client:client, userId: userData.userId},
+        players:[],
+      };
+    }else if(userData.userType === 'player') {
+      socket.games[userData.gameCode]['players'].push({
+        client:client,
+        userId:userData.userId
+      })
+      socket.playerAdded(socket.games[userData.gameCode].host.client,userData.userId);
+    }
   },
 
   // Alert everyone in the game that new user has added including host
-  alertPlayerAdded: (clients=[],user) => {
+  playerAdded: (client,user) => {
+    console.log('player added',user);
     const data = {
             method:'playerAdded',
             payload:{
               userId: user
             }
           };
-    clients.forEach(client => {
+    client.send(JSON.stringify(data));
+  },
+  startGame: (gameCode) => {
+    socket.games[gameCode] = {...socket.games[gameCode], ['ballIndex']:0}
+    const data = {
+      method:'gameStarted',
+      payload:{
+        userId: socket.games[gameCode].players[0].userId
+      }
+    };
+    const hostClient = socket.getHostByGameCode(gameCode);
+    const playersClients = socket.getPlayersByCode(gameCode);
+    [hostClient, ...playersClients].forEach(client => {
       client.send(JSON.stringify(data))
     })
   },
 
-  // Send new player all old players
-  playerInited: (client,gameCode) => {
-  //  send previous player
-    const players = socket.getPlayersByGameCode(gameCode);
-    const data = {
-      method: 'initialPlayers',
+  moveBall: (gameCode) => {
+    const game = socket.games[gameCode];
+    let ballIndex = 0
+    if(game.ballIndex === game.players.length - 1) {
+      socket.games[gameCode].ballIndex = 0;
+      ballIndex = 0;
+    }else {
+      socket.games[gameCode].ballIndex = game.ballIndex + 1
+      ballIndex = game.ballIndex + 1
+    }
+    // Alert the player
+    socket.games[gameCode].players[socket.games[gameCode].ballIndex].client.send(JSON.stringify({
+      method:'ballReceived',
+    }));
+    // Alert the host
+    socket.games[gameCode].host.client.send(JSON.stringify({
+      method: 'ballPositionUpdated',
       payload: {
-        player : players
+        userId : socket.games[gameCode].players[socket.games[gameCode].ballIndex].userId
       }
-    }
-    socket.send(client,data);
+    }))
   },
-
   getHostByGameCode: (gameCode) => {
-    const client = socket.clients.find((client) => client.code === gameCode && client.type === 'host');
-    if(client !== undefined) {
-      return client.client;
-    }else{
-      return null
+    if(socket.games[gameCode]){
+      return  socket.games[gameCode].host.client;
     }
+    return null;
   },
 
   getPlayersByCode: (gameCode) => {
-    const players = socket.clients.filter((client) => client.code === gameCode && client.type === 'player').map(client => client.client)
-    return players;
+    if(socket.games[gameCode]){
+      return socket.games[gameCode].players.map(player => player.client);
+    }
+    return null;
   }
 }
 module.exports = socket;

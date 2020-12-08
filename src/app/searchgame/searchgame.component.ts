@@ -45,6 +45,7 @@ export class SearchgameComponent implements OnInit {
       this.authService.searchgame(code, player_id ).subscribe((game) => {
         if (game) {
           this.ws.init(player, code, player_id);
+          localStorage.setItem('game_id', code);
           this.router.navigate(['/playerdashboard']);
         } else {
           this.notfound = true;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GameService} from '@app/shared/services/game.service';
+import {WebSocketService} from '@app/shared/services';
 
 
 @Component({
@@ -8,14 +9,27 @@ import {GameService} from '@app/shared/services/game.service';
   styleUrls: ['./playerdashboard.component.css']
 })
 export class PlayerdashboardComponent implements OnInit {
-
+  hasBall: Boolean = false;
+  gameCode: any;
   public players: Array<any> = [];
-  constructor(private gameService: GameService) { }
+  constructor(private gameService: GameService, private ws: WebSocketService) {
+    this.hasBall = false;
+    this.gameCode = '';
+  }
 
   ngOnInit(): void {
+    this.gameCode = localStorage.getItem('game_id');
     this.gameService.getGamePlayers().subscribe(players => {
       this.players = players;
     });
+    this.gameService.getBallStatus().subscribe(status => {
+      this.hasBall = status;
+    });
+  }
+
+  moveBall(): void {
+    this.ws.moveBall(this.gameCode);
+    this.hasBall = false;
   }
 
 }

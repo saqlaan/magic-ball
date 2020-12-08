@@ -6,17 +6,17 @@
         <mat-label>Game Code</mat-label>
         <p>
           <mat-toolbar>
-            <span>{{game_id}}</span>
+            <span>{{gameCode}}</span>
           </mat-toolbar>
         </p>
 
         <mat-spinner *ngIf="players.length === 0" [diameter]="100"></mat-spinner>
 
     <mat-nav-list>
-      <mat-list-item *ngFor="let id of players">
-        <mat-icon matListIcon>person</mat-icon>
+      <mat-list-item *ngFor="let player of players">
+        <mat-icon *ngIf="player.status" matListIcon>sports_soccer</mat-icon>
         <p matLine>
-          <span> {{id}} </span>
+          <span> {{player.playerId}} </span>
 <!--          <span class="demo-2"> &#45;&#45; {{player.name}} </span>-->
         </p>
       </mat-list-item>
@@ -24,5 +24,9 @@
 
 
   </mat-card-content>
+  <mat-card-actions>
+    <button [disabled]="gameStarted" mat-raised-button (click)="startGame()" color="primary">Start Game</button>
+  </mat-card-actions>
+
 </mat-card>
 

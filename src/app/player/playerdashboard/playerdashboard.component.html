@@ -3,19 +3,10 @@
     <mat-card-title>Player Dashboard</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-spinner *ngIf="players.length ===0 " [diameter]="100"></mat-spinner>
-
-    <mat-nav-list>
-      <mat-list-item *ngFor="let playerId of players">
-        <mat-icon matListIcon>person</mat-icon>
-        <p matLine>
-          <span> {{playerId}} </span>
-
-        </p>
-      </mat-list-item>
-    </mat-nav-list>
-
-
+    <mat-icon *ngIf="hasBall" matListIcon>sports_soccer</mat-icon>
   </mat-card-content>
+  <mat-card-actions *ngIf="hasBall">
+    <button mat-raised-button (click)="moveBall()" color="primary">Move Ball</button>
+  </mat-card-actions>
 </mat-card>
 

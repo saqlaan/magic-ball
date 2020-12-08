@@ -14,14 +14,27 @@ export class WebSocketService {
     this.ws.onopen = () => {
       console.log('Connection opened!');
     };
+    this.ws.onerror = (e) => {
+      console.log(e);
+    };
     this.ws.onmessage = (message) => {
       const data = JSON.parse(message.data);
       switch (data.method) {
-        case 'locationUpdate':
-          break;
         case  'playerAdded':
           this.gameService.addPlayers(data.payload.userId);
           break;
+        case 'ballReceived':
+          this.gameService.ballReceived();
+          break;
+        case 'ballPositionUpdated':
+          this.gameService.updateBallPosition(data.payload.userId);
+          break;
+        case 'gameStarted':
+          this.gameService.updateBallPosition(data.payload.userId);
+          if (data.payload.userId === localStorage.getItem('id')) {
+            this.gameService.ballReceived();
+          }
+
       }
     };
   }
@@ -36,14 +49,20 @@ export class WebSocketService {
       }
     });
   }
-
-  addPlayer(code: any, userId:any) {
+  moveBall(gameCode: any) {
     this.send({
-      method: 'init',
+      method: 'moveBall',
       data: {
-        userType: 'addPlayer',
-        gameCode: code,
-        userId: userId
+        gameCode:gameCode
+      },
+    });
+  }
+
+  startGame(gameCode: any) {
+    this.send({
+      method: 'startGame',
+      data: {
+        gameCode: gameCode,
       }
     });
   }
