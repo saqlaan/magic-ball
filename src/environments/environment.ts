@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  SOCKET_URL: 'ws://localhost:5050'
+  SOCKET_URL: 'ws://localhost:4040'
 };
