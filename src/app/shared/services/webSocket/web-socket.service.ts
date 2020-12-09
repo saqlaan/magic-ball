@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {GameService} from '@app/shared/services/game.service';
-import {environment} from '../../../environments/environment';
+import {environment} from '../../../../environments/environment';
+import {GameService} from '@app/shared/services';
+
 
 @Injectable({
   providedIn: 'root'

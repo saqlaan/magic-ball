@@ -18,10 +18,6 @@ const routes: Routes = [
     component: SearchgameComponent,
   },
   {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
-  },
-  {
     path: 'playerdashboard',
     component: PlayerdashboardComponent,
   },

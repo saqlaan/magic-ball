@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import { Observable, BehaviorSubject, EMPTY } from 'rxjs';
-import { tap, pluck } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {pluck, tap} from 'rxjs/operators';
 
-import { User } from '@app/shared/interfaces';
-import { Game } from '@app/shared/interfaces/game.interface';
-import {Player} from '@app/shared/interfaces/player.interface';
-import { SearchGame } from '@app/shared/interfaces/serachgame.interface';
+import {User} from '@app/shared/interfaces';
+import {Game} from '@app/shared/interfaces/game/game.interface';
+import {Player} from '@app/shared/interfaces/player/player.interface';
 
-import { TokenStorage } from './token.storage';
 
 interface AuthResponse {
   token: string;
@@ -17,10 +15,11 @@ interface AuthResponse {
 }
 
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
-  constructor(private http: HttpClient, private tokenStorage: TokenStorage) {}
+  constructor(private http: HttpClient) {
+  }
 
   signup(
     firstName: string,
@@ -37,22 +36,24 @@ export class AuthService {
         pluck('user')
       );
   }
+
   addgame(
-      status: string,
-    ): Observable<Game> {
-      return this.http.post<Game>('/api/game/addgame', {
-        status
-      });
+    status: string,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/addgame', {
+      status
+    });
 
   }
+
   searchgame(
     code: string,
     player_id: string,
   ): Observable<Game> {
-    return this.http.post<Game>('/api/game/searchgame/',{
+    return this.http.post<Game>('/api/game/searchgame/', {
       code,
       player_id,
-    } );
+    });
   }
 
   addplayer(
@@ -62,7 +63,6 @@ export class AuthService {
       playerName
     });
   }
-
 
 
 }

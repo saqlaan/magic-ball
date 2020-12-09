@@ -1,17 +1,13 @@
-import { Routes, RouterModule } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 
-import { SignupComponent } from './signup/signup.component';
-import { SearchgameComponent } from '../player/searchgame/searchgame.component';
-import { Component } from '@angular/core';
+import {SearchgameComponent} from '../player/searchgame/searchgame.component';
+
 const routes: Routes = [
   {
     path: '',
     children: [
-      {
-        path: 'signup',
-        component: SignupComponent,
-      },
+
       {
         path: 'searchgame',
         component: SearchgameComponent,

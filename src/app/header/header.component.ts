@@ -2,8 +2,8 @@ import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {User} from '@app/shared/interfaces';
+import {AuthService} from '@app/shared/services/auth/auth.service';
 
-import {AuthService} from '@app/shared/services';
 
 @Component({
   selector: 'app-header',
