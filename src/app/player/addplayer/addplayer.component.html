@@ -1,0 +1,17 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Add as a player</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="example-form" [formGroup]="playerForm">
+      <table cellspacing="0" >
+        <mat-form-field>
+          <input matInput placeholder="playerName" formControlName="playerName" name="playerName" required>
+        </mat-form-field>
+      </table>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="addPlayer()" color="primary">Add player</button>
+  </mat-card-actions>
+</mat-card>

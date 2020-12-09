@@ -11,10 +11,12 @@ import {CatchErrorInterceptor} from './interceptors/http-error.interceptor';
 import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './header/header.component';
 import {HomeComponent} from './home/home.component';
-import {SearchgameComponent} from './player/searchgame/searchgame.component';
-import {PlayerdashboardComponent} from './player/playerdashboard/playerdashboard.component';
-import {GamedashboardComponent} from './host/gamedashboard/gamedashboard.component';
+import { SearchgameComponent } from './player/searchgame/searchgame.component';
+import { PlayerdashboardComponent } from './player/playerdashboard/playerdashboard.component';
+import { GamedashboardComponent } from './host/gamedashboard/gamedashboard.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AddgameComponent } from './host/addgame/addgame.component';
+import { AddplayerComponent } from './player/addplayer/addplayer.component';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     AppRoutingModule,
     MatProgressSpinnerModule,
   ],
-  declarations: [AppComponent, HeaderComponent, HomeComponent, SearchgameComponent, PlayerdashboardComponent, GamedashboardComponent],
+  declarations: [AppComponent, HeaderComponent, HomeComponent,  SearchgameComponent,  PlayerdashboardComponent,
+    GamedashboardComponent, AddgameComponent, AddplayerComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -40,5 +43,5 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+
+export class AppModule {}

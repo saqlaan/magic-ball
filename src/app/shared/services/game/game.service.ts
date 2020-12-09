@@ -13,7 +13,7 @@ export class GameService {
   private playersList: any = [];
   private ballSubject = new Subject<any>();
 
-  constructor(private http: HttpClient,) {
+  constructor(private http: HttpClient) {
     this.hasBall = false;
   }
 

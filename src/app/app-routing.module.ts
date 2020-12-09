@@ -1,12 +1,11 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-
-
-import {HomeComponent} from './home/home.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 import {SearchgameComponent} from '@app/player/searchgame/searchgame.component';
 import {PlayerdashboardComponent} from '@app/player/playerdashboard/playerdashboard.component';
-import {GamedashboardComponent} from '@app/host/gamedashboard/gamedashboard.component';
-
+import { GamedashboardComponent } from '@app/host/gamedashboard/gamedashboard.component';
+import {AddgameComponent} from '@app/host/addgame/addgame.component';
+import {AddplayerComponent} from '@app/player/addplayer/addplayer.component';
 
 const routes: Routes = [
   {
@@ -14,12 +13,22 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'host',
+    component: AddgameComponent,
+
+  },
+  {
+    path: 'player',
+    component: AddplayerComponent,
+
+  },
+  {
     path: 'searchgame',
     component: SearchgameComponent,
   },
   {
     path: 'playerdashboard',
-    component: PlayerdashboardComponent,
+   component: PlayerdashboardComponent,
   },
   {
     path: 'gamedashboard',
@@ -31,6 +40,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+
+export class AppRoutingModule {}
 
