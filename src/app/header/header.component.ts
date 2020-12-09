@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, Input} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { User } from '@app/shared/interfaces';
+import {User} from '@app/shared/interfaces';
 
-import { AuthService } from '@app/shared/services';
+import {AuthService} from '@app/shared/services';
 
 @Component({
   selector: 'app-header',
@@ -11,9 +11,13 @@ import { AuthService } from '@app/shared/services';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Input() user: User | null = null;
+  @Input() user: User = {
+    firstname: '',
+    lastName: ''
+  };
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) {
+  }
 
   logout(): void {
     this.router.navigateByUrl('/auth/login');
