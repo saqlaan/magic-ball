@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import {AuthService, WebSocketService} from '@app/shared/services';
+import {WebSocketService} from '@app/shared/services/webSocket/web-socket.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {GameService} from '@app/shared/services/game.service';
+import {GameService} from '@app/shared/services/game/game.service';
 
 @Component({
   selector: 'app-gamedashboard',
@@ -20,11 +19,12 @@ export class GamedashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.gameCode = localStorage.getItem('game_id');
+      this.gameCode = localStorage.getItem('game_code');
       this.gameService.getGamePlayers().subscribe(players => {
         this.players = players;
       });
   }
+
   startGame(): void {
     this.ws.startGame(this.gameCode);
     this.gameStarted = true;

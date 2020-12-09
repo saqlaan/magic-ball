@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {WebSocketService} from '@app/shared/services';
+import {WebSocketService} from '@app/shared/services/webSocket/web-socket.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,14 +9,10 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router, private ws: WebSocketService) {
-
-  }
+  constructor(private router: Router, private ws: WebSocketService) {  }
 
   ngOnInit() {
   }
-
-
 
   setMeUpAs(host: string) {
     if (host === 'host') {

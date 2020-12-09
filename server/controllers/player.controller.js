@@ -1,7 +1,6 @@
 const Player = require('../models/player.model');
 const mongoose = require('mongoose');
 
-
 module.exports = {
   insert
 }
