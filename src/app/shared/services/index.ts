@@ -1,2 +1,2 @@
-export * from './auth/auth.service';
-export * from './web-socket.service';
+export * from './game/game.service';
+export * from './webSocket/web-socket.service';

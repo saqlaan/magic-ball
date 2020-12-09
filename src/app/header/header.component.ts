@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 
 import { User } from '@app/shared/interfaces';
 
-import { AuthService } from '@app/shared/services';
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -13,7 +11,7 @@ import { AuthService } from '@app/shared/services';
 export class HeaderComponent {
   @Input() user: User | null = null;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router) {}
 
   logout(): void {
     this.router.navigateByUrl('/auth/login');

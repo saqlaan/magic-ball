@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
+import {Game} from '@app/shared/interfaces/game/game.interface';
+import {Player} from '@app/shared/interfaces/player/player.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,7 @@ export class GameService {
   private playersList: any = [];
   private ballSubject = new Subject<any>();
 
-  constructor() {
+  constructor(private http: HttpClient,) {
     this.hasBall = false;
   }
 
@@ -21,6 +24,11 @@ export class GameService {
 
   public ballReceived() {
     this.hasBall = true;
+    this.ballSubject.next(this.hasBall);
+  }
+
+  public ballMoved() {
+    this.hasBall = false;
     this.ballSubject.next(this.hasBall);
   }
 
@@ -44,6 +52,31 @@ export class GameService {
     this.playerSubject.next(this.playersList);
   }
 
+  public addgame(
+    status: string,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/addgame', {
+      status
+    });
+
+  }
+  public searchgame(
+    code: string,
+    player_id: string,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/searchgame/',{
+      code,
+      player_id,
+    } );
+  }
+
+  public addplayer(
+    playerName: string,
+  ): Observable<Player> {
+    return this.http.post<Player>('/api/player/addplayer', {
+      playerName
+    });
+  }
 
 
 }

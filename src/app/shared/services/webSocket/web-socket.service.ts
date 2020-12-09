@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {GameService} from '@app/shared/services/game.service';
+import {GameService} from '@app/shared/services/game/game.service';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +53,7 @@ export class WebSocketService {
     this.send({
       method: 'moveBall',
       data: {
-        gameCode:gameCode
+        gameCode: gameCode
       },
     });
   }

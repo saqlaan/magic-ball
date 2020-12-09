@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
-import {AuthService} from './shared/services';
+import {GameService} from './shared/services/game/game.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ export class AppComponent {
   constructor(
     private domSanitizer: DomSanitizer,
     private matIconRegistry: MatIconRegistry,
-    private authService: AuthService,
+    private gameService: GameService,
   ) {
     this.registerSvgIcons();
   }
@@ -60,18 +60,5 @@ export class AppComponent {
       );
     });
   }
-
-  // showMessage(message) {
-  //   this.newTaskForm.value.message += `\n\n${message}`;
-  //   this.newTaskForm.value.text ;
-  // }
-  // showMessage(message: string) {
-  //   this.newTaskForm.value.text = '';
-  // }
-  //
-  // click(): void {
-  //   this.newTaskForm.value.message += this.newTaskForm.value.text);
-  //   alert(this.newTaskForm.value.text );
-  // }
 }
 
