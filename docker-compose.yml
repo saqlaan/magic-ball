@@ -11,7 +11,7 @@ services:
       SERVER_PORT: 4040
       WEBSOCKET_PORT: 5050
       JWT_SECRET: 0a6b944d-d2fb-46fc-a85e-0295c986cd9f
-      MONGO_HOST: mongodb://mongo/odmp
+      MONGO_URL: mongodb://mongo/odmp
     restart: always
     depends_on:
       - mongo
