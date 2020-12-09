@@ -6,6 +6,6 @@ ADD . /usr/src/app
 RUN yarn
 RUN yarn build
 
-EXPOSE 4040 5050
+EXPOSE 5050 4040
 
 CMD ["yarn", "serve"]

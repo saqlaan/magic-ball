@@ -5,7 +5,8 @@ services:
     build: ./
     image: mean
     expose:
-      - 4040 5050
+      - 5050
+      - 4040
     environment:
       NODE_ENV: production
       SERVER_PORT: 4040
