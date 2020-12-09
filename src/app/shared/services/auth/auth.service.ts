@@ -37,7 +37,7 @@ export class AuthService {
         pluck('user')
       );
   }
-    game(
+  addgame(
       status: string,
     ): Observable<Game> {
       return this.http.post<Game>('/api/game/addgame', {
@@ -55,7 +55,7 @@ export class AuthService {
     } );
   }
 
-  player(
+  addplayer(
     playerName: string,
   ): Observable<Player> {
     return this.http.post<Player>('/api/player/addplayer', {

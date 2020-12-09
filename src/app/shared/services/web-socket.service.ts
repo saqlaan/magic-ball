@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {GameService} from '@app/shared/services/game.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService {
-  ws: WebSocket = new WebSocket('ws://localhost:5050');
+  ws: WebSocket = new WebSocket(environment.SOCKET_URL);
   private send = (obj: any) => {
     this.ws.send(JSON.stringify(obj));
   };
@@ -20,6 +21,8 @@ export class WebSocketService {
     this.ws.onmessage = (message) => {
       const data = JSON.parse(message.data);
       switch (data.method) {
+        case 'locationUpdate':
+          break;
         case  'playerAdded':
           this.gameService.addPlayers(data.payload.userId);
           break;

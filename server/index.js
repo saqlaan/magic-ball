@@ -1,18 +1,18 @@
 // config should be imported before importing any other file
 const config = require('./config/config');
 const app = require('./config/express');
-const socketApp = require('./config/socket');
+const socketApp = require('./config/socket')(app);
 require('./config/mongoose');
 
 
 
 if (!module.parent) {
-  app.listen(config.port, () => {
+  socketApp.listen(config.port, () => {
     console.info(`server started on port ${config.port} (${config.env})`);
   });
-  socketApp.listen(config.websocketPort, () => {
-    console.info(`websocket started on port ${config.websocketPort} (${config.env})`);
-  });
+  // socketApp.listen(config.websocketPort, () => {
+  //   console.info(`websocket started on port ${config.websocketPort} (${config.env})`);
+  // });
 }
 
-module.exports = app;
+module.exports = socketApp;
