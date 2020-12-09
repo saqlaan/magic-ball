@@ -1,25 +1,37 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgModule} from '@angular/core';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
-import { SharedModule } from './shared/shared.module';
+import {SharedModule} from './shared/shared.module';
 
-import { AppComponent } from './app.component';
-import { AuthHeaderInterceptor } from './interceptors/header.interceptor';
-import { CatchErrorInterceptor } from './interceptors/http-error.interceptor';
+import {AppComponent} from './app.component';
+import {AuthHeaderInterceptor} from './interceptors/header.interceptor';
+import {CatchErrorInterceptor} from './interceptors/http-error.interceptor';
 
-import { AppRoutingModule } from './app-routing.module';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { AuthService } from './shared/services';
+import {AppRoutingModule} from './app-routing.module';
+import {HeaderComponent} from './header/header.component';
+import {HomeComponent} from './home/home.component';
+import { SearchgameComponent } from './player/searchgame/searchgame.component';
+import { PlayerdashboardComponent } from './player/playerdashboard/playerdashboard.component';
+import { GamedashboardComponent } from './host/gamedashboard/gamedashboard.component';
+import { AddgameComponent } from './host/addgame/addgame.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AddplayerComponent } from './player/addplayer/addplayer.component';
 
-export function appInitializerFactory(authService: AuthService) {
-  return () => authService.checkTheUserOnTheFirstLoad();
-}
+
+// export function appInitializerFactory(authService: AuthService) {
+//
+// }
 
 @NgModule({
-  imports: [BrowserAnimationsModule, HttpClientModule, SharedModule, AppRoutingModule],
-  declarations: [AppComponent, HeaderComponent, HomeComponent],
+  imports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
+    SharedModule,
+    AppRoutingModule,
+    MatProgressSpinnerModule,
+  ],
+  declarations: [AppComponent, HeaderComponent, HomeComponent,  SearchgameComponent,  PlayerdashboardComponent, GamedashboardComponent, AddgameComponent, AddplayerComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -30,12 +42,6 @@ export function appInitializerFactory(authService: AuthService) {
       provide: HTTP_INTERCEPTORS,
       useClass: CatchErrorInterceptor,
       multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerFactory,
-      multi: true,
-      deps: [AuthService],
     },
   ],
   bootstrap: [AppComponent],

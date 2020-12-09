@@ -10,6 +10,8 @@ const envVarsSchema = Joi.object({
     .default('development'),
   SERVER_PORT: Joi.number()
     .default(4040),
+  WEBSOCKET_PORT: Joi.number()
+    .default(5050),
   MONGOOSE_DEBUG: Joi.boolean()
     .when('NODE_ENV', {
       is: Joi.string().equal('development'),
@@ -33,6 +35,7 @@ if (error) {
 const config = {
   env: envVars.NODE_ENV,
   port: envVars.SERVER_PORT,
+  websocketPort: envVars.WEBSOCKET_PORT,
   mongooseDebug: envVars.MONGOOSE_DEBUG,
   jwtSecret: envVars.JWT_SECRET,
   frontend: envVars.MEAN_FRONTEND || 'angular',

@@ -1,0 +1,26 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Game Dashboard</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+        <mat-label>Game Code</mat-label>
+        <p>
+          <mat-toolbar>
+            <span>{{game_code}}</span>
+          </mat-toolbar>
+        </p>
+        <mat-spinner *ngIf="players.length === 0" [diameter]="100"></mat-spinner>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let playerId of players">
+        <mat-icon matListIcon>person</mat-icon>
+        <p matLine>
+          <span> {{playerId}} </span>
+        </p>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="startgame()" color="primary">Start Game</button>
+  </mat-card-actions>
+</mat-card>
+

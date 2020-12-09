@@ -1,0 +1,14 @@
+variables:
+  PRODUCTION_APP_NAME: magic-ball
+stages:
+  - production
+deploy:
+  image: ilyasemenov/gitlab-ci-git-push
+  stage: production
+  environment:
+    name: production
+    url: http://api.myinsmatch.com/
+  only:
+    - master
+  script:
+    - git-push ssh://dokku@161.35.229.223/$PRODUCTION_APP_NAME

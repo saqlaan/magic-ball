@@ -1,22 +1,44 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from './shared/guards';
+
 import { HomeComponent } from './home/home.component';
+import {AddgameComponent} from '@app/host/addgame/addgame.component';
+import {SearchgameComponent} from '@app/player/searchgame/searchgame.component';
+import {AddplayerComponent} from '@app/player/addplayer/addplayer.component';
+import {PlayerdashboardComponent} from '@app/player/playerdashboard/playerdashboard.component';
+import { GamedashboardComponent } from '@app/host/gamedashboard/gamedashboard.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AuthGuard],
+  },
+  {
+    path: 'host',
+    component: AddgameComponent,
+
+  },
+  {
+    path: 'player',
+    component: AddplayerComponent,
+
+  },
+  {
+    path: 'searchgame',
+    component: SearchgameComponent,
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   },
   {
-    path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    path: 'playerdashboard',
+   component: PlayerdashboardComponent,
+  },
+  {
+    path: 'gamedashboard',
+    component: GamedashboardComponent,
   },
 ];
 
@@ -25,3 +47,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
+

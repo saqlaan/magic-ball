@@ -1,24 +1,20 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 
+import { SignupComponent } from './signup/signup.component';
+import { SearchgameComponent } from '../player/searchgame/searchgame.component';
+import { Component } from '@angular/core';
 const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: '',
-        redirectTo: '/auth/login',
-        pathMatch: 'full',
+        path: 'signup',
+        component: SignupComponent,
       },
       {
-        path: 'login',
-        component: LoginComponent,
-      },
-      {
-        path: 'register',
-        component: RegisterComponent,
+        path: 'searchgame',
+        component: SearchgameComponent,
       },
     ],
   },

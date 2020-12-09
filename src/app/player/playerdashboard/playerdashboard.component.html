@@ -1,0 +1,11 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Player Dashboard</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+  </mat-card-content>
+  <mat-card-actions *ngIf="hasball === true">
+    <button mat-raised-button (click)="moveball()" color="primary">Move Ball</button>
+  </mat-card-actions>
+</mat-card>
+

@@ -1,8 +1,8 @@
 <header>
   <mat-toolbar color="primary">
-    <a routerLink="/" class="logo"></a>
+    <a routerLink="/auth/signup" class="logo"></a>
     <span class="example-spacer"></span>
-    <a class="links side" routerLink="/auth/login" *ngIf="!user">Login</a>
+    <a class="links side" routerLink="/auth/signup" *ngIf="!user">Signup</a>
     <div>
       <a class="links side" *ngIf="user" [matMenuTriggerFor]="menu">
         <mat-icon>account_circle</mat-icon>{{ user.fullname }}
