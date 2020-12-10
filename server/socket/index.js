@@ -1,5 +1,4 @@
 function heartbeat() {
-  console.log("heartbeat");
   this.isAlive = true;
 }
 
@@ -9,7 +8,9 @@ const socket = {
   games: {},
   connect: (client) => {
     client.onmessage = (data) => {
+      console.log(data.data);
       data = JSON.parse(data.data);
+      console.log(data.data);
       switch (data.method) {
         case 'init':
           socket.init(client, data);
