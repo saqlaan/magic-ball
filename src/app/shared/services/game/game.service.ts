@@ -17,8 +17,8 @@ export class GameService {
     this.hasBall = false;
   }
 
-  public addPlayers(name: any, playerId: any) {
-      this.playersList.push({name: name, status: false, playerId: playerId });
+  public addPlayers( playerId: any, name: any) {
+      this.playersList.push({ playerId: playerId, status: false, name: name });
       this.playerSubject.next(this.playersList);
   }
 

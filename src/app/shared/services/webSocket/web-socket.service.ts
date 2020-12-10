@@ -21,7 +21,7 @@ export class WebSocketService {
       const data = JSON.parse(message.data);
       switch (data.method) {
         case  'playerAdded':
-          this.gameService.addPlayers(data.payload.name, data.payload.userId);
+          this.gameService.addPlayers(data.payload.userId, data.payload.name);
           break;
         case 'ballReceived':
           this.gameService.ballReceived();

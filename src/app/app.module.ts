@@ -11,11 +11,12 @@ import {CatchErrorInterceptor} from './interceptors/http-error.interceptor';
 import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './header/header.component';
 import {HomeComponent} from './home/home.component';
-import { SearchgameComponent } from './player/searchgame/searchgame.component';
-import { PlayerdashboardComponent } from './player/playerdashboard/playerdashboard.component';
-import { GamedashboardComponent } from './host/gamedashboard/gamedashboard.component';
+import {SearchgameComponent} from './player/searchgame/searchgame.component';
+import {PlayerdashboardComponent} from './player/playerdashboard/playerdashboard.component';
+import {GamedashboardComponent} from './host/gamedashboard/gamedashboard.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { AddplayerComponent } from './player/addplayer/addplayer.component';
+import {AddplayerComponent} from './player/addplayer/addplayer.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
@@ -25,8 +26,11 @@ import { AddplayerComponent } from './player/addplayer/addplayer.component';
     SharedModule,
     AppRoutingModule,
     MatProgressSpinnerModule,
+    FlexLayoutModule
   ],
-  declarations: [AppComponent, HeaderComponent, HomeComponent,  SearchgameComponent,  PlayerdashboardComponent,
+  declarations: [AppComponent,
+    HeaderComponent,
+    HomeComponent, SearchgameComponent, PlayerdashboardComponent,
     GamedashboardComponent, AddplayerComponent],
   providers: [
     {
@@ -43,4 +47,5 @@ import { AddplayerComponent } from './player/addplayer/addplayer.component';
   bootstrap: [AppComponent],
 })
 
-export class AppModule {}
+export class AppModule {
+}
