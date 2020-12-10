@@ -3,7 +3,9 @@ const socket = {
   games: {},
   connect: (client) => {
     client.onmessage = (data) => {
+      console.log("Data received:",data.data);
       data = JSON.parse(data.data);
+      console.log("Data Converted:",data.data);
       switch (data.method) {
         case 'init':
           socket.init(client, data);
