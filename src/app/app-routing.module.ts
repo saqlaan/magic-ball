@@ -4,18 +4,12 @@ import { HomeComponent } from './home/home.component';
 import {SearchgameComponent} from '@app/player/searchgame/searchgame.component';
 import {PlayerdashboardComponent} from '@app/player/playerdashboard/playerdashboard.component';
 import { GamedashboardComponent } from '@app/host/gamedashboard/gamedashboard.component';
-import {AddgameComponent} from '@app/host/addgame/addgame.component';
 import {AddplayerComponent} from '@app/player/addplayer/addplayer.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-  },
-  {
-    path: 'host',
-    component: AddgameComponent,
-
   },
   {
     path: 'player',

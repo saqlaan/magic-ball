@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 export class SearchgameComponent implements OnInit {
 
   public parameterValue: string ;
+  public playername: string;
   public notfound: boolean;
 
   searchgameForm = new FormGroup({
@@ -31,6 +32,8 @@ export class SearchgameComponent implements OnInit {
   constructor( private router: Router,  private route: ActivatedRoute,  private gameService: GameService, private ws: WebSocketService) {
       const userId = localStorage.getItem('id');
       this.parameterValue = ((userId != null) ? userId : '');
+      const userName = localStorage.getItem('name');
+      this.playername = ((userName != null) ? userName : '');
       this.notfound = false;
   }
 
@@ -40,10 +43,11 @@ export class SearchgameComponent implements OnInit {
   searchgame(): void {
       const player = 'player';
       const player_id = this.parameterValue;
+      const player_name = this.playername;
       const code = this.searchgameForm.value.gameCode;
       this.gameService.searchgame(code, player_id ).subscribe((game) => {
         if (game) {
-          this.ws.init(player, code, player_id);
+          this.ws.init(player, code, player_id, player_name);
           localStorage.setItem('game_code', code);
           this.router.navigate(['/playerdashboard']);
         } else {

@@ -1,20 +1,25 @@
+<mat-card class="example-container"
+><mat-card-header>
+  <mat-card-title>Game Code</mat-card-title>
+</mat-card-header>
+  <p>
+    <mat-toolbar>
+      <span>{{gameCode}}</span>
+    </mat-toolbar>
+  </p>
+</mat-card>
+
 <mat-card class="example-card">
   <mat-card-header>
     <mat-card-title>Game Dashboard</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-label>Game Code</mat-label>
-        <p>
-          <mat-toolbar>
-            <span>{{gameCode}}</span>
-          </mat-toolbar>
-        </p>
     <mat-spinner *ngIf="players.length === 0" [diameter]="100"></mat-spinner>
     <mat-nav-list>
       <mat-list-item *ngFor="let player of players">
         <mat-icon *ngIf="player.status" matListIcon>sports_soccer</mat-icon>
         <p matLine>
-          <span> {{player.playerId}} </span>
+          <span> {{player.name}}</span>
         </p>
       </mat-list-item>
     </mat-nav-list>

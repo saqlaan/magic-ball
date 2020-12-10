@@ -2,11 +2,13 @@ const mongoose = require('mongoose'), Schema = mongoose.Schema;
 const mongodb = require('mongodb');
 const { Player } = require ('../models/player.model');
 const { v4: uuidv4 } = require('uuid');
+const { customAlphabet } = require ( 'nanoid');
+const nanoid = customAlphabet('1234567890abcdef', 4);
 
 const GameSchema = new mongoose.Schema({
   gameCode: {
     type: String,
-    default: () => uuidv4().replace(/\-/g, ""),
+    default: () => nanoid()
   },
   status: {
     type: String,
