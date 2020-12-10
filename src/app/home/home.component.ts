@@ -17,14 +17,8 @@ export class HomeComponent implements OnInit {
 
   setMeUpAs(host: string) {
     if (host === 'host') {
-      let status: string;
-      status = 'active';
-      this.gameService.addgame(status).subscribe((game) => {
-        this.ws.init(host, game.gameCode, null, null);
-        localStorage.setItem('game_code', game.gameCode);
         this.router.navigate(['/gamedashboard']);
-      });
-    } else {
+    } else{
     this.router.navigate(['/player']);
     }
   }

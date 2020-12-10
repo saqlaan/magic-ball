@@ -1,32 +1,35 @@
-<mat-card class="example-container"
-><mat-card-header>
-  <mat-card-title>Game Code</mat-card-title>
-</mat-card-header>
+<mat-card class="example-container">
+  <mat-card-header>
+    <mat-card-title>Game Code</mat-card-title>
+  </mat-card-header>
   <p>
     <mat-toolbar>
       <span>{{gameCode}}</span>
     </mat-toolbar>
   </p>
+  <button [disabled]="gameStarted" mat-raised-button (click)="startGame()" color="primary">Start Game</button>
 </mat-card>
 
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title>Game Dashboard</mat-card-title>
+    <mat-card-title>Players View</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-spinner *ngIf="players.length === 0" [diameter]="100"></mat-spinner>
-    <mat-nav-list>
-      <mat-list-item *ngFor="let player of players">
-        <mat-icon *ngIf="player.status" matListIcon>sports_soccer</mat-icon>
-        <p matLine>
-          <span> {{player.name}}</span>
-        </p>
-      </mat-list-item>
-    </mat-nav-list>
+
+
+    <div fxLayout="row wrap" class="flex">
+      <div *ngFor="let player of players"  fxFlex="30%">
+          <div fxLayout="column" fxLayoutAlign="center">
+            <div>
+              <mat-icon *ngIf="player.status" matListIcon>sports_soccer</mat-icon>
+            </div>
+            <div><mat-icon >person</mat-icon></div>
+            <div>{{player.name}}</div>
+          </div>
+      </div>
+    </div>
   </mat-card-content>
-  <mat-card-actions>
-    <button [disabled]="gameStarted" mat-raised-button (click)="startGame()" color="primary">Start Game</button>
-  </mat-card-actions>
 
 </mat-card>
 

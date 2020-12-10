@@ -19,3 +19,12 @@
   margin-top: 10px;
   margin-left: 900px;
 }
+.row{
+  width: 300px;
+  margin: 10% auto;
+  padding: 10px;
+}
+.flex{
+  text-align: center;
+  margin:auto;
+}
