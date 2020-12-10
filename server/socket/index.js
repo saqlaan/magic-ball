@@ -1,3 +1,9 @@
+function heartbeat() {
+  console.log("heartbeat");
+  this.isAlive = true;
+}
+
+
 const socket = {
   clients: [],
   games: {},
@@ -18,6 +24,10 @@ const socket = {
           break;
       }
     };
+
+    client.isAlive = true;
+    client.on('pong', heartbeat);
+    console.log('First connected');
   },
 
   init: (client, data) => {
