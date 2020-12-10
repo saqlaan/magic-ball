@@ -17,8 +17,8 @@ export class GameService {
     this.hasBall = false;
   }
 
-  public addPlayers(player: any) {
-      this.playersList.push({playerId: player, status: false});
+  public addPlayers(name: any, playerId: any) {
+      this.playersList.push({name: name, status: false, playerId: playerId });
       this.playerSubject.next(this.playersList);
   }
 
@@ -56,7 +56,8 @@ export class GameService {
     status: string,
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/addgame', {
-      status
+
+      status,
     });
 
   }
@@ -64,7 +65,7 @@ export class GameService {
     code: string,
     player_id: string,
   ): Observable<Game> {
-    return this.http.post<Game>('/api/game/searchgame/',{
+    return this.http.post<Game>('/api/game/searchgame/', {
       code,
       player_id,
     } );

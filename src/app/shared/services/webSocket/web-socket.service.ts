@@ -22,7 +22,7 @@ export class WebSocketService {
       const data = JSON.parse(message.data);
       switch (data.method) {
         case  'playerAdded':
-          this.gameService.addPlayers(data.payload.userId);
+          this.gameService.addPlayers(data.payload.name, data.payload.userId);
           break;
         case 'ballReceived':
           this.gameService.ballReceived();
@@ -40,13 +40,14 @@ export class WebSocketService {
     };
   }
 
-  init(type: any, code: any, userId: any = Math.random()) {
+  init(type: any, code: any, userId: any = Math.random(), name: any) {
     this.send({
       method: 'init',
       data: {
         userType: type,
         gameCode: code,
-        userId: userId
+        userId: userId,
+        name: name,
       }
     });
   }

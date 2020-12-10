@@ -38,21 +38,24 @@ const socket = {
         players:[],
       };
     }else if(userData.userType === 'player') {
-      socket.games[userData.gameCode]['players'].push({
-        client:client,
-        userId:userData.userId
-      })
-      socket.playerAdded(socket.games[userData.gameCode].host.client,userData.userId);
+      if (socket.games[userData.gameCode] != undefined){
+        socket.games[userData.gameCode]['players'].push({
+          client:client,
+          userId:userData.userId
+        })
+        socket.playerAdded(socket.games[userData.gameCode].host.client,userData.userId, userData.name);
+      }
     }
   },
 
   // Alert everyone in the game that new user has added including host
-  playerAdded: (client,user) => {
-    console.log('player added',user);
+  playerAdded: (client,userId,name) => {
+    console.log('player added',userId);
     const data = {
             method:'playerAdded',
             payload:{
-              userId: user
+              name: name,
+              userId: userId
             }
           };
     client.send(JSON.stringify(data));

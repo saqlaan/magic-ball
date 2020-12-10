@@ -32,6 +32,7 @@ export class AddplayerComponent implements OnInit {
     this.gameService.addplayer(playerName).subscribe((player) => {
       console.log(player._id);
       localStorage.setItem('id', player._id);
+      localStorage.setItem('name', player.playerName);
       this.router.navigate(['/searchgame']);
     });
   }

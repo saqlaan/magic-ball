@@ -15,7 +15,6 @@ import { SearchgameComponent } from './player/searchgame/searchgame.component';
 import { PlayerdashboardComponent } from './player/playerdashboard/playerdashboard.component';
 import { GamedashboardComponent } from './host/gamedashboard/gamedashboard.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { AddgameComponent } from './host/addgame/addgame.component';
 import { AddplayerComponent } from './player/addplayer/addplayer.component';
 
 
@@ -28,7 +27,7 @@ import { AddplayerComponent } from './player/addplayer/addplayer.component';
     MatProgressSpinnerModule,
   ],
   declarations: [AppComponent, HeaderComponent, HomeComponent,  SearchgameComponent,  PlayerdashboardComponent,
-    GamedashboardComponent, AddgameComponent, AddplayerComponent],
+    GamedashboardComponent, AddplayerComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
