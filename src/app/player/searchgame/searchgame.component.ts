@@ -22,6 +22,7 @@ export class SearchgameComponent implements OnInit {
   public parameterValue: string ;
   public playername: string;
   public notfound: boolean;
+  public error: any;
 
   searchgameForm = new FormGroup({
     gameCode: new FormControl('', [Validators.required]),
@@ -35,6 +36,7 @@ export class SearchgameComponent implements OnInit {
       const userName = localStorage.getItem('name');
       this.playername = ((userName != null) ? userName : '');
       this.notfound = false;
+      this.error = null;
   }
 
   ngOnInit(): void {
@@ -48,10 +50,16 @@ export class SearchgameComponent implements OnInit {
       this.gameService.searchgame(code, player_id ).subscribe((game) => {
         if (game) {
           this.ws.init(player, code, player_id, player_name);
-          localStorage.setItem('game_code', code);
-          this.router.navigate(['/playerdashboard']);
+          this.gameService.getMethodStatus().subscribe(methodStatus => {
+            if (methodStatus['addPlayer'] !== undefined && methodStatus['addPlayer'].status) {
+              localStorage.setItem('game_code', code);
+              this.router.navigate(['/playerdashboard']);
+            } else if (methodStatus['addPlayer'] !== undefined && !methodStatus['addPlayer'].status) {
+              this.error = methodStatus.addPlayer.msg;
+            }
+          });
         } else {
-          this.notfound = true;
+          this.error = 'Error! Game not found';
         }
       });
   }

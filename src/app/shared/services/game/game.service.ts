@@ -12,7 +12,8 @@ export class GameService {
   private playerSubject = new Subject<any>();
   private playersList: any = [];
   private ballSubject = new Subject<any>();
-
+  private methodStatus: any = {};
+  private methodStatusSubject = new Subject<any>();
   constructor(private http: HttpClient) {
     this.hasBall = false;
   }
@@ -26,6 +27,27 @@ export class GameService {
     this.hasBall = true;
     this.ballSubject.next(this.hasBall);
   }
+  // public addPlayerfailed() {
+  //   this.messageSubject.next(this.errorMessage);
+  //   return this.messageSubject.asObservable();
+  // }
+  // public addPlayerSuccess() {
+  //  this.messageSubject.next(this.successMessage);
+  //  return this.messageSubject.asObservable();
+  // }
+  public setMethodStatus(method: any, {status, msg}: any) {
+    this.methodStatus[method] = {
+      status: status,
+      msg: msg
+    };
+    this.methodStatusSubject.next(this.methodStatus);
+  }
+
+  public getMethodStatus() {
+    return this.methodStatusSubject.asObservable();
+  }
+
+
 
   public ballMoved() {
     this.hasBall = false;

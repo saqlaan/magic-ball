@@ -20,6 +20,12 @@ export class WebSocketService {
     this.ws.onmessage = (message) => {
       const data = JSON.parse(message.data);
       switch (data.method) {
+        case   'playerAddedSuccessfully':
+          this.gameService.setMethodStatus('addPlayer', {status: true, msg: ''});
+          break;
+        case   'playerAddedFailed':
+          this.gameService.setMethodStatus('addPlayer', {status: false, msg: 'Failed! Game already started'});
+          break;
         case  'playerAdded':
           this.gameService.addPlayers(data.payload.userId, data.payload.name);
           break;

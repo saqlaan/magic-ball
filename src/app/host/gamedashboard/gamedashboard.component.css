@@ -15,9 +15,8 @@
   font-size: 16px;
 }
 .example-container {
-  width: 400px;
-  margin-top: 10px;
-  margin-left: 900px;
+  /*width: 400px;*/
+
 }
 .row{
   width: 300px;

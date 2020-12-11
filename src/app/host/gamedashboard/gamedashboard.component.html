@@ -1,16 +1,21 @@
-<mat-card class="example-container">
-  <mat-card-header>
-    <mat-card-title>Game Code</mat-card-title>
-  </mat-card-header>
-  <p>
-    <mat-toolbar>
-      <span>{{gameCode}}</span>
-    </mat-toolbar>
-  </p>
-  <button [disabled]="gameStarted" mat-raised-button (click)="startGame()" color="primary">Start Game</button>
-</mat-card>
+<div fxLayout="row" fxLayoutAlign="center center">
+<div  fxLayout="column" fxFlex="80">
+  <div fxlayout="row" fxLayoutAlign="center center">
+    <mat-card class="example-container" fxFlex="40" >
+      <mat-card-header>
+        <mat-card-title>Game Code</mat-card-title>
+      </mat-card-header>
+      <p>
+        <mat-toolbar>
+          <span>{{gameCode}}</span>
+        </mat-toolbar>
+      </p>
+      <button  *ngIf="players.length != 0 " [disabled]="gameStarted" mat-raised-button (click)="startGame()" color="primary">Start Game</button>
+    </mat-card>
+  </div>
 
-<mat-card class="example-card">
+<div fxlayout="row" fxLayoutAlign="center center">
+`<mat-card class="example-card" fxFlex="40">
   <mat-card-header>
     <mat-card-title>Players View</mat-card-title>
   </mat-card-header>
@@ -33,3 +38,5 @@
 
 </mat-card>
 
+</div>
+</div>

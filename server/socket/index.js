@@ -28,13 +28,21 @@ const socket = {
         players:[],
       };
     }else if(userData.userType === 'player') {
-      if (socket.games[userData.gameCode] != undefined){
+      if (socket.games[userData.gameCode] !== undefined && socket.games[userData.gameCode].ballIndex === undefined){
         socket.games[userData.gameCode]['players'].push({
           client:client,
           userId:userData.userId
         })
         socket.playerAdded(socket.games[userData.gameCode].host.client,userData.userId, userData.name);
+        client.send(JSON.stringify({
+          method: 'playerAddedSuccessfully'
+        }));
+      }else{
+        client.send(JSON.stringify({
+          method: 'playerAddedFailed'
+        }));
       }
+
     }
   },
 
@@ -51,41 +59,45 @@ const socket = {
     client.send(JSON.stringify(data));
   },
   startGame: (gameCode) => {
-    socket.games[gameCode] = {...socket.games[gameCode], ['ballIndex']:0}
-    const data = {
-      method:'gameStarted',
-      payload:{
-        userId: socket.games[gameCode].players[0].userId
-      }
-    };
-    const hostClient = socket.getHostByGameCode(gameCode);
-    const playersClients = socket.getPlayersByCode(gameCode);
-    [hostClient, ...playersClients].forEach(client => {
-      client.send(JSON.stringify(data))
-    })
+    if(socket.games[gameCode].players.length !== 0) {
+      socket.games[gameCode] = {...socket.games[gameCode], ['ballIndex']: 0}
+      const data = {
+        method: 'gameStarted',
+        payload: {
+          userId: socket.games[gameCode].players[0].userId
+        }
+      };
+      const hostClient = socket.getHostByGameCode(gameCode);
+      const playersClients = socket.getPlayersByCode(gameCode);
+      [hostClient, ...playersClients].forEach(client => {
+        client.send(JSON.stringify(data))
+      })
+    }
   },
 
   moveBall: (gameCode) => {
-    const game = socket.games[gameCode];
-    let ballIndex = 0
-    if(game.ballIndex === game.players.length - 1) {
-      socket.games[gameCode].ballIndex = 0;
-      ballIndex = 0;
-    }else {
-      socket.games[gameCode].ballIndex = game.ballIndex + 1
-      ballIndex = game.ballIndex + 1
-    }
-    // Alert the player
-    socket.games[gameCode].players[socket.games[gameCode].ballIndex].client.send(JSON.stringify({
-      method:'ballReceived',
-    }));
-    // Alert the host
-    socket.games[gameCode].host.client.send(JSON.stringify({
-      method: 'ballPositionUpdated',
-      payload: {
-        userId : socket.games[gameCode].players[socket.games[gameCode].ballIndex].userId
+    if(socket.games[gameCode!= undefined]) {
+      const game = socket.games[gameCode];
+      let ballIndex = 0
+      if (game.ballIndex === game.players.length - 1) {
+        socket.games[gameCode].ballIndex = 0;
+        ballIndex = 0;
+      } else {
+        socket.games[gameCode].ballIndex = game.ballIndex + 1
+        ballIndex = game.ballIndex + 1
       }
-    }))
+      // Alert the player
+      socket.games[gameCode].players[socket.games[gameCode].ballIndex].client.send(JSON.stringify({
+        method: 'ballReceived',
+      }));
+      // Alert the host
+      socket.games[gameCode].host.client.send(JSON.stringify({
+        method: 'ballPositionUpdated',
+        payload: {
+          userId: socket.games[gameCode].players[socket.games[gameCode].ballIndex].userId
+        }
+      }))
+    }
   },
   getHostByGameCode: (gameCode) => {
     if(socket.games[gameCode]){

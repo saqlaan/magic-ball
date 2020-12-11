@@ -11,8 +11,6 @@ export class PlayerdashboardComponent implements OnInit {
   hasBall: Boolean = false;
   gameCode: any;
 
-  public players: Array<any> = [];
-
   constructor(private gameService: GameService, private ws: WebSocketService) {
     this.hasBall = false;
     this.gameCode = '';
@@ -20,9 +18,6 @@ export class PlayerdashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameCode = localStorage.getItem('game_code');
-    this.gameService.getGamePlayers().subscribe(players => {
-      this.players = players;
-    });
     this.gameService.getBallStatus().subscribe(status => {
       this.hasBall = status;
     });
