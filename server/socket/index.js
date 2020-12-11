@@ -87,7 +87,7 @@ const socket = {
   },
 
   moveBall: (gameCode,client) => {
-    if(socket.games[gameCode!= undefined]) {
+    if(socket.games[gameCode] !== undefined) {
       const game = socket.games[gameCode];
       let ballIndex = 0
       if (game.ballIndex === game.players.length - 1) {
