@@ -14,7 +14,7 @@ const socket = {
           socket.startGame(data.data.gameCode);
           break;
         case 'moveBall':
-          socket.moveBall(data.data.gameCode);
+          socket.moveBall(data.data.gameCode, client);
           break;
       }
     };
@@ -75,7 +75,7 @@ const socket = {
     }
   },
 
-  moveBall: (gameCode) => {
+  moveBall: (gameCode,client) => {
     if(socket.games[gameCode!= undefined]) {
       const game = socket.games[gameCode];
       let ballIndex = 0
@@ -86,7 +86,11 @@ const socket = {
         socket.games[gameCode].ballIndex = game.ballIndex + 1
         ballIndex = game.ballIndex + 1
       }
-      // Alert the player
+      // Alert the player who moved
+      client.send(JSON.stringify({
+        method: 'ballMoved',
+      }));
+      // Alert the player who received
       socket.games[gameCode].players[socket.games[gameCode].ballIndex].client.send(JSON.stringify({
         method: 'ballReceived',
       }));
