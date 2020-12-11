@@ -11,8 +11,8 @@
           </mat-form-field>
         </table>
       </form>
-      <div *ngIf="notfound">
-        not found
+      <div *ngIf="error != null">
+       {{error}}
       </div>
     </mat-card-content>
     <mat-card-actions>
