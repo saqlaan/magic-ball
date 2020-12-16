@@ -1,6 +1,7 @@
 const express = require('express');
 const gameRoutes = require('./game.routes');
 const playerRoutes = require('./player.route');
+const userRoutes = require('./user.routes');
 
 
 const router = express.Router(); // eslint-disable-line new-cap
@@ -12,7 +13,7 @@ router.get('/health-check', (req, res) =>
 
 
 router.use('/game', gameRoutes);
-
+router.use('/user', userRoutes);
 router.use('/player', playerRoutes);
 
 module.exports = router;
