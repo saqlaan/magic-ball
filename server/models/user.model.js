@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
 
 const UserSchema = new mongoose.Schema({
   firstName: {
@@ -36,15 +37,33 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
   type: {
     type: String,
-    enum : ['host','player'],
+    enum: ['host', 'player'],
     required: true
   },
   token: {
     type: String
   }
 });
+
+UserSchema.pre('save', async function (next) {
+  try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(this.password, salt);
+      this.password = hashedPassword;
+      next()
+  } catch (error) {
+     next(error)
+  }
+})
+UserSchema.methods.comparePassword = function(plaintext, callback) {
+  return callback(null, bcrypt.compareSync(plaintext, this.password));
+};
 
 
 

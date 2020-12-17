@@ -8,25 +8,16 @@ module.exports = {
 }
 
 async function insert(user) {
-  let password = user.password;
-    bcrypt.hash(password, 10, (err, hash) => {
-      console.log(hash);
-      user.password = hash;
-      console.log(user.password);
-    });
-    console.log(user);
-  return await new User(user).save();
+  return  await new User(user).save();
 }
 
 async function findForLogin(user) {
-  let email =user.email;
-  let password = user.password;
-  return  User.findOne({email: email, password: password});
+  let email =user;
+return  User.findOne({email: email});
 }
 async function addToken(id, token) {
-
-  return  User.findByIdAndUpdate({_id: id}, {
+  return   User.findByIdAndUpdate({_id: id}, {
     token: token
-  });
+  }, {new: true});
 
 }
