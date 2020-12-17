@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 module.exports = {
-  insert, findForLogin, addToken
+  insert, findForLogin, addToken,findForEdit,
 }
 
 async function insert(user) {
@@ -20,4 +20,14 @@ async function addToken(id, token) {
     token: token
   }, {new: true});
 
+}
+async function findForEdit(user, id){
+ return await User.findByIdAndUpdate(id, {
+     "firstName": user.firstName,
+     "lastName": user.lastName,
+     "email": user.email,
+     "country": user.country,
+     "city": user.city,
+     "occupation": user.occupation
+}, {new: true})
 }

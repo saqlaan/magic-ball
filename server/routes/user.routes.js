@@ -9,5 +9,5 @@ const passport = require('passport');
 
 router.post('/userSignup',asyncHandler(UserHandler.signUpUser) );
 router.post('/userLogin',asyncHandler( UserHandler.loginUser));
-router.post('/userEditProfile',verifyToken, asyncHandler(UserHandler.editProfile));
+router.put('/userEditProfile',verifyToken, asyncHandler(UserHandler.editProfile));
 

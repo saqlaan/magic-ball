@@ -38,9 +38,10 @@ async function signUpUser(req, res) {
   }
   if (errors.length === 0) {
     let user = await userCtrl.insert(req.body);
+    console.log(user);
     res.json(user);
   } else {
-    res.json(errors);
+    res.status(404).json(errors);
   }
 
 }
@@ -56,13 +57,14 @@ async function loginUser(req, res) {
     errors.push("password is required");
   }
 
-  let user = await userCtrl.findForLogin(req.body.email);
-  if (user && errors.length === 0) {
+
+  if ( errors.length === 0) {
+    let user = await userCtrl.findForLogin(req.body.email);
     console.log("password>>", user.password);
     console.log("req password>>", req.body.password);
     bcrypt.compare(req.body.password, user.password, async function (err, result) {
       if (result) {
-        const payLoad = {user: user.email, userPassword: user.password};
+        const payLoad = {email: user.email, firstName: user.firstName, id: user._id};
         const secret = process.env.JWT_SECRET;
         const token = jwt.sign(payLoad, secret);
 
@@ -83,17 +85,53 @@ async function loginUser(req, res) {
 
 
   }
+  else{
+    res.status(404).json(errors);
+  }
 }
 
 
 async function editProfile(req, res) {
 
+  let errors = [];
+
+  if (req.body.firstName === undefined || null) {
+    errors.push("firstName is required");
+  }
+  if (req.body.lastName === undefined || null) {
+    errors.push("lastName is required");
+  }
+
+
   if (req.body.email === undefined || null) {
     errors.push("email is required");
   }
-  if (req.body.id === undefined || null) {
-    errors.push("id is required");
+
+  if (req.body.country === undefined || null) {
+    errors.push("country is required");
   }
 
-  let user = await userCtrl.findForLogin(req.body);
+  if (req.body.city === undefined || null) {
+    errors.push("city is required");
+  }
+
+  if (req.body.occupation === undefined || null) {
+    errors.push("occupation is required");
+  }
+
+  if (errors.length === 0) {
+
+    let user = await userCtrl.findForEdit(req.body, req.user.id);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({
+        message: ' User not found'
+      })
+    }
+  }else{
+    res.status(404).json({
+      errors
+    })
+  }
 }
