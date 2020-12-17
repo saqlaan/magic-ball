@@ -57,7 +57,6 @@ async function loginUser(req, res) {
   }
 
   let user = await userCtrl.findForLogin(req.body.email);
-
   if (user && errors.length === 0) {
     console.log("password>>", user.password);
     console.log("req password>>", req.body.password);
