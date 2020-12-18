@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
+const crypto = require('crypto')
 
 const UserSchema = new mongoose.Schema({
   firstName: {
@@ -48,23 +49,30 @@ const UserSchema = new mongoose.Schema({
   },
   token: {
     type: String
+  },
+  resetPasswordToken: {
+    type: String,
+    required: false
+  },
+  resetPasswordExpires: {
+    type: Date,
+    required: false
   }
 });
 
 UserSchema.pre('save', async function (next) {
   try {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(this.password, salt);
-      this.password = hashedPassword;
-      next()
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(this.password, salt);
+    this.password = hashedPassword;
+    next()
   } catch (error) {
-     next(error)
+    next(error)
   }
 })
-UserSchema.methods.comparePassword = function(plaintext, callback) {
+UserSchema.methods.comparePassword = function (plaintext, callback) {
   return callback(null, bcrypt.compareSync(plaintext, this.password));
 };
-
 
 
 module.exports = mongoose.model('User', UserSchema);

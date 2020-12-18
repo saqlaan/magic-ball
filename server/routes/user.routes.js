@@ -1,13 +1,13 @@
-const {verifyToken} = require("../middleware/index.middleware");
 const express = require('express');
-const asyncHandler = require('express-async-handler')
 const router = express.Router();
-module.exports = router;
+const asyncHandler = require('express-async-handler')
 const UserHandler = require('../handlers/user.handler');
-const userCtrl = require('../controllers/user.controller');
-const passport = require('passport');
+const {verifyToken} = require("../middleware/index.middleware");
 
-router.post('/userSignup',asyncHandler(UserHandler.signUpUser) );
-router.post('/userLogin',asyncHandler( UserHandler.loginUser));
-router.put('/userEditProfile',verifyToken, asyncHandler(UserHandler.editProfile));
+router.post('/signup', asyncHandler(UserHandler.signup));
+router.post('/login', asyncHandler(UserHandler.login));
+router.post('/forgot-password', asyncHandler(UserHandler.forgotPassword));
+router.post('/reset-password', asyncHandler(UserHandler.resetPassword));
+router.put('/update-profile', verifyToken, asyncHandler(UserHandler.updateProfile));
 
+module.exports = router;

@@ -1,33 +1,53 @@
-const User = require('../models/user.model');
-const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
+const User = require('../models/user.model');
+
 
 module.exports = {
-  insert, findForLogin, addToken,findForEdit,
+  insert, findByEmail, updateToken, updateUser, resetPassword, resetPasswordToken
 }
 
 async function insert(user) {
-  return  await new User(user).save();
+  return await new User(user).save();
 }
 
-async function findForLogin(user) {
-  let email =user;
-return  User.findOne({email: email});
+async function updateById(id, obj) {
+  return await User.findByIdAndUpdate(id, obj, {new: true});
 }
-async function addToken(id, token) {
-  return   User.findByIdAndUpdate({_id: id}, {
+
+async function findByEmail(user) {
+  let email = user;
+  return User.findOne({email: email});
+}
+
+async function updateToken(id, token) {
+  return await User.findByIdAndUpdate({_id: id}, {
     token: token
   }, {new: true});
-
 }
-async function findForEdit(user, id){
- return await User.findByIdAndUpdate(id, {
-     "firstName": user.firstName,
-     "lastName": user.lastName,
-     "email": user.email,
-     "country": user.country,
-     "city": user.city,
-     "occupation": user.occupation
-}, {new: true})
+
+async function resetPasswordToken(id, token) {
+  return await User.findByIdAndUpdate({_id: id}, {
+    resetPasswordToken: token
+  }, {new: true});
+}
+
+async function updateUser(user, id) {
+  return await User.findByIdAndUpdate(id, {
+    "firstName": user.firstName,
+    "lastName": user.lastName,
+    "country": user.country,
+    "city": user.city,
+    "occupation": user.occupation
+  }, {new: true})
+}
+
+
+async function resetPassword(token, password) {
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  password = hashedPassword;
+  return User.findOneAndUpdate({resetPasswordToken: token}, {
+    password: password
+  }, {new: true})
 }
