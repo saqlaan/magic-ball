@@ -5,6 +5,7 @@ import {SearchgameComponent} from '@app/player/searchgame/searchgame.component';
 import {PlayerdashboardComponent} from '@app/player/playerdashboard/playerdashboard.component';
 import { GamedashboardComponent } from '@app/host/gamedashboard/gamedashboard.component';
 import {AddplayerComponent} from '@app/player/addplayer/addplayer.component';
+import {SignupComponent} from '@app/host/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
     path: 'gamedashboard',
     component: GamedashboardComponent,
   },
+  {
+  path: 'hostsignup',
+    component: SignupComponent
+  }
 ];
 
 @NgModule({

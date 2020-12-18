@@ -17,6 +17,7 @@ import {GamedashboardComponent} from './host/gamedashboard/gamedashboard.compone
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {AddplayerComponent} from './player/addplayer/addplayer.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { SignupComponent } from './host/signup/signup.component';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
-    GamedashboardComponent, AddplayerComponent],
+    GamedashboardComponent, AddplayerComponent, SignupComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
