@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpResponse, HttpHeaders} from '@angular/common/http';
 import {Message} from '@app/shared/interfaces/user/message.interface';
 import {Token} from '@app/shared/interfaces/user/token.interface';
+import {Debugger} from 'inspector';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -35,14 +36,15 @@ export class UserService {
   public updateUser(
     user: any,
   ): Observable<Message> {
-    const headers_object = new HttpHeaders();
-    headers_object.append('Authorization', 'Bearer ' + localStorage.getItem('userToken'));
-    console.log(headers_object);
-    const httpOptions = {
-      headers: headers_object
-    };
+    const headers_object = new HttpHeaders({
+      'Content-Type':  'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('userToken')
+    });
+    const token = localStorage.getItem('userToken');
     return this.http.put<Message>('/api/user/update-profile', {
       ...user
-    }, httpOptions);
+    }, {
+      headers: headers_object
+    });
   }
 }

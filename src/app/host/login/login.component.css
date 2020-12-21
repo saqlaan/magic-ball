@@ -3,6 +3,14 @@
 }
 .magic{
   margin-left: 20px;
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+.access{
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
 }
 .box{
   box-shadow: none;
@@ -31,6 +39,6 @@
 .friend{
   font-size: large;
   font-weight: bold;
-  height: 100px;
+  height: 110px;
   margin-bottom: 60px;
 }

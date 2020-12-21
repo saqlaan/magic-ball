@@ -20,6 +20,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { SignupComponent } from './host/signup/signup.component';
 import { LoginComponent } from './host/login/login.component';
 import { UpdateprofileComponent } from './host/updateprofile/updateprofile.component';
+import { LoginhelpComponent } from './host/loginhelp/loginhelp.component';
+import { HomescreenComponent } from './host/homescreen/homescreen.component';
 
 
 @NgModule({
@@ -34,7 +36,7 @@ import { UpdateprofileComponent } from './host/updateprofile/updateprofile.compo
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
-    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent],
+    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
