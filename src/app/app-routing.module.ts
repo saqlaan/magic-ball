@@ -8,12 +8,10 @@ import {AddplayerComponent} from '@app/player/addplayer/addplayer.component';
 import {SignupComponent} from '@app/host/signup/signup.component';
 import {LoginComponent} from '@app/host/login/login.component';
 import {UpdateprofileComponent} from '@app/host/updateprofile/updateprofile.component';
+import {LoginhelpComponent} from '@app/host/loginhelp/loginhelp.component';
+import {HomescreenComponent} from '@app/host/homescreen/homescreen.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-  },
   {
     path: 'player',
     component: AddplayerComponent,
@@ -40,8 +38,16 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'hostloginhelp',
+    component: LoginhelpComponent
+  },
+  {
     path: 'hostupdateprofile',
     component: UpdateprofileComponent
+  },
+  {
+    path: '',
+    component: HomescreenComponent
   }
 ];
 

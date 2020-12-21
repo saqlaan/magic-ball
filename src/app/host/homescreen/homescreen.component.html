@@ -1,0 +1,43 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space-between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div>
+      <h1 class="magic">Magic Balls</h1>
+    </div>
+    <div fxLayout="row">
+      <button class="menu" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
+        <mat-icon>login</mat-icon>
+      </button>
+      <button class="menu" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxFlex="100" fxLayoutAlign="center">
+    <div fxLayout="column">
+      <h1 class="access">Host Access</h1>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxFlex="100" fxLayoutAlign="space-between">
+    <div fxLayout="column">
+      <button class="demo" mat-raised-button color="primary"><b>Click here for <br>a Demo!</b></button>
+    </div>
+    <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
+      <mat-card class="box">
+        <div class="sign">
+            <a  [routerLink]="['/hostlogin']">
+              Email Login
+            </a>
+        </div>
+        <div class="sign">
+          <a  [routerLink]="['hostsignup']">
+            Email Signup
+          </a>
+        </div>
+      </mat-card>
+    </div>
+
+  </div>
+</div>

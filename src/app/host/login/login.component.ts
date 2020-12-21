@@ -31,8 +31,11 @@ export class LoginComponent implements OnInit {
 
     this.userService.loginUser(this.user).subscribe((Token) => {
       localStorage.setItem('userToken', Token.userToken);
-      this.router.navigate(['']);
+      this.router.navigate(['hostupdateprofile']);
     });
+  }
+  loginHelp(){
+    this.router.navigate(['hostloginhelp']);
   }
 
 }

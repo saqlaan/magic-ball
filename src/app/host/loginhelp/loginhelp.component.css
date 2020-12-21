@@ -1,0 +1,30 @@
+.submit{
+  margin-top: 60px;
+
+}
+.magic{
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+  margin-left: 20px;
+}
+.access{
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+
+}
+.help{
+  margin-bottom: 100px;
+}
+.box{
+  box-shadow: none;
+}
+.submit{
+  background-color: #777575;
+  color: white;
+  height: 45px;
+  margin-top: 20px;
+  border: 2px solid  #777575;
+  width:7%;
+}
