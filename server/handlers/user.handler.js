@@ -71,7 +71,9 @@ async function login(req, res) {
           let update = await userCtrl.updateToken(user._id, token);
           update = update.toObject();
           delete update.password;
-          res.json(update);
+          res.json({
+            userToken: update.token
+          });
         } else {
           res.status(400).json({
             message: 'passsword not correct',
@@ -115,7 +117,9 @@ async function updateProfile(req, res) {
 
     let user = await userCtrl.updateUser(req.body, req.user.id);
     if (user) {
-      res.json(user);
+      res.json({
+        message: 'User Updated Successfully'
+      });
     } else {
       res.status(404).json({
         message: ' User not found'

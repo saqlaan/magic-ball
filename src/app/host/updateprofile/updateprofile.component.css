@@ -1,0 +1,23 @@
+.root{
+  background-color: white;
+}
+.box{
+  box-shadow: none;
+}
+.payment{
+  box-shadow: none;
+}
+.submit{
+  background-color: deepskyblue;
+  color: white;
+  width:7%;
+  font-weight: bold;
+  margin-right: 160px;
+}
+.delete{
+  width:15%;
+  margin-right: 25px;
+  background-color: #847e7e;
+  color: white;
+  font-weight: bold;
+}
