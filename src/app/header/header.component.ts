@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { User } from '@app/shared/interfaces';
+
 
 @Component({
   selector: 'app-header',
@@ -9,7 +9,7 @@ import { User } from '@app/shared/interfaces';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Input() user: User | null = null;
+  // @Input() user: User | null = null;
 
   constructor(private router: Router) {}
 

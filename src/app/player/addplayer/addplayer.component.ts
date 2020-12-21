@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -6,9 +6,9 @@ import {
   ValidationErrors,
   AbstractControl,
 } from '@angular/forms';
-import { GameService } from '@app/shared/services/game/game.service';
+import {GameService} from '@app/shared/services/game/game.service';
 import {WebSocketService} from '@app/shared/services/webSocket/web-socket.service';
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-addplayer',
@@ -21,11 +21,11 @@ export class AddplayerComponent implements OnInit {
     playerName: new FormControl('', [Validators.required]),
   });
 
-  constructor( private router: Router, private gameService: GameService, private ws: WebSocketService) { }
+  constructor(private router: Router, private gameService: GameService, private ws: WebSocketService) {
+  }
 
   ngOnInit(): void {
   }
-
   addPlayer(): void {
     let playerName;
     playerName = this.playerForm.value.playerName;

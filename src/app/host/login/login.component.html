@@ -1,0 +1,47 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space-between">
+    <div>
+      <h1 class="magic">Magic Balls</h1>
+    </div>
+    <div fxLayout="row">
+      <button class="menu" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
+        <mat-icon>login</mat-icon>
+      </button>
+      <button class="menu" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+  </div>
+  <div fxLayout="row" fxFlex="100" fxLayoutAlign="center">
+    <div fxLayout="column">
+      <h1 class="access">Host Login</h1>
+    </div>
+  </div>
+  <form class="example-form" [formGroup]="loginForm">
+    <div fxLayout="column" fxFlex="100" fxLayoutAlign="left center">
+      <mat-card class="box">
+        <div>
+          <mat-form-field>
+            <input matInput type="email" formControlName="email" placeholder="Email or Username" required>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput type="password" formControlName="password" placeholder="password" required>
+          </mat-form-field>
+        </div>
+      </mat-card>
+    </div>
+  </form>
+  <div fxLayout="row" fxFlex="100" fxLayoutAlign="center">
+    <button (click)="loginUser()" class="log" mat-raised-button [disabled]="!loginForm.valid">Login</button>
+    <button class="help" mat-raised-button>Login Help</button>
+  </div>
+
+  <div class="friend" fxLayout="column" fxFlex="50" fxLayoutAlign="center center">
+    <button class="friend" mat-raised-button color="primary">Invite a colleague or friend</button>
+  </div>
+
+
+</div>

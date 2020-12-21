@@ -1,8 +1,8 @@
 const mongoose = require('mongoose'), Schema = mongoose.Schema;
 const mongodb = require('mongodb');
-const { Player } = require ('../models/player.model');
-const { v4: uuidv4 } = require('uuid');
-const { customAlphabet } = require ( 'nanoid');
+const {Player} = require('../models/player.model');
+const {v4: uuidv4} = require('uuid');
+const {customAlphabet} = require('nanoid');
 const nanoid = customAlphabet('1234567890abcdef', 4);
 
 const GameSchema = new mongoose.Schema({
@@ -16,7 +16,7 @@ const GameSchema = new mongoose.Schema({
   },
   players: [{
     type: Schema.ObjectId,
-    ref:Player
+    ref: Player
   }]
 
 
