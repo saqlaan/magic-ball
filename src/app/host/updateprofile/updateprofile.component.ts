@@ -3,7 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '@app/shared/services/user/user.service';
 import {WebSocketService} from '@app/shared/services';
-
+import {JwtHelperService} from '@auth0/angular-jwt';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-updateprofile',
@@ -26,6 +27,16 @@ export class UpdateprofileComponent implements OnInit {
 
 
   ngOnInit(): void {
+    const user = JSON.parse(<string>localStorage.getItem('user'));
+    this.userService.getUser(user.userId).subscribe((data) => {
+      this.updateUserForm.setValue({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        country: data.country,
+        city: data.city,
+        occupation: data.occupation
+      });
+    });
   }
 
   updateUser() {
@@ -37,7 +48,7 @@ export class UpdateprofileComponent implements OnInit {
     this.user.occupation = this.updateUserForm.value.occupation;
     this.userService.updateUser(this.user).subscribe((message) => {
       localStorage.setItem('message', message.message);
-      this.router.navigate(['']);
+      this.router.navigate(['/hostdashboard']);
     });
   }
 }

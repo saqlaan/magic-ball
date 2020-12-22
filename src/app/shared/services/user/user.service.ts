@@ -4,6 +4,9 @@ import {Message} from '@app/shared/interfaces/user/message.interface';
 import {Token} from '@app/shared/interfaces/user/token.interface';
 import {Debugger} from 'inspector';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {User} from '@app/shared/interfaces/user/user.interface';
+import {Email} from '@app/shared/interfaces/user/email.interface';
+import {ResetToken} from '@app/shared/interfaces/user/resettoke.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -36,15 +39,44 @@ export class UserService {
   public updateUser(
     user: any,
   ): Observable<Message> {
+    const json = JSON.parse(<string>localStorage.getItem('user'));
+    const token = json.userToken;
     const headers_object = new HttpHeaders({
-      'Content-Type':  'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('userToken')
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token
     });
-    const token = localStorage.getItem('userToken');
     return this.http.put<Message>('/api/user/update-profile', {
       ...user
     }, {
       headers: headers_object
     });
   }
+
+  public getUser(
+    userId: any
+  ): Observable<User> {
+    return this.http.post<User>('/api/user/get-profile', {
+      userId
+    });
+  }
+
+  public forgotPassword(
+    email: string
+  ): Observable<ResetToken> {
+    return this.http.post<ResetToken>('/api/user/forgot-password', {
+      email
+    });
+  }
+
+  public resetPassword(
+    password: string,
+    resetPasswordToken: string
+  ): Observable<Message> {
+    console.log(resetPasswordToken);
+    return this.http.post<Message>('/api/user/reset-password', {
+      password,
+      resetPasswordToken: resetPasswordToken
+    });
+  }
+
 }

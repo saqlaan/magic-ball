@@ -10,8 +10,18 @@ import {LoginComponent} from '@app/host/login/login.component';
 import {UpdateprofileComponent} from '@app/host/updateprofile/updateprofile.component';
 import {LoginhelpComponent} from '@app/host/loginhelp/loginhelp.component';
 import {HomescreenComponent} from '@app/host/homescreen/homescreen.component';
+import {DashboardComponent} from '@app/host/dashboard/dashboard.component';
+import {ResetpasswordComponent} from '@app/host/resetpassword/resetpassword.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: HomescreenComponent
+  },
+  {
+    path: 'hostdashboard',
+    component: DashboardComponent
+  },
   {
     path: 'player',
     component: AddplayerComponent,
@@ -46,9 +56,10 @@ const routes: Routes = [
     component: UpdateprofileComponent
   },
   {
-    path: '',
-    component: HomescreenComponent
-  }
+    path: 'hostresetpassword',
+    component: ResetpasswordComponent
+  },
+
 ];
 
 @NgModule({

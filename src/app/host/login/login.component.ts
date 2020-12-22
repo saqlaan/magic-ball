@@ -30,11 +30,16 @@ export class LoginComponent implements OnInit {
     this.user.password = this.loginForm.value.password;
 
     this.userService.loginUser(this.user).subscribe((Token) => {
-      localStorage.setItem('userToken', Token.userToken);
-      this.router.navigate(['hostupdateprofile']);
+      const user = {
+        'userToken': Token.userToken,
+        'userId': Token.userId
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+      this.router.navigate(['hostdashboard']);
     });
   }
-  loginHelp(){
+
+  loginHelp() {
     this.router.navigate(['hostloginhelp']);
   }
 
