@@ -1,0 +1,66 @@
+.magic{
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+.help{
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+.menu:hover{
+  background-color: white;
+  cursor: pointer;
+  pointer-events: fill;
+
+}
+.upgrade{
+  background-color: deepskyblue;
+  color: white;
+  margin-top: 40px;
+  margin-left: 60px;
+  margin-bottom: 20px;
+  height: 90px;
+  width: 20%;
+  border-radius: 20px;
+  font-size: large;
+  border: 2px solid black;
+}
+.archive{
+  background-color: gray;
+  margin-top: 40px;
+  margin-left:280px;
+  margin-bottom: 20px;
+  height: 60px;
+  width: 12%;
+  font-size: large;
+}
+.manual {
+  border: 2px solid hotpink;
+  color: deeppink;
+  margin-top: 40px;
+  margin-left: 20px;
+  margin-right: 50px;
+  margin-bottom: 20px;
+  height: 60px;
+  width: 20%;
+  font-weight: bold;
+  text-align: center;
+  font-size: large;
+}
+p{
+
+  font-size: small;
+  margin-bottom: 50px;
+  width:40%;
+  font-weight: bold;
+  text-align: justify;
+
+}
+.new{
+  color: white;
+  background-color: lightgreen;
+  font-size: large;
+  width:13%;
+  height: 70px;
+}

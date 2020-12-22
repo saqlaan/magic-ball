@@ -2,16 +2,12 @@ const bcrypt = require("bcrypt");
 const User = require('../models/user.model');
 
 
-module.exports = {
-  insert, findByEmail, updateToken, updateUser, resetPassword, resetPasswordToken
-}
-
 async function insert(user) {
   return await new User(user).save();
 }
 
-async function updateById(id, obj) {
-  return await User.findByIdAndUpdate(id, obj, {new: true});
+async function findById(id) {
+  return await User.findById(id);
 }
 
 async function findByEmail(user) {
@@ -50,4 +46,9 @@ async function resetPassword(token, password) {
   return User.findOneAndUpdate({resetPasswordToken: token}, {
     password: password
   }, {new: true})
+}
+
+
+module.exports = {
+  insert, findByEmail, updateToken, updateUser, resetPassword, resetPasswordToken, findById
 }

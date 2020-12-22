@@ -5,11 +5,11 @@ const crypto = require('crypto')
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true
+    required: false
   },
   lastName: {
     type: String,
-    required: true
+    required: false
   },
   email: {
     type: String,
@@ -20,19 +20,19 @@ const UserSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    required: true
+    required: false
   },
   city: {
     type: String,
-    required: true
+    required: false
   },
   occupation: {
     type: String,
-    required: true
+    required: false
   },
   password: {
     type: String,
-    required: true
+    required: false
   },
   createdAt: {
     type: Date,
@@ -44,8 +44,8 @@ const UserSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['host', 'player'],
-    required: true
+    enum: ['host', 'player', 'guest'],
+    required: false
   },
   token: {
     type: String
@@ -60,16 +60,16 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-UserSchema.pre('save', async function (next) {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(this.password, salt);
-    this.password = hashedPassword;
-    next()
-  } catch (error) {
-    next(error)
-  }
-})
+// UserSchema.pre('save', async function (next) {
+//   try {
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(this.password, salt);
+//     this.password = hashedPassword;
+//     next()
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 UserSchema.methods.comparePassword = function (plaintext, callback) {
   return callback(null, bcrypt.compareSync(plaintext, this.password));
 };

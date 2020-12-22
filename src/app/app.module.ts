@@ -22,6 +22,8 @@ import { LoginComponent } from './host/login/login.component';
 import { UpdateprofileComponent } from './host/updateprofile/updateprofile.component';
 import { LoginhelpComponent } from './host/loginhelp/loginhelp.component';
 import { HomescreenComponent } from './host/homescreen/homescreen.component';
+import { DashboardComponent } from './host/dashboard/dashboard.component';
+import { ResetpasswordComponent } from './host/resetpassword/resetpassword.component';
 
 
 @NgModule({
@@ -36,7 +38,7 @@ import { HomescreenComponent } from './host/homescreen/homescreen.component';
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
-    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent],
+    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

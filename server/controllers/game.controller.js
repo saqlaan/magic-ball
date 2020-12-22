@@ -9,8 +9,8 @@ async function insert(game) {
   return await new Game(game).save();
 }
 
-async function addUserInGame({code, player_id}) {
-  return Game.findOneAndUpdate({gameCode: code}, {
-    $push: {players: player_id}
+async function addUserInGame(player) {
+  return Game.findOneAndUpdate({gameCode: player.gameCode}, {
+    $push: {players: player.playerId }
   }, {new: true});
 }

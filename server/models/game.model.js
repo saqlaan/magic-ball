@@ -10,14 +10,30 @@ const GameSchema = new mongoose.Schema({
     type: String,
     default: () => nanoid()
   },
-  status: {
+  groupName: {
     type: String,
     required: true,
   },
   players: [{
     type: Schema.ObjectId,
     ref: Player
-  }]
+  }],
+  groupSize: {
+    type: Number,
+    required: true,
+  },
+  rounds: {
+  type: Number,
+    required: true,
+  },
+  balls: {
+  type: Number,
+    required: true,
+  },
+  status: {
+  type: Boolean,
+    required: true,
+ },
 
 
 });

@@ -28,8 +28,7 @@ export class SignupComponent implements OnInit {
     country: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     occupation: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-    type: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
   });
 
   constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
@@ -48,7 +47,7 @@ export class SignupComponent implements OnInit {
     this.user.city = this.userForm.value.city;
     this.user.occupation = this.userForm.value.occupation;
     this.user.password = this.userForm.value.password;
-    this.user.type = this.userForm.value.type;
+    this.user.type = 'host';
     this.userService.addUser(this.user).subscribe((message) => {
       localStorage.setItem('message', message.message);
       this.router.navigate(['']);
