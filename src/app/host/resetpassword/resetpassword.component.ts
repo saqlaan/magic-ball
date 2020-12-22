@@ -11,7 +11,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class ResetpasswordComponent implements OnInit {
 
-  resetToken!: string;
+  resetToken!: any;
   resetPasswordForm = new FormGroup({
     newPassword: new FormControl('', Validators.required),
     confirmPassword: new FormControl('', Validators.required)
