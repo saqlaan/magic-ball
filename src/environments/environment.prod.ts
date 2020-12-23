@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  SOCKET_URL: 'ws://magicball.piecyfer.com'
+  SOCKET_URL: 'wss://magicball.piecyfer.com'
 };
