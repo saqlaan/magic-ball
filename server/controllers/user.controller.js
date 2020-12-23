@@ -37,6 +37,16 @@ async function updateUser(user, id) {
   }, {new: true})
 }
 
+async function updatePassword(user, id) {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(user.password, salt);
+  user.password = hashedPassword;
+
+  return await User.findByIdAndUpdate(id, {
+    "password": user.password,
+  }, {new: true})
+}
+
 
 async function resetPassword(token, password) {
 
@@ -48,7 +58,12 @@ async function resetPassword(token, password) {
   }, {new: true})
 }
 
+async function oldPassword(Password) {
+  console.log(Password);
+  let password = Password
+  return User.findOne({password: password});
+}
 
 module.exports = {
-  insert, findByEmail, updateToken, updateUser, resetPassword, resetPasswordToken, findById
+  insert, findByEmail, updateToken, updateUser, resetPassword, resetPasswordToken, findById, updatePassword, oldPassword
 }

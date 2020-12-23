@@ -28,7 +28,7 @@ export class UpdateprofileComponent implements OnInit {
 
   ngOnInit(): void {
     const user = JSON.parse(<string>localStorage.getItem('user'));
-    this.userService.getUser(user.userId).subscribe((data) => {
+    this.userService.getProfile(user.userId).subscribe((data) => {
       this.updateUserForm.setValue({
         firstName: data.firstName,
         lastName: data.lastName,

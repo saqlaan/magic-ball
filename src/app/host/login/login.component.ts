@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
 
     this.userService.loginUser(this.user).subscribe((Token) => {
       const user = {
-        'userToken': Token.userToken,
-        'userId': Token.userId
+        'userToken': Token.token,
+        'userId': Token._id
       };
       localStorage.setItem('user', JSON.stringify(user));
       this.router.navigate(['hostdashboard']);

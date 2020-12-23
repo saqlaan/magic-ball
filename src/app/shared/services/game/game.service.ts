@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Game} from '@app/shared/interfaces/game/game.interface';
 import {Player} from '@app/shared/interfaces/player/player.interface';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,19 +14,21 @@ export class GameService {
   private ballSubject = new Subject<any>();
   private methodStatus: any = {};
   private methodStatusSubject = new Subject<any>();
+
   constructor(private http: HttpClient) {
     this.hasBall = false;
   }
 
-  public addPlayers( playerId: any, name: any) {
-      this.playersList.push({ playerId: playerId, status: false, name: name });
-      this.playerSubject.next(this.playersList);
+  public addPlayers(playerId: any, name: any) {
+    this.playersList.push({playerId: playerId, status: false, name: name});
+    this.playerSubject.next(this.playersList);
   }
 
   public ballReceived() {
     this.hasBall = true;
     this.ballSubject.next(this.hasBall);
   }
+
   // public addPlayerfailed() {
   //   this.messageSubject.next(this.errorMessage);
   //   return this.messageSubject.asObservable();
@@ -48,7 +50,6 @@ export class GameService {
   }
 
 
-
   public ballMoved() {
     this.hasBall = false;
     this.ballSubject.next(this.hasBall);
@@ -67,7 +68,7 @@ export class GameService {
       player.status = false;
       return player;
     });
-    const index = this.playersList.findIndex( (object: any) =>  object.playerId === userId);
+    const index = this.playersList.findIndex((object: any) => object.playerId === userId);
     if (index > -1) {
       this.playersList[index].status = true;
     }
@@ -83,6 +84,16 @@ export class GameService {
     });
 
   }
+
+  public gameSettings(
+    game: any
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/game-settings', {
+      ...game
+    });
+
+  }
+
   public searchgame(
     code: string,
     player_id: string,
@@ -90,7 +101,7 @@ export class GameService {
     return this.http.post<Game>('/api/game/searchgame/', {
       code,
       player_id,
-    } );
+    });
   }
 
   public addplayer(

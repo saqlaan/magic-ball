@@ -11,5 +11,5 @@ router.post('/reset-password', asyncHandler(UserHandler.resetPassword));
 router.post('/get-profile', asyncHandler(UserHandler.getProfile));
 router.post('/guest-login', asyncHandler(UserHandler.guestLogin));
 router.put('/update-profile', verifyToken, asyncHandler(UserHandler.updateProfile));
-
+router.put('/update-password', verifyToken, asyncHandler(UserHandler.updatePassword));
 module.exports = router;

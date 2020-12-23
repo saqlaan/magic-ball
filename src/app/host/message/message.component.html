@@ -1,10 +1,8 @@
 <div fxLayout="column" fxFlex="100">
   <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space-between">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    <div >
-      <a [routerLink]="['/hostlogin']">
-        <h1 class="magic">Magic Balls</h1>
-      </a>
+    <div>
+      <h1 class="magic">Magic Balls</h1>
     </div>
     <div fxLayout="row">
       <button class="menu" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
@@ -15,25 +13,14 @@
       </button>
     </div>
   </div>
-
   <div fxLayout="row" fxFlex="100" fxLayoutAlign="center">
     <div fxLayout="column">
-      <h1 class="access">Login Help</h1>
+      <h1 class="access">Success!!!!</h1>
     </div>
   </div>
-  <form class="example-form" [formGroup]="loginHelpForm">
-    <div fxLayout="column" fxFlex="100" fxLayoutAlign="left center">
-      <mat-card class="box">
-        <div>
-          <mat-form-field>
-            <input matInput type="text" placeholder="Email or Username" formControlName="email">
-          </mat-form-field>
-        </div>
-      </mat-card>
-    </div>
-  </form>
-
-  <div fxLayout="row" fxFlex="100" fxLayoutAlign="center">
-    <button (click)="forgotPassword()" class="submit" mat-raised-button [disabled]="!loginHelpForm.valid">Next</button>
+  <div class="success" fxLayout="row" fxFlex="60" fxLayoutAlign="center center">
+    <mat-card>
+      <p>Password reset information has been sent to the email address we have on file for you</p>
+    </mat-card>
   </div>
 </div>

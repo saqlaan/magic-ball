@@ -1,6 +1,10 @@
 export interface Game {
-  gameCode: string;
-  status: string;
+  players: any [];
   _id: string;
-  gameName: string;
+  groupName: number;
+  groupSize: number;
+  rounds: number;
+  balls: number;
+  status: boolean;
+  gameCode: string;
 }

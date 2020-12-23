@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const userCtrl = require('../controllers/user.controller');
 const gameCtrl = require("../controllers/game.controller");
+var nodemailer = require('nodemailer');
 
 
 async function signup(req, res) {
@@ -75,10 +76,7 @@ async function login(req, res) {
           let update = await userCtrl.updateToken(user._id, token);
           update = update.toObject();
           delete update.password;
-          res.json({
-            userToken: update.token,
-            userId: update._id
-          });
+          res.json(update);
         } else {
           res.status(400).json({
             message: 'passsword not correct',
@@ -151,7 +149,32 @@ async function forgotPassword(req, res) {
       const resetToken = jwt.sign(payLoad, secret);
       let update = await userCtrl.resetPasswordToken(user._id, resetToken);
 
-      let link = "http://" + req.headers.host + "/api/user/reset/" + update.resetPasswordToken;
+      let link = "http://" + req.headers.host + "/hostresetpassword/";
+      console.log(link)
+      let nodemailer = require('nodemailer');
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'usamaijazksr@gmail.com',
+          pass: 'usama.1234'
+        }
+      });
+
+      let mailOptions = {
+        from: 'usamaijazksr@gmail.com',
+        to: user.email,
+        subject: 'Reset your Password',
+        text: 'That was easy!',
+        html: link
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+
       res.json({
         resetToken: update.resetPasswordToken
       });
@@ -249,64 +272,53 @@ async function guestLogin(req, res) {
 
 }
 
-async function gameSettings(req, res) {
-  let errors = [];
-  if (req.body.groupName === undefined || req.body.groupName === '') {
-    errors.push("groupName is required");
-  }
-  if (req.body.groupSize === undefined || req.body.groupSize === '') {
-    errors.push("groupSize is required");
-  }
-  if (req.body.rounds === undefined || req.body.rounds === '') {
-    errors.push("rounds is required");
-  }
-  if (req.body.balls === undefined || req.body.balls === '') {
-    errors.push("balls is required");
-  }
-  if (req.body.status === undefined || req.body.status === '') {
-    errors.push("status is required");
-  }
 
-
-  if (errors.length === 0) {
-    let game = await gameCtrl.insert(req.body);
-    if (game) {
-      res.status(200).json(game);
-    } else {
-      res.status(404).json({
-        message: "Game is not added",
-      })
-    }
-  } else {
-    res.status(404).json(errors);
-  }
-
-}
-
-async function addPlayer(req, res) {
+async function updatePassword(req, res) {
 
   let errors = [];
-  if (req.body.gameCode === undefined || req.body.gameCode === '') {
-    errors.push("gameCode is required");
+
+  if (req.body.oldPassword === undefined || req.body.oldPassword === '') {
+    errors.push("oldPassword is required");
   }
-  if (req.body.playerId === undefined || req.body.groupSize === '') {
-    errors.push("playerId is required");
+
+  if (req.body.password === undefined || req.body.password === '') {
+    errors.push("password is required");
   }
 
   if (errors.length === 0) {
-    let game = await gameCtrl.addUserInGame(req.body);
-    if (game) {
-      return res.json(game);
-    } else {
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.oldPassword, salt);
+    req.body.oldPassword = hashedPassword;
+    console.log(req.body.oldPassword);
+    let user = await userCtrl.findById(req.user.id);
+
+    console.log(user.password);
+    if (user.password) {
+      let user = await userCtrl.updatePassword(req.body, req.user.id);
+      if (user) {
+        res.json({
+          message: 'User Updated Successfully'
+        });
+      } else {
+        res.status(404).json({
+          message: ' User not found'
+        })
+      }
+    }else{
       res.status(404).json({
-        message: "Game not Found",
+        message: "Old Password Not correct"
       })
     }
   } else {
-    res.status(404).json(errors);
+    res.status(404).json({
+      errors
+    })
   }
+
+
 }
 
 module.exports = {
-  signup, login, updateProfile, forgotPassword, resetPassword, getProfile, guestLogin, gameSettings, addPlayer
+  signup, login, updateProfile, forgotPassword, resetPassword, getProfile, guestLogin, updatePassword
 }
