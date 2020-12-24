@@ -4,11 +4,11 @@ const gameCtrl = require('../controllers/game.controller');
 const router = express.Router();
 module.exports = router;
 const GameHandler = require('../handlers/game.handler')
-
+const {verifyToken} = require("../middleware/index.middleware");
 
 router.post('/addgame', asyncHandler(addgame));
 router.post('/searchgame/', asyncHandler(searchgame));
-router.post('/game-settings', asyncHandler(GameHandler.gameSettings));
+router.post('/game-settings', verifyToken, asyncHandler(GameHandler.gameSettings));
 router.post('/add-player', asyncHandler(GameHandler.addPlayer));
 
 

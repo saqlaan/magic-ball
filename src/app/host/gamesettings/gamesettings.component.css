@@ -1,0 +1,94 @@
+.magic{
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+  margin-left: 30px;
+}
+.access{
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+.icon{
+  font-size: 100px;
+  color: deepskyblue;
+  margin-bottom: 90px;
+  margin-right: 100px;
+}
+.profile{
+  position: absolute;
+}
+mat-icon{
+  font-size: 30px;
+  font-weight: bolder;
+}
+.mat-slide-toggle{
+  font-size: 100px;
+}
+.gr-size{
+  width:50%;
+  height: 40px;
+  background-color: grey;
+  color: white;
+  font-size: large;
+}
+.rounds{
+  margin-right: 310px;
+}
+.round{
+  width:50%;
+  height: 40px;
+  margin-left: 60px;
+  background-color: #807b7b;
+  color: white;
+  font-size: large;
+}
+.balls{
+  margin-right: 250px;
+}
+.ball{
+  width:50%;
+  height: 40px;
+  margin-left: 35px;
+  background-color: #807b7b;
+  color: white;
+  font-size: large;
+}
+.save{
+  margin-right: 110px;
+}
+.check{
+  margin-left: 330px;
+}
+.profile{
+  margin-left: 20px;
+}
+
+.end{
+  background-color: #3F3F3F;
+  color: white;
+  margin-left: 80px;
+  margin-top: 42px;
+  width: 20%;
+  height: 45px;
+
+}
+.publish{
+  background-color: #8fd14f;
+  color: white;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-left: 10px;
+  width: 30%;
+  height: 50px;
+}
+.search{
+  margin-top: 40px;
+  height: 50px;
+  margin-left: 10px;
+  width:150%;
+  font-size: large;
+  text-align: center;
+  text-space: 3px;
+  border: 2px solid;
+}

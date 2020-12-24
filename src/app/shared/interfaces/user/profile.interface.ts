@@ -1,11 +1,7 @@
-export interface User {
-  _id: string;
+export interface Profile {
   firstName: string;
   lastName: string;
-  email: string;
   country: string;
   city: string;
   occupation: string;
-  type: string;
-  token: string;
 }

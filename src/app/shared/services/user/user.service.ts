@@ -7,6 +7,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '@app/shared/interfaces/user/user.interface';
 import {Email} from '@app/shared/interfaces/user/email.interface';
 import {ResetToken} from '@app/shared/interfaces/user/resettoke.interface';
+import {Profile} from '@app/shared/interfaces/user/profile.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,8 @@ export class UserService {
 
   public loginUser(
     user: any
-  ): Observable<Token> {
-    return this.http.post<Token>('/api/user/login', {
+  ): Observable<User> {
+    return this.http.post<User>('/api/user/login', {
       ...user
     });
   }
@@ -51,11 +52,26 @@ export class UserService {
       headers: headers_object
     });
   }
-
-  public getUser(
+  public updatePassword(
+    user: any,
+  ): Observable<Message> {
+    const json = JSON.parse(<string>localStorage.getItem('user'));
+    console.log(user);
+    const token = json.userToken;
+    const headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token
+    });
+    return this.http.put<Message>('/api/user/update-password', {
+      ...user
+    }, {
+      headers: headers_object
+    });
+  }
+  public getProfile(
     userId: any
-  ): Observable<User> {
-    return this.http.post<User>('/api/user/get-profile', {
+  ): Observable<Profile> {
+    return this.http.post<Profile>('/api/user/get-profile', {
       userId
     });
   }

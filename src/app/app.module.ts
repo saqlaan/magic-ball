@@ -24,6 +24,11 @@ import { LoginhelpComponent } from './host/loginhelp/loginhelp.component';
 import { HomescreenComponent } from './host/homescreen/homescreen.component';
 import { DashboardComponent } from './host/dashboard/dashboard.component';
 import { ResetpasswordComponent } from './host/resetpassword/resetpassword.component';
+import { MessageComponent } from './host/message/message.component';
+import { GamesettingsComponent } from './host/gamesettings/gamesettings.component';
+import { WaitingplayersComponent } from './host/waitingplayers/waitingplayers.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { UpdatepasswordComponent } from './host/updatepassword/updatepassword.component';
 
 
 @NgModule({
@@ -33,12 +38,13 @@ import { ResetpasswordComponent } from './host/resetpassword/resetpassword.compo
     SharedModule,
     AppRoutingModule,
     MatProgressSpinnerModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatCheckboxModule
   ],
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
-    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent],
+    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

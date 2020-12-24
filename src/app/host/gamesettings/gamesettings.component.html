@@ -1,0 +1,109 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space-between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div>
+      <h1 class="magic">Magic Balls</h1>
+    </div>
+    <div fxLayout="column">
+      <h1 class="access">New game settings</h1>
+    </div>
+    <div fxLayout="row">
+      <button class="menu1" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div>
+    <form class="example-form" [formGroup]="gameSettingFomm">
+      <div fxFlex="30"></div>
+
+      <div fxFlex="30" fxFlex.sm="80" fxFlex.xs="100">
+        <div fxLayout="row">
+          <div fxFlex="25" fxLayoutAlign="center center">
+            Group Name
+          </div>
+          <div>
+            <mat-form-field>
+              <input matInput type="text" placeholder="Group Name" formControlName="groupName">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="25" fxLayoutAlign="center center">
+            Group Size
+          </div>
+          <div>
+            <mat-form-field fxLayoutAlign="center">
+              <input matInput type="number" class="gr-size" min="0" max="20" formControlName="groupSize">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="25" fxLayoutAlign="center center">
+            Number of rounds <br> (rounds are upto 5 mins each)
+          </div>
+          <div>
+            <mat-form-field fxLayoutAlign="center">
+              <input matInput type="number" class="gr-size" min="0" max="20" formControlName="rounds">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="25" fxLayoutAlign="center center">
+            Number of Balls
+          </div>
+          <div>
+            <mat-form-field fxLayoutAlign="center">
+              <input type="number" class="gr-size" min="0" max="5" formControlName="balls" matInput>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="25" fxLayoutAlign="center center">
+            Save Metrics:
+          </div>
+          <div fxLayout="column" class="tool">
+            <mat-checkbox [checked]="" (click)="toggle($event)"></mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="30" fxFlexAlign="center center">
+        <div fxLayout="row">
+          <div fxFlex="25" fxLayoutAlign="center center">
+            Tool Box:
+          </div>
+          <div fxLayout="column" class="tool">
+            <mat-checkbox></mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="10" fxFlexAlign="center center">
+        <div class="t-box" fxLayout="row" fxLayoutAlign="left center">
+          <div fxLayout="column" class="tool">
+            <mat-icon class="icon">perm_identity</mat-icon>
+          </div>
+        </div>
+        <div>
+          <p class="profile" fxLayoutAlign="center end">Name <br> <br> UserName <br> <br> Number of games facilitated
+            <br> <br> Highest Score<br> <br>Average Score</p>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div fxFlex="30" fxFlex.sm="80" fxFlex.xs="100">
+
+  </div>
+  <div fxLayout="row" fxFlex="50" fxFlexAlign="center">
+    <div fxLayoutAlign="center">
+      <div class="save" fxLayout="row">
+        <button class="end" mat-raised-button>End</button>
+        <button (click)="gameSettings()" class="publish" mat-raised-button>Publish</button>
+        <button class="search" mat-raised-button>Search for players by user name and add</button>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+

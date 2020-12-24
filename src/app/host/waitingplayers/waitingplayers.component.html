@@ -1,0 +1,43 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space-between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div>
+      <h1 class="magic">Magic Balls</h1>
+    </div>
+    <div fxLayout="row">
+      <div class="game" fxFlex="60" fxLayoutAlign="center center">
+        GAME ID:
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="text" class="game-id" value="{{gameCode}}">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxFlex="100" fxLayoutAlign="center">
+    <div fxLayout="column">
+      <mat-icon>
+        <span class="material-icons">
+sports_soccer
+</span>
+      </mat-icon>
+    </div>
+
+  </div>
+  <div fxLayout="column">
+    <div class="player" fxFlex="70" fxLayoutAlign="end end">
+      Total players
+    </div>
+  </div>
+  <div fxLayoutAlign="end end">
+    <h1 class="statics">5/8</h1>
+  </div>
+  <div fxLayout="column">
+    <div class="para" fxFlex="70" fxLayoutAlign="center center">
+      waiting for <br> team to <br> join...
+    </div>
+  </div>
+
+</div>
+

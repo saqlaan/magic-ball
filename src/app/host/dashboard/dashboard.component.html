@@ -6,7 +6,7 @@
       <h1 class="magic">Magic Balls</h1>
     </div>
     <div fxLayout="row">
-      <button class="menu" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
+      <button (click)="logout()" class="menu" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
         <mat-icon>login</mat-icon>
       </button>
       <button class="menu" mat-icon-button color="none" aria-label="Example icon button with a menu icon">
@@ -26,6 +26,6 @@
     <p fxLayoutAlign="center end">Name <br> <br> UserName<br> <br> Number of games facilitated <br> <br> Highest Score</p>
   </div>
   <div fxLayout="column" fxFlex="50" fxLayoutAlign="left center" >
-    <button class="new" mat-raised-button>New Game</button>
+    <button (click)="addGame()" class="new" mat-raised-button>New Game</button>
   </div>
 </div>

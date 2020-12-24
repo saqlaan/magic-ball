@@ -13,10 +13,12 @@ const GameSchema = new mongoose.Schema({
   groupName: {
     type: String,
     required: true,
+    unique: true
   },
   players: [{
     type: Schema.ObjectId,
-    ref: Player
+    ref: Player,
+    unique: true
   }],
   groupSize: {
     type: Number,

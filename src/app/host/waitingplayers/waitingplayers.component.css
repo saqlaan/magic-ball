@@ -1,0 +1,38 @@
+.magic{
+  margin-left: 20px;
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 40px;
+}
+.game{
+  font-weight: bolder;
+  font-size: 30px;
+  margin-bottom: 35px;
+}
+.para{
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  color: deepskyblue;
+  font-size: 50px;
+  margin-left: 20px;
+  border-radius: 10px;
+}
+.game-id{
+  font-weight: bolder;
+  font-size: 30px;
+}
+.material-icons{
+  font-size: 100px;
+}
+.player{
+  font-size:20px;
+  color: #b640b3;
+  font-weight: bolder;
+  margin-right: 20px;
+}
+.statics{
+  font-size:40px;
+  color: #b640b3;
+  font-weight: bolder;
+  margin-right: 30px;
+}

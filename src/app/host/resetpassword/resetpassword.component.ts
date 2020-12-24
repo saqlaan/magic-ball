@@ -13,8 +13,8 @@ export class ResetpasswordComponent implements OnInit {
 
   resetToken!: any;
   resetPasswordForm = new FormGroup({
-    newPassword: new FormControl('', Validators.required),
-    confirmPassword: new FormControl('', Validators.required)
+    newPassword: new FormControl('', [Validators.minLength(6)]),
+    confirmPassword: new FormControl('', [Validators.required, this.passwordMatcher.bind(this)])
   });
 
   constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
@@ -27,13 +27,23 @@ export class ResetpasswordComponent implements OnInit {
 
   resetPassword() {
 
-    this.resetToken = localStorage.getItem('resetToken');
+    this.resetToken = localStorage.getItem('resetToken') as string;
     console.log(this.resetToken);
     const password = this.resetPasswordForm.value.newPassword;
     this.userService.resetPassword(password, this.resetToken).subscribe((token) => {
       console.log(token.message);
       this.router.navigate(['']);
     });
+  }
+
+  private passwordMatcher(control: FormControl): { [p: string]: boolean } | null {
+    if (
+      this.resetPasswordForm &&
+      (control.value !== this.resetPasswordForm.controls.newPassword.value)
+    ) {
+      return { passwordNotMatch: true };
+    }
+    return null;
   }
 
 }

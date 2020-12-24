@@ -28,7 +28,7 @@ export class UpdateprofileComponent implements OnInit {
 
   ngOnInit(): void {
     const user = JSON.parse(<string>localStorage.getItem('user'));
-    this.userService.getUser(user.userId).subscribe((data) => {
+    this.userService.getProfile(user.userId).subscribe((data) => {
       this.updateUserForm.setValue({
         firstName: data.firstName,
         lastName: data.lastName,
@@ -48,7 +48,7 @@ export class UpdateprofileComponent implements OnInit {
     this.user.occupation = this.updateUserForm.value.occupation;
     this.userService.updateUser(this.user).subscribe((message) => {
       localStorage.setItem('message', message.message);
-      this.router.navigate(['/hostdashboard']);
+      this.router.navigate(['/hostupdateprofile']);
     });
   }
 }

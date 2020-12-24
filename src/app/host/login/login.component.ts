@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required,
       Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.minLength(6)]),
   });
 
 
@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
 
     this.userService.loginUser(this.user).subscribe((Token) => {
       const user = {
-        'userToken': Token.userToken,
-        'userId': Token.userId
+        'userToken': Token.token,
+        'userId': Token._id
       };
       localStorage.setItem('user', JSON.stringify(user));
       this.router.navigate(['hostdashboard']);

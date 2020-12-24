@@ -28,7 +28,7 @@ export class SignupComponent implements OnInit {
     country: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     occupation: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required])
+    password: new FormControl('', [Validators.minLength(6)])
   });
 
   constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
