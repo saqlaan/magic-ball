@@ -64,13 +64,11 @@ const routes: Routes = [
   },
   {
     path: 'hostresetpassword',
-    component: ResetpasswordComponent,
-    canActivate: [AuthGuard]
+    component: ResetpasswordComponent
   },
   {
     path: 'successmessage',
     component: MessageComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'gamesettings',
