@@ -244,6 +244,13 @@
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-9.1.4.tgz#1bd09c84d1ec75bdc7cc75e80014eda5041ffeb7"
   integrity sha512-yUyjCgG2P2Jh8MvoyC6yirmAtx1Qe7MKLuLvsa9WOB571QNEcNLTYMfAMHUKsQTcE/+o984QyLlneoibgI9wFA==
 
+"@auth0/angular-jwt@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@auth0/angular-jwt/-/angular-jwt-5.0.2.tgz#0a23f240e8c6ed37c5c7a354ad79a755a217936e"
+  integrity sha512-rSamC9mu+gUxoR86AXcIo+KD7xRIro+/iu1F2Ld85YAZEVKlpB5vYG+g0yGaEOqjtQWP/i0H6fi6XMGPVHSYYQ==
+  dependencies:
+    tslib "^2.0.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.8.3.tgz#33e25903d7481181534e12ec0a25f16b6fcf419e"
@@ -1071,6 +1078,13 @@
   dependencies:
     mkdirp "^1.0.4"
 
+"@rxweb/reactive-form-validators@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@rxweb/reactive-form-validators/-/reactive-form-validators-2.1.2.tgz#3eeab7ce1b0c005abb6ddd92be0a9260f2a0c0c0"
+  integrity sha512-8TYYZnloCegoZrxgj2Ko57R/tTJO7UjBqOpRQfEYLYLJit7fepMS2okmfCq0tqNZQiUmdqs7eF1p9NrOIVqPQg==
+  dependencies:
+    tslib "^1.9.0"
+
 "@schematics/angular@9.1.4":
   version "9.1.4"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.4.tgz#01908a9b8c97db204fb1395e202aebd38b789bad"
@@ -1348,7 +1362,7 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
+accepts@^1.3.7, accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
   integrity sha512-Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA==
@@ -2003,6 +2017,11 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
+
+bootstrap@^4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.3.tgz#c6a72b355aaf323920be800246a6e4ef30997fe6"
+  integrity sha512-o9ppKQioXGqhw8Z7mah6KdTYpNQY//tipnkxppWhPbiSWdD+1raYsnhwEZjkTHYbGee4cVQ0Rx65EhOY/HNLcQ==
 
 bowser@2.9.0:
   version "2.9.0"
@@ -5563,6 +5582,11 @@ jws@^3.2.2:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
 
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
+
 kareem@2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.3.1.tgz#def12d9c941017fabfb00f873af95e9c99e1be87"
@@ -6465,6 +6489,11 @@ node-releases@^1.1.53:
   version "1.1.53"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.53.tgz#2d821bfa499ed7c5dffc5e2f28c88e78a08ee3f4"
   integrity sha512-wp8zyQVwef2hpZ/dJH7SfSrIPD6YoJz6BDQDpGEkcA0s3LpAQoxBIYmfIq6QAhC1DhwsyCgTaTTcONwX8qzCuQ==
+
+nodemailer@^6.4.17:
+  version "6.4.17"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.17.tgz#8de98618028953b80680775770f937243a7d7877"
+  integrity sha512-89ps+SBGpo0D4Bi5ZrxcrCiRFaMmkCt+gItMXQGzEtZVR3uAD3QAQIDoxTWnx3ky0Dwwy/dhFrQ+6NNGXpw/qQ==
 
 nodemon@^1.17.5:
   version "1.19.4"

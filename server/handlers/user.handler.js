@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const userCtrl = require('../controllers/user.controller');
 const gameCtrl = require("../controllers/game.controller");
-var nodemailer = require('nodemailer');
+const escapeStringRegexp = require('escape-string-regexp');
 
 
 async function signup(req, res) {
@@ -179,7 +179,7 @@ async function forgotPassword(req, res) {
         resetToken: update.resetPasswordToken
       });
     } else {
-      res.json({
+      res.status(404).json({
         message: "user not found",
 
       })
@@ -281,44 +281,70 @@ async function updatePassword(req, res) {
     errors.push("oldPassword is required");
   }
 
-  if (req.body.password === undefined || req.body.password === '') {
-    errors.push("password is required");
+  if (req.body.newPassword === undefined || req.body.newPassword === '') {
+    errors.push("newPassword is required");
   }
 
   if (errors.length === 0) {
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.oldPassword, salt);
-    req.body.oldPassword = hashedPassword;
-    console.log(req.body.oldPassword);
     let user = await userCtrl.findById(req.user.id);
 
-    console.log(user.password);
-    if (user.password) {
-      let user = await userCtrl.updatePassword(req.body, req.user.id);
-      if (user) {
-        res.json({
-          message: 'User Updated Successfully'
-        });
-      } else {
-        res.status(404).json({
-          message: ' User not found'
-        })
-      }
-    }else{
+    if (user) {
+      bcrypt.compare(req.body.oldPassword, user.password, async function (err, result) {
+        if (result) {
+          let user = await userCtrl.updatePassword(req.body.newPassword, req.user.id);
+          if (user) {
+            res.json({
+              message: 'User Updated Successfully'
+            });
+          } else {
+            res.status(404).json({
+              message: ' User not Updated Successfully'
+            })
+          }
+        } else {
+          res.status(400).json({
+            message: 'passsword not correct',
+          })
+        }
+      })
+    } else {
       res.status(404).json({
-        message: "Old Password Not correct"
+        message: 'user not found'
       })
     }
   } else {
     res.status(404).json({
       errors
     })
+
+
   }
-
-
 }
 
+async function searchPlayer(req, res){
+  let errors = [];
+
+  if (req.body.playerName === undefined || req.body.playerName === '') {
+    errors.push("playerName is required");
+  }
+
+  if(errors.length === 0){
+    console.log(req.body.playerName);
+      let player = await userCtrl.searchPlayer(req.body.playerName);
+      if(player){
+        res.json({player: player});
+      }else {
+        res.status(404).json({
+          message: 'player not found'
+        })
+      }
+  }else{
+    res.status(404).json(errors);
+  }
+}
+
+
 module.exports = {
-  signup, login, updateProfile, forgotPassword, resetPassword, getProfile, guestLogin, updatePassword
+  signup, login, updateProfile, forgotPassword, resetPassword, getProfile, guestLogin, updatePassword,searchPlayer
 }

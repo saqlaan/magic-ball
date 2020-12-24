@@ -12,25 +12,35 @@ import {WebSocketService} from '@app/shared/services';
 export class UpdatepasswordComponent implements OnInit {
   user: any = {};
   updatePasswordForm = new FormGroup({
-    currentPassword: new FormControl('', [Validators.required]),
-    newPassword: new FormControl('', [Validators.required]),
-    confirmPassword: new FormControl('', [Validators.required]),
+    currentPassword: new FormControl('', [Validators.minLength(6)]),
+    newPassword: new FormControl('', [Validators.minLength(6)]),
+    confirmPassword: new FormControl('', [Validators.required, this.passwordMatcher.bind(this)]),
   });
 
   constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
   }
 
   ngOnInit(): void {
-    // this.updatePassword();
+
   }
 
   updatePassword() {
 
-    this.user.password = '123456';
+    this.user.newPassword = this.updatePasswordForm.value.newPassword;
+    this.user.oldPassword = this.updatePasswordForm.value.currentPassword;
     this.userService.updatePassword(this.user).subscribe((message) => {
       localStorage.setItem('message', message.message);
-      this.router.navigate(['/hostlogin']);
+      this.router.navigate(['/updatepassword']);
     });
+  }
+  private passwordMatcher(control: FormControl): { [p: string]: boolean } | null {
+    if (
+      this.updatePasswordForm &&
+      (control.value !== this.updatePasswordForm.controls.newPassword.value)
+    ) {
+      return { passwordNotMatch: true };
+    }
+    return null;
   }
 
 }

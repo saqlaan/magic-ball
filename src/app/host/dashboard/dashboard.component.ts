@@ -24,4 +24,11 @@ export class DashboardComponent implements OnInit {
   addGame() {
     this.router.navigate(['gamesettings']);
   }
+
+  logout() {
+    alert();
+
+    localStorage.removeItem('user');
+    this.router.navigate([''], {});
+  }
 }

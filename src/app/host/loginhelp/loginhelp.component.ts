@@ -23,10 +23,17 @@ export class LoginhelpComponent implements OnInit {
 
   forgotPassword() {
     this.userService.forgotPassword(this.loginHelpForm.value.email).subscribe((token) => {
-      console.log(token.resetToken);
-      localStorage.setItem('resetToken', token.resetToken);
-      this.router.navigate(['/successmessage']);
+      if (token) {
+        console.log(token.resetToken);
+        localStorage.setItem('resetToken', token.resetToken);
+        this.router.navigate(['/successmessage']);
+      } else {
+        
+      }
     });
   }
 
+  login() {
+    this.router.navigate(['/loginhelp']);
+  }
 }

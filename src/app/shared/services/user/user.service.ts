@@ -56,6 +56,7 @@ export class UserService {
     user: any,
   ): Observable<Message> {
     const json = JSON.parse(<string>localStorage.getItem('user'));
+    console.log(user);
     const token = json.userToken;
     const headers_object = new HttpHeaders({
       'Content-Type': 'application/json',

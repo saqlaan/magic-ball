@@ -13,8 +13,8 @@ export class ResetpasswordComponent implements OnInit {
 
   resetToken!: string;
   resetPasswordForm = new FormGroup({
-    newPassword: new FormControl('', Validators.minLength(6)),
-    confirmPassword: new FormControl('', Validators.required)
+    newPassword: new FormControl('', [Validators.minLength(6)]),
+    confirmPassword: new FormControl('', [Validators.required, this.passwordMatcher.bind(this)])
   });
 
   constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
@@ -36,23 +36,14 @@ export class ResetpasswordComponent implements OnInit {
     });
   }
 
-  // MustMatch(controlName: string, matchingControlName: string) {
-  //   return (formGroup: FormGroup) => {
-  //     const control = formGroup.controls[controlName];
-  //     const matchingControl = formGroup.controls[matchingControlName];
-  //
-  //     if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-  //       return;
-  //     }
-  //
-  //     // set error on matchingControl if validation fails
-  //     if (control.value !== matchingControl.value) {
-  //       matchingControl.setErrors({ mustMatch: true });
-  //     } else {
-  //       matchingControl.setErrors(null);
-  //     }
-  //   }
-  // }
-
+  private passwordMatcher(control: FormControl): { [p: string]: boolean } | null {
+    if (
+      this.resetPasswordForm &&
+      (control.value !== this.resetPasswordForm.controls.newPassword.value)
+    ) {
+      return { passwordNotMatch: true };
+    }
+    return null;
+  }
 
 }

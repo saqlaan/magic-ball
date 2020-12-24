@@ -16,6 +16,7 @@ import {MessageComponent} from '@app/host/message/message.component';
 import {GamesettingsComponent} from '@app/host/gamesettings/gamesettings.component';
 import {WaitingplayersComponent} from '@app/host/waitingplayers/waitingplayers.component';
 import {UpdatepasswordComponent} from '@app/host/updatepassword/updatepassword.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'hostdashboard',
+    canActivate: [AuthGuard],
     component: DashboardComponent
   },
   {
@@ -57,26 +59,32 @@ const routes: Routes = [
   },
   {
     path: 'hostupdateprofile',
-    component: UpdateprofileComponent
+    component: UpdateprofileComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'hostresetpassword',
-    component: ResetpasswordComponent
+    component: ResetpasswordComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'successmessage',
-    component: MessageComponent
+    component: MessageComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'gamesettings',
-    component: GamesettingsComponent
+    component: GamesettingsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'waitingplayers',
+    canActivate: [AuthGuard],
     component: WaitingplayersComponent
   },
   {
     path: 'updatepassword',
+    canActivate: [AuthGuard],
     component: UpdatepasswordComponent
   },
 

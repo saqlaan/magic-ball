@@ -8,6 +8,7 @@ module.exports = router;
 router.post('/addplayer',asyncHandler(addplayer) );
 
 
+
 async function addplayer(req,res){
   let player = await playerCtrl.insert(req.body);
   res.json(player);
