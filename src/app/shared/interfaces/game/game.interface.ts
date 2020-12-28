@@ -5,6 +5,7 @@ export interface Game {
   groupSize: number;
   rounds: number;
   balls: number;
+  timePerRound: number;
   status: boolean;
   gameCode: string;
 }

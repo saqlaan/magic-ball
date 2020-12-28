@@ -52,6 +52,7 @@ export class UserService {
       headers: headers_object
     });
   }
+
   public updatePassword(
     user: any,
   ): Observable<Message> {
@@ -68,6 +69,7 @@ export class UserService {
       headers: headers_object
     });
   }
+
   public getProfile(
     userId: any
   ): Observable<Profile> {

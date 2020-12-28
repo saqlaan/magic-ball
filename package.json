@@ -14,7 +14,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^9.1.4",
+    "@angular/animations": "^9.1.13",
     "@angular/cdk": "^9.2.1",
     "@angular/common": "^9.1.4",
     "@angular/compiler": "^9.1.4",
@@ -50,6 +50,7 @@
     "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "nanoid": "^3.1.20",
+    "ngx-toastr": "^13.2.0",
     "nodemailer": "^6.4.17",
     "nodemon": "^1.17.5",
     "passport": "^0.4.0",

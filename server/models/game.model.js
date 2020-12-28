@@ -32,10 +32,15 @@ const GameSchema = new mongoose.Schema({
   type: Number,
     required: true,
   },
+  time:{
+    type: String,
+    required: true
+  },
   status: {
   type: Boolean,
     required: true,
  },
+
 
 
 });

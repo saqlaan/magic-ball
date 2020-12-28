@@ -17,7 +17,7 @@ export class HomescreenComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  homescreen() {
+                                           homescreen() {
     this.router.navigate(['']);
   }
 

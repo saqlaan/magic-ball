@@ -51,4 +51,8 @@ export class UpdateprofileComponent implements OnInit {
       this.router.navigate(['/hostupdateprofile']);
     });
   }
+  logout() {
+    localStorage.removeItem('user');
+    this.router.navigate([''], {});
+  }
 }

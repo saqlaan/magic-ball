@@ -88,6 +88,7 @@ export class GameService {
   public gameSettings(
     game: any
   ): Observable<Game> {
+    console.log(game);
     const json = JSON.parse(<string>localStorage.getItem('user'));
     const token = json.userToken;
     const headers_object = new HttpHeaders({
