@@ -25,13 +25,13 @@ export class GamedashboardComponent implements OnInit {
     status = 'active';
     host = 'host';
     this.gameService.addgame(status).subscribe((game) => {
-      this.ws.init(host, game.gameCode, null, null);
+      // this.ws.init(host, game.gameCode, null, null);
       this.gameCode = game.gameCode;
       this.router.navigate(['/gamedashboard']);
     });
-      this.gameService.getGamePlayers().subscribe(players => {
-        this.players = players;
-      });
+      // this.gameService.getGamePlayers().subscribe(players => {
+      //   this.players = players;
+      // });
   }
 
   startGame(): void {

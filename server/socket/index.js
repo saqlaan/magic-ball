@@ -4,7 +4,8 @@ function heartbeat() {
 
 
 const socket = {
-  clients: [],
+  // clients: [],
+  clients: {},
   games: {},
   connect: (client) => {
     client.onmessage = (data) => {
@@ -33,28 +34,19 @@ const socket = {
 
   init: (client, data) => {
     let userData = data.data;
-    if(userData.userType === 'host') {
-      socket.games[userData.gameCode] = {
-        host:{client:client, userId: userData.userId},
-        players:[],
+      socket.clients[userData.userId] = {
+        client: {
+          client: client
+        },
       };
-    }else if(userData.userType === 'player') {
-      if (socket.games[userData.gameCode] !== undefined && socket.games[userData.gameCode].ballIndex === undefined){
-        socket.games[userData.gameCode]['players'].push({
-          client:client,
-          userId:userData.userId
-        })
-        socket.playerAdded(socket.games[userData.gameCode].host.client,userData.userId, userData.name);
-        client.send(JSON.stringify({
-          method: 'playerAddedSuccessfully'
-        }));
-      }else{
-        client.send(JSON.stringify({
-          method: 'playerAddedFailed'
-        }));
+    let payload = {
+      method:'userAdded',
+      payload:{
+        userId: userData.userId
       }
+    };
+    client.send(JSON.stringify(payload));
 
-    }
   },
 
   // Alert everyone in the game that new user has added including host

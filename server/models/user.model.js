@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 const crypto = require('crypto')
-
+const Delegate = require('../models/delegate.model');
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    required: false
+    required: true
   },
   city: {
     type: String,
@@ -34,6 +34,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  accountType: {
+    type: String,
+    required: false
+  },
+  delegate: Delegate,
   createdAt: {
     type: Date,
     default: Date.now
@@ -54,10 +59,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  resetPasswordExpires: {
-    type: Date,
-    required: false
-  }
 });
 
 // UserSchema.pre('save', async function (next) {
@@ -76,3 +77,6 @@ UserSchema.methods.comparePassword = function (plaintext, callback) {
 
 
 module.exports = mongoose.model('User', UserSchema);
+
+
+

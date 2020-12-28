@@ -11,6 +11,8 @@ import {WebSocketService} from '@app/shared/services/webSocket/web-socket.servic
 import {Router} from '@angular/router';
 import {GameService} from '@app/shared/services';
 
+import {ToastrService} from 'ngx-toastr';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -31,7 +33,7 @@ export class SignupComponent implements OnInit {
     password: new FormControl('', [Validators.minLength(6)])
   });
 
-  constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
+  constructor(private router: Router, private userService: UserService, private ws: WebSocketService , private toast: ToastrService) {
 
   }
 
@@ -50,6 +52,10 @@ export class SignupComponent implements OnInit {
     this.user.type = 'host';
     this.userService.addUser(this.user).subscribe((message) => {
       localStorage.setItem('message', message.message);
+      this.toast.success('you are registered successfully', 'Sign Up',  {
+        titleClass: "center",
+        messageClass: "center"
+      });
       this.router.navigate(['']);
     });
   }

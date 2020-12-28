@@ -29,7 +29,7 @@ import { GamesettingsComponent } from './host/gamesettings/gamesettings.componen
 import { WaitingplayersComponent } from './host/waitingplayers/waitingplayers.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UpdatepasswordComponent } from './host/updatepassword/updatepassword.component';
-
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -39,7 +39,8 @@ import { UpdatepasswordComponent } from './host/updatepassword/updatepassword.co
     AppRoutingModule,
     MatProgressSpinnerModule,
     FlexLayoutModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ToastrModule.forRoot(),
   ],
   declarations: [AppComponent,
     HeaderComponent,
