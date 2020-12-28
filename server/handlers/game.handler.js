@@ -8,21 +8,7 @@ const gameCtrl = require("../controllers/game.controller");
 
 async function gameSettings(req, res) {
   let errors = [];
-  if (req.body.groupName === undefined || req.body.groupName === '') {
-    errors.push("groupName is required");
-  }
-  if (req.body.groupSize === undefined || req.body.groupSize === '') {
-    errors.push("groupSize is required");
-  }
-  if (req.body.rounds === undefined || req.body.rounds === '') {
-    errors.push("rounds is required");
-  }
-  if (req.body.balls === undefined || req.body.balls === '') {
-    errors.push("balls is required");
-  }
-  if (req.body.status === undefined || req.body.status === '') {
-    errors.push("status is required");
-  }
+
 
 
   if (errors.length === 0) {
@@ -39,6 +25,21 @@ async function gameSettings(req, res) {
   }
 
 }
+// async function getGame(req, res){
+//   let errors = [];
+//
+//   if (req.params.gameId === undefined || req.body.gameId === '') {
+//     errors.push("gameId is required");
+//   }
+//   if(errors.length === 0){
+//     let game = await gameCtrl.addUserInGame(req.body);
+//   }else{
+//     res.status(404).json ({
+//       message: 'game Not Found';
+//     });
+//   }
+//
+// }
 
 async function addPlayer(req, res) {
 

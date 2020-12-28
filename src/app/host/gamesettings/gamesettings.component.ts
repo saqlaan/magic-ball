@@ -32,29 +32,32 @@ export class GamesettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.game.status = false;
+    this.game.save_metrics = false;
+    this.game.access_toolbox = true;
     const user = JSON.parse(<string>localStorage.getItem('user'));
     this.userService.getProfile(user.userId).subscribe((data) => {
-      this.name = 'usama';
-      this.userName = ' uijaz20';
-      this.totalGames = 4;
-      this.averageScore = 12;
-      this.highestScore = 25;
+      this.name = data.firstName;
+      this.userName = data.lastName;
+
 
     });
   }
 
   toggle(event: any) {
-    this.game.status = true;
+    this.game.save_metrics = true;
+  }
+
+  toolBox(event: any) {
+    this.game.access_toolbox = true;
   }
 
   gameSettings() {
     {
       this.game.groupName = this.gameSettingFomm.value.groupName;
-      this.game.groupSize = this.gameSettingFomm.value.groupSize;
-      this.game.rounds = this.gameSettingFomm.value.rounds;
-      this.game.balls = this.gameSettingFomm.value.balls;
-      this.game.timePerRound = this.gameSettingFomm.value.timePerRound;
+      this.game.maxPlayers = this.gameSettingFomm.value.groupSize;
+      this.game.noOfRounds = this.gameSettingFomm.value.rounds;
+      this.game.ballsPerRound = this.gameSettingFomm.value.balls;
+      this.game.timePerSecond = this.gameSettingFomm.value.timePerRound;
       this.gameService.gameSettings(this.game).subscribe((Game) => {
         console.log(Game);
         localStorage.setItem('gameCode', Game.gameCode);

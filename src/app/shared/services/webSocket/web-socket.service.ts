@@ -28,7 +28,7 @@ export class WebSocketService {
           this.gameService.setMethodStatus('addPlayer', {status: false, msg: 'Failed! Game already started'});
           break;
         case  'playerAdded':
-          this.gameService.addPlayers(data.payload.userId, data.payload.name);
+          this.gameService.addPlayers(data.payload.userId);
           break;
         case 'ballReceived':
           this.gameService.ballReceived();
@@ -46,14 +46,11 @@ export class WebSocketService {
     };
   }
 
-  init(type: any, code: any, userId: any = Math.random(), name: any) {
+  init(userId: any) {
     this.send({
       method: 'init',
       data: {
-        userType: type,
-        gameCode: code,
-        userId: userId,
-        name: name,
+        userId: userId
       }
     });
   }

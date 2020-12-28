@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '@app/shared/services/user/user.service';
 import {WebSocketService} from '@app/shared/services';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   });
 
 
-  constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
+  constructor(private router: Router, private userService: UserService, private ws: WebSocketService, private toast: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -29,12 +30,17 @@ export class LoginComponent implements OnInit {
     this.user.email = this.loginForm.value.email;
     this.user.password = this.loginForm.value.password;
 
-    this.userService.loginUser(this.user).subscribe((Token) => {
+    this.userService.loginUser(this.user).subscribe((User) => {
       const user = {
-        'userToken': Token.token,
-        'userId': Token._id
+        'userToken': User.token,
+        'userId': User._id
       };
       localStorage.setItem('user', JSON.stringify(user));
+      this.toast.success('you are logged in successfully', 'LoginIn',  {
+        titleClass: "center",
+        messageClass: "center"
+      });
+      this.ws.init(User._id);
       this.router.navigate(['hostdashboard']);
     });
   }

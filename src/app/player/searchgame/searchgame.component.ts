@@ -49,7 +49,7 @@ export class SearchgameComponent implements OnInit {
     const code = this.searchgameForm.value.gameCode;
     this.gameService.searchgame(code, player_id).subscribe((game) => {
       if (game) {
-        this.ws.init(player, code, player_id, player_name);
+        // this.ws.init(player, code, player_id, player_name);
         this.gameService.getMethodStatus().subscribe(methodStatus => {
           if (methodStatus['addPlayer'] !== undefined && methodStatus['addPlayer'].status) {
             localStorage.setItem('game_code', code);

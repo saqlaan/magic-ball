@@ -10,7 +10,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class GameService {
   private hasBall: boolean;
   private playerSubject = new Subject<any>();
+  private userSubject = new Subject<any>();
   private playersList: any = [];
+  private usersList: any = [];
   private ballSubject = new Subject<any>();
   private methodStatus: any = {};
   private methodStatusSubject = new Subject<any>();
@@ -19,9 +21,9 @@ export class GameService {
     this.hasBall = false;
   }
 
-  public addPlayers(playerId: any, name: any) {
-    this.playersList.push({playerId: playerId, status: false, name: name});
-    this.playerSubject.next(this.playersList);
+  public addPlayers(usersList: any) {
+    this.usersList.push({usersList: usersList,});
+    this.playerSubject.next(this.usersList);
   }
 
   public ballReceived() {
@@ -59,8 +61,8 @@ export class GameService {
     return this.ballSubject.asObservable();
   }
 
-  public getGamePlayers() {
-    return this.playerSubject.asObservable();
+  public getUsers() {
+    return this.userSubject.asObservable();
   }
 
   public updateBallPosition(userId: any) {
