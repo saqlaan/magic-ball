@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    required: true
+    required: false
   },
   city: {
     type: String,
@@ -59,6 +59,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  organization: {
+    type: String,
+    required: false
+  }
 });
 
 // UserSchema.pre('save', async function (next) {

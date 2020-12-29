@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Game} from '@app/shared/interfaces/game/game.interface';
 import {Player} from '@app/shared/interfaces/player/player.interface';
+import {PlayerName} from '@app/shared/interfaces/player/playername.interface'
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
@@ -122,6 +123,22 @@ export class GameService {
       playerName
     });
   }
+  public searchPlayer(
+    playerName: string,
+  ): Observable<PlayerName> {
+    const json = JSON.parse(<string>localStorage.getItem('user'));
+    const token = json.userToken;
+    const headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token
+    });
+    return this.http.post<PlayerName>('/api/user/search-player', {
+      playerName
+    }, {
+      headers: headers_object
+    });
+  }
+
 
 
 }

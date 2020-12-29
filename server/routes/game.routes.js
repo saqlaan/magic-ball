@@ -9,7 +9,7 @@ const {verifyToken} = require("../middleware/index.middleware");
 router.post('/addgame', asyncHandler(addgame));
 router.post('/searchgame/', asyncHandler(searchgame));
 router.post('/game-settings', verifyToken, asyncHandler(GameHandler.gameSettings));
-router.get('/get-game: {gameId}', verifyToken, asyncHandler(GameHandler.gameSettings));
+router.get('/get-game/:gameId',  asyncHandler(GameHandler.getGame));
 router.post('/add-player', asyncHandler(GameHandler.addPlayer));
 
 

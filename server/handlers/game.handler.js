@@ -4,11 +4,8 @@ const userCtrl = require('../controllers/user.controller');
 const gameCtrl = require("../controllers/game.controller");
 
 
-
-
 async function gameSettings(req, res) {
   let errors = [];
-
 
 
   if (errors.length === 0) {
@@ -25,21 +22,30 @@ async function gameSettings(req, res) {
   }
 
 }
-// async function getGame(req, res){
-//   let errors = [];
-//
-//   if (req.params.gameId === undefined || req.body.gameId === '') {
-//     errors.push("gameId is required");
-//   }
-//   if(errors.length === 0){
-//     let game = await gameCtrl.addUserInGame(req.body);
-//   }else{
-//     res.status(404).json ({
-//       message: 'game Not Found';
-//     });
-//   }
-//
-// }
+
+async function getGame(req, res) {
+  let errors = [];
+
+  if (req.params.gameId === undefined || req.params.gameId === '') {
+    errors.push("gameId is required");
+  }
+  if (errors.length === 0) {
+    let game = await gameCtrl.findGameById(req.params.gameId);
+    if (game) {
+      res.json(game);
+    } else {
+      res.status(404).json({
+        message: 'game not found'
+      });
+    }
+
+  } else {
+    res.status(404).json({
+      errors
+    });
+  }
+
+}
 
 async function addPlayer(req, res) {
 
@@ -66,5 +72,5 @@ async function addPlayer(req, res) {
 }
 
 module.exports = {
-   gameSettings, addPlayer
+  gameSettings, addPlayer, getGame
 }

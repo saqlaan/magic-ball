@@ -322,29 +322,32 @@ async function updatePassword(req, res) {
   }
 }
 
-async function searchPlayer(req, res){
+async function searchPlayer(req, res) {
   let errors = [];
 
   if (req.body.playerName === undefined || req.body.playerName === '') {
     errors.push("playerName is required");
   }
 
-  if(errors.length === 0){
-    console.log(req.body.playerName);
-      let player = await userCtrl.searchPlayer(req.body.playerName);
-      if(player){
-        res.json({player: player});
-      }else {
-        res.status(404).json({
-          message: 'player not found'
-        })
-      }
-  }else{
+  if (errors.length === 0) {
+    let player = await userCtrl.searchPlayer(req.body.playerName);
+    let playerId = {};
+    for (i = 0; i < player.length; i++) {
+      playerId[i+1] = {playerId: player[i]._id, playerFirstName: player[i].firstName};
+    }
+    if (player) {
+      res.json(playerId);
+    } else {
+      res.status(404).json({
+        message: 'player not found'
+      })
+    }
+  } else {
     res.status(404).json(errors);
   }
 }
 
 
 module.exports = {
-  signup, login, updateProfile, forgotPassword, resetPassword, getProfile, guestLogin, updatePassword,searchPlayer
+  signup, login, updateProfile, forgotPassword, resetPassword, getProfile, guestLogin, updatePassword, searchPlayer
 }

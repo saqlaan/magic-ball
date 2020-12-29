@@ -58,12 +58,19 @@ export class GamesettingsComponent implements OnInit {
       this.game.noOfRounds = this.gameSettingFomm.value.rounds;
       this.game.ballsPerRound = this.gameSettingFomm.value.balls;
       this.game.timePerSecond = this.gameSettingFomm.value.timePerRound;
-      this.gameService.gameSettings(this.game).subscribe((Game) => {
-        console.log(Game);
-        localStorage.setItem('gameCode', Game.gameCode);
-        this.router.navigate(['/waitingplayers']);
-      });
+      this.game.Player = {playerId, localStorage.getItem('playerId')};
+        this.gameService.gameSettings(this.game).subscribe((Game) => {
+          console.log(Game);
+          localStorage.setItem('gameCode', Game.gameCode);
+          this.router.navigate(['/waitingplayers']);
+        });
     }
+  }
+
+  searchPlayer() {
+    this.gameService.searchPlayer('usama').subscribe((playerName) => {
+      localStorage.setItem('playerId', playerName[1].playerId);
+    });
   }
 
 }
