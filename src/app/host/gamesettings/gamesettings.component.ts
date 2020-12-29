@@ -4,7 +4,9 @@ import {GameService} from '@app/shared/services/game/game.service';
 import {WebSocketService} from '@app/shared/services';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '@app/shared/services/user/user.service';
-
+import {object} from 'joi';
+import {DialogboxComponent} from '@app/host/dialogbox/dialogbox.component';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-gamesettings',
@@ -28,7 +30,8 @@ export class GamesettingsComponent implements OnInit {
     timePerRound: new FormControl('', [Validators.required]),
   });
 
-  constructor(private router: Router, private gameService: GameService, private ws: WebSocketService, private userService: UserService) {
+  constructor(private router: Router, private gameService: GameService, private ws: WebSocketService, private userService: UserService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -58,18 +61,21 @@ export class GamesettingsComponent implements OnInit {
       this.game.noOfRounds = this.gameSettingFomm.value.rounds;
       this.game.ballsPerRound = this.gameSettingFomm.value.balls;
       this.game.timePerSecond = this.gameSettingFomm.value.timePerRound;
-      this.game.Player = {playerId, localStorage.getItem('playerId')};
+      this.game.players = JSON.parse(localStorage.getItem('playerArray'));
         this.gameService.gameSettings(this.game).subscribe((Game) => {
-          console.log(Game);
           localStorage.setItem('gameCode', Game.gameCode);
           this.router.navigate(['/waitingplayers']);
         });
     }
   }
 
-  searchPlayer() {
-    this.gameService.searchPlayer('usama').subscribe((playerName) => {
-      localStorage.setItem('playerId', playerName[1].playerId);
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogboxComponent, {
+      width: '450px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 

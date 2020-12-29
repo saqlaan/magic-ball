@@ -331,12 +331,12 @@ async function searchPlayer(req, res) {
 
   if (errors.length === 0) {
     let player = await userCtrl.searchPlayer(req.body.playerName);
-    let playerId = {};
-    for (i = 0; i < player.length; i++) {
-      playerId[i+1] = {playerId: player[i]._id, playerFirstName: player[i].firstName};
-    }
+    // let playerId = {};
+    // for (i = 0; i < player.length; i++) {
+    //   playerId[i+1] = {playerId: player[i]._id, playerFirstName: player[i].firstName};
+    // }
     if (player) {
-      res.json(playerId);
+      res.json(player);
     } else {
       res.status(404).json({
         message: 'player not found'

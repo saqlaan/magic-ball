@@ -66,8 +66,11 @@ async function oldPassword(Password) {
 }
 
 async function searchPlayer(playerName) {
+
     let firstName = playerName;
-    return User.find({firstName:  { $regex: firstName} });
+    return User.find({firstName:  { $regex: firstName}}, {
+      firstName: 1
+    });
 }
 
 module.exports = {
