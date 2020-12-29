@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    required: true
+    required: false
   },
   city: {
     type: String,
