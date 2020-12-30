@@ -6,7 +6,7 @@
   </mat-form-field>
   <ul class="list-group">
     <li *ngFor="let player of players" class="list-group-item">
-      <button mat-button (click)="addplayer(player)">{{player}}</button>
+      <button mat-button (click)="addplayer(player)">{{player.firstName}}</button>
     </li>
   </ul>
   <ul class="list-group">
@@ -17,6 +17,6 @@
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button (click)="searchPlayer()" mat-button mat-dialog-close>Cancel</button>
+  <button  mat-button mat-dialog-close>Cancel</button>
   <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Add</button>
 </mat-dialog-actions>

@@ -1,4 +1,4 @@
-import {Component, OnInit,  Input} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {GameService} from '@app/shared/services/game/game.service';
 import {DataService} from '@app/shared/services/data.service';
 import {GamesettingsComponent} from '@app/host/gamesettings/gamesettings.component';
@@ -10,9 +10,8 @@ import {GamesettingsComponent} from '@app/host/gamesettings/gamesettings.compone
 })
 export class DialogboxComponent implements OnInit {
   text = '';
-  players: any [] = [];
+  players: any[] = [];
   playerAdded: any [] = [];
-  counter: any = 0;
 
   constructor(private gameService: GameService, private dataService: DataService) {
   }
@@ -22,16 +21,14 @@ export class DialogboxComponent implements OnInit {
 
   searchPlayer(text: any) {
     this.text = text.target.value;
-    this.gameService.searchPlayer(this.text).subscribe((playerName) => {
-      for (let i = 1; i < Object.keys(playerName).length; i++) {
-        this.players.push(playerName[i]._id);
-      }
+    this.gameService.searchPlayer(this.text).subscribe(players => {
+      this.players = players as any[];
     });
   }
 
   addplayer(player: any) {
-    this.playerAdded.push(player);
-    this.dataService.setData(player);
+    this.playerAdded.push(player.firstName);
+    this.dataService.setData(player._id);
   }
 
 
