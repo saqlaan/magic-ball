@@ -36,9 +36,9 @@ export class LoginComponent implements OnInit {
         'userId': User._id
       };
       localStorage.setItem('user', JSON.stringify(user));
-      this.toast.success('you are logged in successfully', 'LoginIn',  {
-        titleClass: "center",
-        messageClass: "center"
+      this.toast.success('you are logged in successfully', 'LoginIn', {
+        titleClass: 'center',
+        messageClass: 'center'
       });
       this.ws.init(User._id);
       this.router.navigate(['hostdashboard']);

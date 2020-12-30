@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const userCtrl = require('../controllers/user.controller');
 const gameCtrl = require("../controllers/game.controller");
+const socket = require('../socket');
 
 async function gameSettings(req, res) {
   let errors = [];
@@ -29,6 +30,7 @@ async function getGameByCode(req, res) {
   if (errors.length === 0) {
     let game = await gameCtrl.findGameByCode(req.params.gameCode);
     if (game) {
+      console.log(socket);
       res.json(game);
     } else {
       res.status(404).json({
@@ -57,6 +59,29 @@ async function joinGame(req, res) {
   if (errors.length === 0) {
     let game = await gameCtrl.addUserInGame(req.body);
     if (game) {
+      // to all player and host of the game
+      console.log(socket);
+      socket.testSend()
+      return res.json(game);
+    } else {
+      res.status(404).json({
+        message: "Game not Found",
+      })
+    }
+  } else {
+    res.status(404).json(errors);
+  }
+}
+
+async function startGame(req, res) {
+  let errors = [];
+  if (req.body.gameId === undefined || req.body.gameId === '') {
+    errors.push("gameId is required");
+  }
+  if (errors.length === 0) {
+    console.log(req.body);
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
       return res.json(game);
     } else {
       res.status(404).json({
@@ -69,5 +94,5 @@ async function joinGame(req, res) {
 }
 
 module.exports = {
-  gameSettings, joinGame, getGameByCode
+  gameSettings, joinGame, getGameByCode, startGame
 }
