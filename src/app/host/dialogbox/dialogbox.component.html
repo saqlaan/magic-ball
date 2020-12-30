@@ -2,16 +2,16 @@
 <mat-dialog-content class="mat-typography">
   <mat-form-field>
     <mat-label>Enter player name{{text}}</mat-label>
-    <input matInput type="text" (keyup)="sendit($event)" formControlName="groupSize">
+    <input matInput type="text" (keyup)="searchPlayer($event)" formControlName="groupSize">
   </mat-form-field>
   <ul class="list-group">
-    <li *ngFor="let player of player" class="list-group-item">
+    <li *ngFor="let player of players" class="list-group-item">
       <button mat-button (click)="addplayer(player)">{{player}}</button>
     </li>
   </ul>
   <ul class="list-group">
-    <li *ngFor="let playeradded of playeradded" class="list-group-item">
-      {{playeradded}}
+    <li *ngFor="let player of playerAdded" class="list-group-item">
+      {{player}}
     </li>
   </ul>
 

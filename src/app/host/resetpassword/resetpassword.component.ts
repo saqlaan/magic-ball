@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {UserService} from '@app/shared/services/user/user.service';
 import {WebSocketService} from '@app/shared/services';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-resetpassword',
@@ -17,7 +18,7 @@ export class ResetpasswordComponent implements OnInit {
     confirmPassword: new FormControl('', [Validators.required, this.passwordMatcher.bind(this)])
   });
 
-  constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
+  constructor(private router: Router, private userService: UserService, private ws: WebSocketService, private toast: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -31,8 +32,11 @@ export class ResetpasswordComponent implements OnInit {
     console.log(this.resetToken);
     const password = this.resetPasswordForm.value.newPassword;
     this.userService.resetPassword(password, this.resetToken).subscribe((token) => {
-      console.log(token.message);
-      this.router.navigate(['']);
+      this.toast.success(token.message, 'Password  reset!',  {
+        titleClass: "center",
+        messageClass: "center"
+      });
+      this.router.navigate(['/hostlogin']);
     });
   }
 

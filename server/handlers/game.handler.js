@@ -3,11 +3,8 @@ const jwt = require('jsonwebtoken');
 const userCtrl = require('../controllers/user.controller');
 const gameCtrl = require("../controllers/game.controller");
 
-
 async function gameSettings(req, res) {
   let errors = [];
-
-
   if (errors.length === 0) {
     let game = await gameCtrl.insert(req.body);
     if (game) {
@@ -23,14 +20,14 @@ async function gameSettings(req, res) {
 
 }
 
-async function getGame(req, res) {
+async function getGameByCode(req, res) {
   let errors = [];
 
-  if (req.params.gameId === undefined || req.params.gameId === '') {
+  if (req.params.gameCode === undefined || req.params.gameCode === '') {
     errors.push("gameId is required");
   }
   if (errors.length === 0) {
-    let game = await gameCtrl.findGameById(req.params.gameId);
+    let game = await gameCtrl.findGameByCode(req.params.gameCode);
     if (game) {
       res.json(game);
     } else {
@@ -47,7 +44,7 @@ async function getGame(req, res) {
 
 }
 
-async function addPlayer(req, res) {
+async function joinGame(req, res) {
 
   let errors = [];
   if (req.body.gameCode === undefined || req.body.gameCode === '') {
@@ -72,5 +69,5 @@ async function addPlayer(req, res) {
 }
 
 module.exports = {
-  gameSettings, addPlayer, getGame
+  gameSettings, joinGame, getGameByCode
 }

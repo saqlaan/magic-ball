@@ -65,9 +65,7 @@ async function oldPassword(Password) {
     return User.findOne({password: password});
 }
 
-async function searchPlayer(playerName) {
-
-    let firstName = playerName;
+async function searchPlayer(firstName) {
     return User.find({firstName:  { $regex: firstName}}, {
       firstName: 1
     });

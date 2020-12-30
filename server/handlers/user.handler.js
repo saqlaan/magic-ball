@@ -121,7 +121,7 @@ async function updateProfile(req, res) {
     let user = await userCtrl.updateUser(req.body, req.user.id);
     if (user) {
       res.json({
-        message: 'User Updated Successfully'
+        message: 'Profile Updated Successfully'
       });
     } else {
       res.status(404).json({
@@ -156,7 +156,7 @@ async function forgotPassword(req, res) {
         service: 'gmail',
         auth: {
           user: 'usamaijazksr@gmail.com',
-          pass: 'usama.1234'
+          pass: 'usama.0900'
         }
       });
 
@@ -206,11 +206,11 @@ async function resetPassword(req, res) {
     let user = await userCtrl.resetPassword(req.body.resetPasswordToken, req.body.password);
     if (user) {
       res.json({
-        message: "user is updated",
+        message: "Password is updated",
       })
     } else {
       res.json({
-        message: "user not updated",
+        message: "password not updated",
       })
     }
   } else {
@@ -295,16 +295,16 @@ async function updatePassword(req, res) {
           let user = await userCtrl.updatePassword(req.body.newPassword, req.user.id);
           if (user) {
             res.json({
-              message: 'User Updated Successfully'
+              message: 'Password Updated Successfully'
             });
           } else {
             res.status(404).json({
-              message: ' User not Updated Successfully'
+              message: ' Password is not Updated Successfully'
             })
           }
         } else {
           res.status(400).json({
-            message: 'passsword not correct',
+            message: 'currentPasssword is not correct',
           })
         }
       })
@@ -331,10 +331,6 @@ async function searchPlayer(req, res) {
 
   if (errors.length === 0) {
     let player = await userCtrl.searchPlayer(req.body.playerName);
-    // let playerId = {};
-    // for (i = 0; i < player.length; i++) {
-    //   playerId[i+1] = {playerId: player[i]._id, playerFirstName: player[i].firstName};
-    // }
     if (player) {
       res.json(player);
     } else {

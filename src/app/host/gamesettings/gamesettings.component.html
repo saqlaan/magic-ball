@@ -108,7 +108,7 @@
     <div fxLayoutAlign="center">
       <div class="save" fxLayout="row">
         <button class="end" mat-raised-button>End</button>
-        <button (click)="gameSettings()" class="publish" mat-raised-button>Publish</button>
+        <button (click)="gameSettings()" class="publish" [disabled]="!gameSettingFomm.valid" mat-raised-button>Publish</button>
         <button (click)="openDialog()" class="search" mat-raised-button>Search for players by user name and add</button>
       </div>
     </div>
