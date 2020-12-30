@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Search Player</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field>
+    <mat-label>Enter player name{{text}}</mat-label>
+    <input matInput type="text" (keyup)="searchPlayer($event)" formControlName="groupSize">
+  </mat-form-field>
+  <ul class="list-group">
+    <li *ngFor="let player of players" class="list-group-item">
+      <button mat-button (click)="addplayer(player)">{{player.firstName}}</button>
+    </li>
+  </ul>
+  <ul class="list-group">
+    <li *ngFor="let player of playerAdded" class="list-group-item">
+      {{player}}
+    </li>
+  </ul>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button  mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Add</button>
+</mat-dialog-actions>

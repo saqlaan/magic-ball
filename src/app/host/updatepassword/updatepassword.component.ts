@@ -31,7 +31,7 @@ export class UpdatepasswordComponent implements OnInit {
     this.user.oldPassword = this.updatePasswordForm.value.currentPassword;
     this.userService.updatePassword(this.user).subscribe((message) => {
       this.updatePasswordForm.reset();
-        this.toast.success(message.message, 'Toastr fun!',  {
+        this.toast.success(message.message, 'Password Updation!',  {
           titleClass: "center",
           messageClass: "center"
         });

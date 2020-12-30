@@ -59,6 +59,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  organization: {
+    type: String,
+    required: false
+  }
 });
 
 // UserSchema.pre('save', async function (next) {

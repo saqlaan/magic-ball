@@ -5,6 +5,7 @@ import {UserService} from '@app/shared/services/user/user.service';
 import {WebSocketService} from '@app/shared/services';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import jwt_decode from 'jwt-decode';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-updateprofile',
@@ -22,7 +23,7 @@ export class UpdateprofileComponent implements OnInit {
     occupation: new FormControl('', [Validators.required]),
   });
 
-  constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
+  constructor(private router: Router, private userService: UserService, private ws: WebSocketService, private toast: ToastrService) {
   }
 
 
@@ -47,7 +48,10 @@ export class UpdateprofileComponent implements OnInit {
     this.user.city = this.updateUserForm.value.city;
     this.user.occupation = this.updateUserForm.value.occupation;
     this.userService.updateUser(this.user).subscribe((message) => {
-      localStorage.setItem('message', message.message);
+      this.toast.success(message.message, 'Profile Update!',  {
+        titleClass: "center",
+        messageClass: "center"
+      });
       this.router.navigate(['/hostupdateprofile']);
     });
   }

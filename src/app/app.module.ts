@@ -30,6 +30,7 @@ import { WaitingplayersComponent } from './host/waitingplayers/waitingplayers.co
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UpdatepasswordComponent } from './host/updatepassword/updatepassword.component';
 import { ToastrModule } from 'ngx-toastr';
+import { DialogboxComponent } from './host/dialogbox/dialogbox.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,7 @@ import { ToastrModule } from 'ngx-toastr';
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
-    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent],
+    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent, DialogboxComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

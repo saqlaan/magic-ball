@@ -66,7 +66,7 @@
     </div>
   </form>
   <div fxLayout="column" fxFlex="50" fxLayoutAlign="left center">
-    <button (click)="updateUser()" class="log" mat-raised-button>Submit</button>
+    <button (click)="updateUser()" [disabled]="!updateUserForm.valid" class="log" mat-raised-button>Submit</button>
   </div>
   <div fxLayout="column" fxFlex="50" fxLayoutAlign="right end">
     <button class="delete" mat-raised-button>Delete Profile</button>
