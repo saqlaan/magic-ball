@@ -140,10 +140,11 @@ const socket = {
       socket.clients[key].client.client.send("hello");
     })
   },
-  messageSend: (users, message) => {
+
+  sendMessage: (users, {method,data}) => {
     users.forEach(element => {
       if (socket.clients[element] !== undefined) {
-        socket.clients[element].client.client.send(message);
+        socket.clients[element].client.client.send(JSON.stringify({method,data}));
       }
     });
   }
