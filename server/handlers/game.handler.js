@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const userCtrl = require('../controllers/user.controller');
 const gameCtrl = require("../controllers/game.controller");
 const socket = require('../socket');
-
+const Round = require('../models/round.model')
 async function gameSettings(req, res) {
   let errors = [];
   if (errors.length === 0) {
@@ -70,12 +70,12 @@ async function joinGame(req, res) {
           let game = await gameCtrl.addUserInGame(req.body);
           if (game) {
             game.players.pop(req.body.playerId);
-            socket.messageSend([...game.players, game.hostId], "playerAdded");
+            socket.messageSend([...game.players, game.hostId], {method: 'playerAdded',data: null});
             game.players.push(req.body.playerId);
             return res.json(game);
           } else {
             res.status(404).json({
-              message: "Game not Found",
+              message: "User not added",
             })
           }
         } else {
@@ -98,6 +98,43 @@ async function joinGame(req, res) {
   }
 }
 
+async function startGame(req, res) {
+  let errors = [];
+  if (req.body.gameId === undefined || req.body.gameId === '') {
+    errors.push("gameId is required");
+  }
+  if (errors.length === 0) {
+    let round = {
+      status: "plan",
+      ballsEstimate: 0,
+      batchFlow: 0,
+      BallsArrangement: [[]],
+      ballsMade: 0,
+      ballStatus: 0,
+      wastedBall: 0,
+    }
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
+      let startGame = await gameCtrl.updateGameStart(game._id, round);
+      if (startGame) {
+          socket.sendMessage([...startGame.players, startGame.hostId], {method: 'planStarted',data: null});
+          res.json(startGame);
+      } else {
+          res.status(404).json({
+          message: "Game is not Started",
+        })
+      }
+    } else {
+      res.status(404).json({
+        message: "Game not Found",
+      })
+    }
+  } else {
+    res.status(404).json(errors);
+  }
+}
+
+
 module.exports = {
-  gameSettings, joinGame, getGameByCode,
+  gameSettings, joinGame, getGameByCode, startGame
 }
