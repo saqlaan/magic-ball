@@ -51,6 +51,7 @@ const socket = {
   },
   init: (client, data) => {
     let userData = data.data;
+    console.log(userData)
     socket.clients[userData.userId] = {
       client: {
         client: client
@@ -139,12 +140,12 @@ const socket = {
       socket.clients[key].client.client.send("hello");
     })
   },
-  messageSend: (players, message) => {
-    for (let index = 0; index < players.length; index++) {
-      if (socket.clients[players[index]] !== undefined) {
-        socket.clients[players[index]].client.client.send(message);
+  messageSend: (users, message) => {
+    users.forEach(element => {
+      if (socket.clients[element] !== undefined) {
+        socket.clients[element].client.client.send(message);
       }
-    }
+    });
   }
 }
 module.exports = SocketSingleton.getInstance().socket

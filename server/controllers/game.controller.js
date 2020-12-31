@@ -15,13 +15,8 @@ async function addUserInGame(player) {
     $push: {players: player.playerId}
   }, {new: true});
 }
-async function findGameById(id){
-  console.log(id)
-  return await Game.findByIdAndUpdate(id, {
-    "currentRound": 4,
-  }, {new: true})
-}
+
 
 module.exports = {
-  insert, addUserInGame, findGameByCode,findGameById
+  insert, addUserInGame, findGameByCode,
 }

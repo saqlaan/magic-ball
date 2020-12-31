@@ -7,18 +7,22 @@ const socket = require('../socket');
 async function gameSettings(req, res) {
   let errors = [];
   if (errors.length === 0) {
-    let game = await gameCtrl.insert(req.body);
-    if (game) {
-      res.status(200).json(game);
+    req.body.hostId = req.user.id;
+    if (req.body.players.length <= 5) {
+      let game = await gameCtrl.insert(req.body);
+      if (game) {
+        res.status(200).json(game);
+      } else {
+        res.status(404).json({
+          message: "Game is not added",
+        })
+      }
     } else {
-      res.status(404).json({
-        message: "Game is not added",
-      })
+      res.status(404).json({message: "players are full"});
     }
   } else {
     res.status(404).json(errors);
   }
-
 }
 
 async function getGameByCode(req, res) {
@@ -52,41 +56,42 @@ async function joinGame(req, res) {
   if (req.body.gameCode === undefined || req.body.gameCode === '') {
     errors.push("gameCode is required");
   }
-  if (req.body.playerId === undefined || req.body.groupSize === '') {
+  if (req.body.playerId === undefined || req.body.playerId === '') {
     errors.push("playerId is required");
   }
 
   if (errors.length === 0) {
-    let game = await gameCtrl.addUserInGame(req.body);
-    if (game) {
-      // to all player and host of the game
-      console.log(socket);
-      socket.testSend()
-      return res.json(game);
-    } else {
-      res.status(404).json({
-        message: "Game not Found",
-      })
-    }
-  } else {
-    res.status(404).json(errors);
-  }
-}
+    let code = await gameCtrl.findGameByCode(req.body.gameCode)
 
-async function startGame(req, res) {
-  let errors = [];
-  if (req.body.gameId === undefined || req.body.gameId === '') {
-    errors.push("gameId is required");
-  }
-  if (errors.length === 0) {
-    console.log(req.body);
-    let game = await gameCtrl.findGameById(req.body.gameId);
-    if (game) {
-      return res.json(game);
+    if (code) {
+      const found = code.players.includes(req.body.playerId);
+      if (found === false) {
+        if (code.players.length < code.maxPlayers && found === false) {
+          let game = await gameCtrl.addUserInGame(req.body);
+          if (game) {
+            game.players.pop(req.body.playerId);
+            socket.messageSend([...game.players, game.hostId], "playerAdded");
+            game.players.push(req.body.playerId);
+            return res.json(game);
+          } else {
+            res.status(404).json({
+              message: "Game not Found",
+            })
+          }
+        } else {
+          res.status(404).json({
+            message: 'players are full'
+          })
+        }
+      } else {
+        res.status(404).json({
+          message: 'you are already added'
+        })
+      }
     } else {
       res.status(404).json({
-        message: "Game not Found",
-      })
+        message: 'game not found'
+      });
     }
   } else {
     res.status(404).json(errors);
@@ -94,5 +99,5 @@ async function startGame(req, res) {
 }
 
 module.exports = {
-  gameSettings, joinGame, getGameByCode, startGame
+  gameSettings, joinGame, getGameByCode,
 }
