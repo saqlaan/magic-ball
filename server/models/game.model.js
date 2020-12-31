@@ -39,7 +39,8 @@ const GameSchema = new mongoose.Schema({
   players: [{
     type: Schema.ObjectId,
     ref: User,
-    unique: false
+    minItems: 0,
+    maxItems: 5
   }],
   ballsPerRound: {
     type: Number,
