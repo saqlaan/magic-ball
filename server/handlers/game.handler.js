@@ -4,11 +4,12 @@ const userCtrl = require('../controllers/user.controller');
 const gameCtrl = require("../controllers/game.controller");
 const socket = require('../socket');
 const Round = require('../models/round.model')
+
 async function gameSettings(req, res) {
   let errors = [];
   if (errors.length === 0) {
     req.body.hostId = req.user.id;
-    if (req.body.players.length <= 5) {
+    if (req.body.players.length <= req.body.maxPlayers) {
       let game = await gameCtrl.insert(req.body);
       if (game) {
         res.status(200).json(game);
@@ -70,7 +71,7 @@ async function joinGame(req, res) {
           let game = await gameCtrl.addUserInGame(req.body);
           if (game) {
             game.players.pop(req.body.playerId);
-            socket.messageSend([...game.players, game.hostId], {method: 'playerAdded',data: null});
+            socket.sendMessage([...game.players, game.hostId], {method: 'playerAdded', data: null});
             game.players.push(req.body.playerId);
             return res.json(game);
           } else {
@@ -117,10 +118,10 @@ async function startGame(req, res) {
     if (game) {
       let startGame = await gameCtrl.updateGameStart(game._id, round);
       if (startGame) {
-          socket.sendMessage([...startGame.players, startGame.hostId], {method: 'planStarted',data: null});
-          res.json(startGame);
+        socket.sendMessage([...startGame.players, startGame.hostId], {method: 'planStarted', data: null});
+        res.json(startGame);
       } else {
-          res.status(404).json({
+        res.status(404).json({
           message: "Game is not Started",
         })
       }
@@ -134,7 +135,52 @@ async function startGame(req, res) {
   }
 }
 
+async function addEstimate(req, res) {
+
+}
+
+async function addPlan(req, res) {
+  let errors = [];
+  if (req.body.gameId === undefined || req.body.gameId === '') {
+    errors.push("gameId is required");
+  }
+  if (req.body.arrangement === undefined || req.body.arrangement === '') {
+    errors.push("arrangement is required");
+  }
+  if (errors.length === 0) {
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
+      let updatedPlayers = [];
+      if (req.body.arrangement.length === game.players.length) {
+        req.body.arrangement.forEach(function (value, index) {
+          updatedPlayers[index] = game.players[value - 1];
+        });
+        let updateGame = await gameCtrl.updateGame(updatedPlayers, req.body.gameId);
+        if (updateGame) {
+          socket.sendMessage([...updateGame.players, updateGame.hostId], {method: 'planAdded', data: null});
+          res.json(updateGame);
+        } else {
+          res.status(404).json(
+            {message: 'game is not updated'}
+          )
+        }
+      } else {
+        res.status(404).json(
+          {message: 'the length of players are not correct'}
+        )
+      }
+    } else {
+      res.status(404).json({
+        message: "Game not Found",
+      })
+    }
+  } else {
+    res.status(404).json(errors)
+  }
+
+
+}
 
 module.exports = {
-  gameSettings, joinGame, getGameByCode, startGame
+  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan
 }
