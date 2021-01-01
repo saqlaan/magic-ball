@@ -136,7 +136,42 @@ async function startGame(req, res) {
 }
 
 async function addEstimate(req, res) {
+  let errors = [];
+  if (req.body.gameId === undefined || req.body.gameId === '') {
+    errors.push("gameId is required");
+  }
+  if (req.body.balls === undefined || req.body.balls === '') {
+    errors.push("balls is required");
+  }
+  if (req.body.archWizard === undefined || req.body.archWizard === '') {
+    errors.push("archWizard is required");
+  }
 
+  if (errors.length === 0) {
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
+      let round = {
+        ballsEstimate: req.body.balls
+      }
+        let updateGame = await gameCtrl.updateArch(req.body.gameId, req.body, round);
+        if(updateGame){
+          socket.sendMessage([...updateGame.players, updateGame.hostId], {method: 'estimateAdded', data: null});
+          res.json(updateGame);
+        }else{
+          res.status(404).json({
+            message: "Game is not updated"
+          })
+        }
+    } else {
+      res.status(404).json({
+        message: "Game is not found"
+      })
+    }
+  } else {
+    res.status(404).json({
+      errors
+    })
+  }
 }
 
 async function addPlan(req, res) {
@@ -181,6 +216,7 @@ async function addPlan(req, res) {
 
 }
 
+
 module.exports = {
-  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan
+  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan,
 }

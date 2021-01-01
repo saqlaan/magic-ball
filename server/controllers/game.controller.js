@@ -29,7 +29,14 @@ async function updateGame(players, gameId){
     players: players
     },{new:true})
 }
+async function updateArch(gameId, game, round){
+  console.log(round)
+  return Game.findByIdAndUpdate(gameId, {
+    rounds: round,
+    archWizard: game.archWizard
+  })
+}
 
 module.exports = {
-  insert, addUserInGame, findGameByCode,findGameById,updateGameStart,updateGame
+  insert, addUserInGame, findGameByCode,findGameById,updateGameStart,updateGame,updateArch
 }
