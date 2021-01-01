@@ -24,7 +24,12 @@ async function updateGameStart(id, rounds){
     $push: {rounds: rounds }
   }, {new:true});
 }
+async function updateGame(players, gameId){
+  return Game.findByIdAndUpdate( gameId, {
+    players: players
+    },{new:true})
+}
 
 module.exports = {
-  insert, addUserInGame, findGameByCode,findGameById,updateGameStart
+  insert, addUserInGame, findGameByCode,findGameById,updateGameStart,updateGame
 }

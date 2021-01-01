@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const {Delegate} = require('../models/delegate.model');
 
+
 const RoundSchema = new mongoose.Schema({
   status: {
     type: String,
@@ -8,27 +9,27 @@ const RoundSchema = new mongoose.Schema({
     required: false
   },
   ballsEstimate: {
-    type:Number,
+    type: Number,
     required: true,
   },
   batchFlow: {
-    type:Number,
+    type: Number,
     required: true,
   },
-  BallsArrangement:[ [{
-    type:Number,
+  ballsArrangement: [[{
+    type: Number,
     required: true,
-  } ]],
+  }]],
   ballsMade: {
-    type:Number,
+    type: Number,
     required: true,
   },
   ballStatus: {
-    type:Number,
+    type: Number,
     required: true,
   },
   wastedBalls: {
-    type:Number,
+    type: Number,
     required: true,
   },
 
