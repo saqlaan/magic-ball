@@ -28,11 +28,14 @@ const GameSchema = new mongoose.Schema({
     type: Boolean,
     required: false,
   },
-  noOfRounds:{
+  noOfRounds: {
     type: String,
     required: false,
   },
-  
+  archWizard: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
   players: [{
     type: Schema.ObjectId,
     ref: 'User',
