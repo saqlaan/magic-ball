@@ -150,12 +150,14 @@ async function addEstimate(req, res) {
   if (errors.length === 0) {
     let game = await gameCtrl.findGameById(req.body.gameId);
     if (game) {
+      let currentRound = game.currentRound - 1;
       let round = {
         ballsEstimate: req.body.balls
       }
-        let updateGame = await gameCtrl.updateArch(req.body.gameId, req.body, round);
+      const roundsId= game.rounds[currentRound]._id;
+        let updateGame = await gameCtrl.updateArch(req.body.gameId, req.body.archWizard, round, roundsId);
         if(updateGame){
-          socket.sendMessage([...updateGame.players, updateGame.hostId], {method: 'estimateAdded', data: null});
+          // socket.sendMessage([...updateGame.players, updateGame.hostId], {method: 'estimateAdded', data: null});
           res.json(updateGame);
         }else{
           res.status(404).json({
@@ -190,7 +192,7 @@ async function addPlan(req, res) {
         req.body.arrangement.forEach(function (value, index) {
           updatedPlayers[index] = game.players[value - 1];
         });
-        let updateGame = await gameCtrl.updateGame(updatedPlayers, req.body.gameId);
+        let updateGame = await gameCtrl.updatePlan(updatedPlayers, req.body.gameId);
         if (updateGame) {
           socket.sendMessage([...updateGame.players, updateGame.hostId], {method: 'planAdded', data: null});
           res.json(updateGame);
@@ -212,11 +214,49 @@ async function addPlan(req, res) {
   } else {
     res.status(404).json(errors)
   }
+}
+async function addReady(req, res){
+  let errors = [];
+  if (req.body.batchNumber === undefined || req.body.batchNumber === '') {
+    errors.push("batchNumber is required");
+  }
+  if (req.body.ballsArrangement === undefined || req.body.ballsArrangement === '') {
+    errors.push("ballsArrangement is required");
+  }
+  if (req.body.gameId === undefined || req.body.gameId === '') {
+    errors.push("gameId is required");
+  }
 
+  if (errors.length === 0) {
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
+      let currentRound = game.currentRound - 1;
+      let round = {
+        ballsArrangement: req.body.ballsArrangement,
+        batchFlow: req.body.batchNumber
+      }
+      const roundsId= game.rounds[currentRound]._id;
+
+      let updateGame = await gameCtrl.addReady(req.body.gameId,  round,roundsId);
+      if (updateGame) {
+        socket.sendMessage([...updateGame.players, updateGame.hostId], {method: 'readyadded', data: null});
+        res.json(updateGame);
+      } else {
+        res.status(404).json(
+          {message: 'game is not updated'}
+        )
+      }
+    } else {
+      res.status(404).json({
+        message: "Game not Found",
+      })
+    }
+  } else {
+    res.status(404).json(errors)
+  }
 
 }
 
-
 module.exports = {
-  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan,
+  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan,addReady
 }

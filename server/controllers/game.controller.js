@@ -24,19 +24,37 @@ async function updateGameStart(id, rounds){
     $push: {rounds: rounds }
   }, {new:true});
 }
-async function updateGame(players, gameId){
+async function updatePlan(players, gameId){
   return Game.findByIdAndUpdate( gameId, {
     players: players
     },{new:true})
 }
-async function updateArch(gameId, game, round){
-  console.log(round)
-  return Game.findByIdAndUpdate(gameId, {
-    rounds: round,
-    archWizard: game.archWizard
-  })
+async function updateArch(gameId, archWizard, round, roundsId){
+  return Game.findOneAndUpdate(
+    {_id:gameId, 'rounds._id': roundsId},
+    {
+      archWizard: archWizard,
+      $set:{
+        'rounds.$.ballsEstimate': round.ballsEstimate
+      }
+    },{
+      new:true
+    }
+    );
 }
-
+async function addReady(gameId,  round,roundsId){
+  return Game.findOneAndUpdate(
+    {_id:gameId, 'rounds._id': roundsId},
+    {
+      $set:{
+        'rounds.$.ballsArrangement': round.ballsArrangement,
+        'rounds.$.batchFlow': round.batchFlow
+      }
+    },{
+      new:true
+    }
+  );
+}
 module.exports = {
-  insert, addUserInGame, findGameByCode,findGameById,updateGameStart,updateGame,updateArch
+  insert, addUserInGame, findGameByCode,findGameById,updateGameStart,updatePlan,updateArch,addReady
 }
