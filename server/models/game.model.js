@@ -5,7 +5,7 @@ const {v4: uuidv4} = require('uuid');
 const {customAlphabet} = require('nanoid');
 const nanoid = customAlphabet('1234567890abcdef', 4);
 const {User} = require('../models/user.model')
-const {Round} = require('../models/round.model')
+const Round = require('../models/round.model')
 const GameSchema = new mongoose.Schema({
   groupName: {
     type: String,
@@ -19,11 +19,7 @@ const GameSchema = new mongoose.Schema({
     type: String,
     default: () => nanoid()
   },
-  rounds: [{
-    type: Schema.ObjectId,
-    ref: Round,
-    unique: false
-  }],
+  rounds: [Round],
   access_toolbox: {
     type: Boolean,
     required: false,
@@ -32,15 +28,19 @@ const GameSchema = new mongoose.Schema({
     type: Boolean,
     required: false,
   },
-  noOfRounds:{
+  noOfRounds: {
     type: String,
     required: false,
   },
+  archWizard: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
   players: [{
-    type: Schema.ObjectId,
-    ref: User,
-    unique: false
-  }],
+    _id: false,
+    id: {type: Schema.ObjectId, ref: 'User'},
+    incrementalId: {type: String}
+}],
   ballsPerRound: {
     type: Number,
     required: false,
@@ -50,7 +50,7 @@ const GameSchema = new mongoose.Schema({
     required: false
   },
 
-  timePerSecond: {
+  timePerRound: {
     type: Number,
     required: false
   },
@@ -66,3 +66,4 @@ const GameSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Game', GameSchema);
+
