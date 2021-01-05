@@ -27,14 +27,17 @@ export class WebSocketService {
         case   'playerAddedFailed':
           this.gameService.setMethodStatus('addPlayer', {status: false, msg: 'Failed! Game already started'});
           break;
-        case  'playerAdded':
-          this.gameService.addPlayers(data.payload.userId);
-          break;
+        // case  'playerAdded':
+        //   this.gameService.addPlayers(data.payload.userId);
+        //   break;
         case 'ballReceived':
           this.gameService.ballReceived();
           break;
         case 'ballPositionUpdated':
           this.gameService.updateBallPosition(data.payload.userId);
+          break;
+        case 'playerAdded':
+          this.gameService.playerAdded(data);
           break;
         case 'gameStarted':
           this.gameService.updateBallPosition(data.payload.userId);

@@ -17,6 +17,7 @@ import {GamesettingsComponent} from '@app/host/gamesettings/gamesettings.compone
 import {WaitingplayersComponent} from '@app/host/waitingplayers/waitingplayers.component';
 import {UpdatepasswordComponent} from '@app/host/updatepassword/updatepassword.component';
 import { AuthGuard } from './shared/guards/auth.guard';
+import {AddplanComponent} from '@app/host/addplan/addplan.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,11 @@ const routes: Routes = [
   {
     path: 'searchgame',
     component: SearchgameComponent,
+  },
+  {
+    path: 'addplan',
+    component: AddplanComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'playerdashboard',

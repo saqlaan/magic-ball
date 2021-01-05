@@ -63,17 +63,26 @@ async function joinGame(req, res) {
 
   if (errors.length === 0) {
     let code = await gameCtrl.findGameByCode(req.body.gameCode)
-
     if (code) {
-      const found = code.players.includes(req.body.playerId);
+      // const found = code.players.includes(req.body.playerId);
+      let found = false
+      for (let index = 0; index < code.players.length; index++) {
+        console.log(code.players[index].id);
+        console.log(req.body.playerId);
+        if (code.players[index].id === req.body.playerId) {
+          console.log(index);
+          found = true;
+          break;
+        }
+      }
+      console.log(found)
       if (found === false) {
         player = {
           id: req.body.playerId,
-          incrementalId: req.body.incrementalId
+          incrementalId: code.players.length + 1
         }
         if (code.players.length < code.maxPlayers && found === false) {
           let game = await gameCtrl.addUserInGame(player, req.body.gameCode);
-          console.log(game);
           if (game) {
             let result = game.players.map(x => (x.id));
             result.pop(req.body.playerId)
@@ -127,7 +136,7 @@ async function startGame(req, res) {
     if (game) {
       let startGame = await gameCtrl.updateGameStart(game._id, round);
       if (startGame) {
-        let result = game.players.map(x => (x.id));
+        let result = startGame.players.map(x => (x.id));
         socket.sendMessage([result, startGame.hostId], {method: 'planStarted', data: null});
         res.json(startGame);
       } else {
@@ -171,7 +180,7 @@ async function addEstimate(req, res) {
 
       let updateGame = await gameCtrl.updateArch(req.body.gameId, req.body.archWizard, round, roundsId);
       if (updateGame) {
-        let result = game.players.map(x => (x.id));
+        let result = updateGame.players.map(x => (x.id));
         socket.sendMessage([result, updateGame.hostId], {method: 'estimateAdded', data: null});
         res.json(updateGame);
       } else {
@@ -199,39 +208,31 @@ async function addPlan(req, res) {
   if (req.body.arrangement === undefined || req.body.arrangement === '') {
     errors.push("arrangement is required");
   }
+  console.log(req.body.arrangement);
   if (errors.length === 0) {
     let game = await gameCtrl.findGameById(req.body.gameId);
     if (game) {
       let date = new Date();
       let time = date.getTime() + 120000;
       let currentRound = game.currentRound - 1;
-      let round = {
-        ballsEstimate: req.body.balls,
-        stepEndingTime: time
-      }
-      const roundsId = game.rounds[currentRound]._id;
+      console.log(game);
+      console.log(currentRound)
+      let roundTime = time;
 
-      let updatedPlayers = [];
-      if (req.body.arrangement.length === game.players.length) {
-        req.body.arrangement.forEach(function (value, index) {
-          updatedPlayers[index] = game.players[value - 1];
-        });
-        let updateGame = await gameCtrl.updatePlan(updatedPlayers, req.body.gameId, round, roundsId);
-        if (updateGame) {
-          console.log(updateGame, " ");
-          let result = game.players.map(x => (x.id));
-          socket.sendMessage([result, updateGame.hostId], {method: 'planAdded', data: null});
-          res.json(updateGame);
-        } else {
-          res.status(404).json(
-            {message: 'game is not updated'}
-          )
-        }
+      const roundsId = game.rounds[currentRound]._id;
+      let arrangement = req.body.arrangement.map(x => (x.inc_id));
+
+      let updateGame = await gameCtrl.updatePlan(arrangement, req.body.gameId, roundsId, roundTime);
+      if (updateGame) {
+        let result = updateGame.players.map(x => (x.id));
+        socket.sendMessage([result, updateGame.hostId], {method: 'planAdded', data: null});
+        res.json(updateGame);
       } else {
         res.status(404).json(
-          {message: 'the length of players are not correct'}
+          {message: 'game is not updated'}
         )
       }
+
     } else {
       res.status(404).json({
         message: "Game not Found",

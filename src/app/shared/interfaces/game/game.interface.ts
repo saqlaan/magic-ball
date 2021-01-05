@@ -1,11 +1,19 @@
 export interface Game {
-  players: any [];
+
   _id: string;
   groupName: number;
-  groupSize: number;
-  rounds: number;
-  balls: number;
   timePerRound: number;
-  status: boolean;
+  archWizard: string;
+  noOfRounds: number;
+  ballsPerRound: number;
+  totalScore: number;
+  maxPlayers: string;
+  players: any [];
+  access_toolbox: boolean;
+  save_metrics: boolean;
+  currentRound: number;
+  hostId: string;
   gameCode: string;
+  rounds: any [];
+
 }

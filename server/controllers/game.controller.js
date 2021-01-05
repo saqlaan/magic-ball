@@ -27,13 +27,15 @@ async function updateGameStart(id, rounds) {
   }, {new: true});
 }
 
-async function updatePlan(players, gameId, rounds, roundsId) {
+async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
+  console.log(arrangement)
+  console.log(roundsId);
   return Game.findOneAndUpdate(
     {_id: gameId, 'rounds._id': roundsId},
     {
-      players: players,
       $set: {
-        'rounds': rounds
+        'rounds.$.arrangement': arrangement,
+        'rounds.$.stepEndingTime': roundsTime
       }
     }, {
       new: true

@@ -46,11 +46,13 @@ const RoundSchema = new mongoose.Schema({
       enum: [1, 2, 3],
       required: true,
     },
-    ballMovement: {
-    }
+    ballMovement: {},
+    arrangement: [{
+      type: Number
+    }],
 
   })
 ;
 
 
-module.exports = mongoose.model('Round', RoundSchema);
+module.exports = RoundSchema;
