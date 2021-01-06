@@ -1,0 +1,66 @@
+.magic {
+  margin-left: 20px;
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 40px;
+}
+
+.estimate {
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+
+.para {
+  font-size: 50px;
+  font-family: Calibri;
+  text-align: center;
+}
+
+.team {
+  text-align: center;
+  font-family: Calibri;
+  font-size: 40px;
+  font-weight: bolder;
+}
+
+.Estimate {
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+.mat-form {
+  background-color: grey;
+  width: 50%;
+  height: 38px;
+  color: white;
+  border-radius: 5px;
+  border: 2px solid;
+  font-size: 20px;
+}
+.next{
+  background-color: #8fd14f;
+  color: white;
+  margin-top: 50px;
+  height: 50px;
+  font-size: 20px;
+  font-family: Calibri;
+  margin-bottom: 30px;
+}
+@media (min-width: 280px) and (max-width: 1024px) {
+  .magic {
+    display: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .para {
+    font-size: 25px;
+  }
+}
+
+@media (min-width: 280px) {
+  .para {
+    font-size: 20px;
+  }
+}

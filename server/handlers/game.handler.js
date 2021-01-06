@@ -208,35 +208,63 @@ async function addPlan(req, res) {
   if (req.body.arrangement === undefined || req.body.arrangement === '') {
     errors.push("arrangement is required");
   }
-  console.log(req.body.arrangement);
+  console.log(req.body.arrangement.length)
   if (errors.length === 0) {
-    let game = await gameCtrl.findGameById(req.body.gameId);
-    if (game) {
-      let date = new Date();
-      let time = date.getTime() + 120000;
-      let currentRound = game.currentRound - 1;
-      console.log(game);
-      console.log(currentRound)
-      let roundTime = time;
+    if (req.body.arrangement.length !== 0) {
+      console.log("if");
+      let game = await gameCtrl.findGameById(req.body.gameId);
+      if (game) {
+        let date = new Date();
+        let time = date.getTime() + 120000;
+        let currentRound = game.currentRound - 1;
+        let roundTime = time;
 
-      const roundsId = game.rounds[currentRound]._id;
-      let arrangement = req.body.arrangement.map(x => (x.inc_id));
+        const roundsId = game.rounds[currentRound]._id;
+        let arrangement = req.body.arrangement.map(x => (x.inc_id));
+        let updateGame = await gameCtrl.updatePlan(arrangement, req.body.gameId, roundsId, roundTime);
 
-      let updateGame = await gameCtrl.updatePlan(arrangement, req.body.gameId, roundsId, roundTime);
-      if (updateGame) {
-        let result = updateGame.players.map(x => (x.id));
-        socket.sendMessage([result, updateGame.hostId], {method: 'planAdded', data: null});
-        res.json(updateGame);
+        if (updateGame) {
+          let result = updateGame.players.map(x => (x.id));
+          socket.sendMessage([result, updateGame.hostId], {method: 'planAdded', data: null});
+          res.json(updateGame);
+        } else {
+          res.status(404).json(
+            {message: 'game is not updated'}
+          )
+        }
+
       } else {
-        res.status(404).json(
-          {message: 'game is not updated'}
-        )
+        res.status(404).json({
+          message: "Game not Found",
+        })
+      }
+    } else {
+      console.log("else")
+      debugger
+      let game = await gameCtrl.findGameById(req.body.gameId);
+      if (game) {
+        let date = new Date();
+        let time = date.getTime() + 120000;
+        let currentRound = game.currentRound - 1;
+        let roundTime = time;
+        const roundsId = game.rounds[currentRound]._id;
+        let updateGame = await gameCtrl.updateStepEndingTime(req.body.gameId, roundsId, roundTime);
+        if (updateGame) {
+          let result = updateGame.players.map(x => (x.id));
+          socket.sendMessage([result, updateGame.hostId], {method: 'planAdded', data: null});
+          res.json(updateGame);
+        } else {
+          res.status(404).json(
+            {message: 'game is not updated'}
+          )
+        }
+
+      } else {
+        res.status(404).json({
+          message: "Game not Found",
+        })
       }
 
-    } else {
-      res.status(404).json({
-        message: "Game not Found",
-      })
     }
   } else {
     res.status(404).json(errors)
@@ -245,9 +273,9 @@ async function addPlan(req, res) {
 
 async function addReady(req, res) {
   let errors = [];
-  if (req.body.batchNumber === undefined || req.body.batchNumber === '') {
-    errors.push("batchNumber is required");
-  }
+  // if (req.body.batchNumber === undefined || req.body.batchNumber === '') {
+  //   errors.push("batchNumber is required");
+  // }
   if (req.body.ballsArrangement === undefined || req.body.ballsArrangement === '') {
     errors.push("ballsArrangement is required");
   }
@@ -258,25 +286,44 @@ async function addReady(req, res) {
   if (errors.length === 0) {
     let game = await gameCtrl.findGameById(req.body.gameId);
     if (game) {
-      let currentRound = game.currentRound - 1;
-      let round = {
-        ballsArrangement: req.body.ballsArrangement,
-        batchFlow: req.body.batchNumber
-      }
-      const roundsId = game.rounds[currentRound]._id;
+      if (game.currentRound !== 1) {
+        console.log("if");
 
-      let updateGame = await gameCtrl.addReady(req.body.gameId, round, roundsId);
-      if (updateGame) {
-        console.log(updateGame)
+        let currentRound = game.currentRound - 1;
+        let round = {
+          ballsArrangement: req.body.ballsArrangement,
+          batchFlow: req.body.batchNumber
+        }
+        const roundsId = game.rounds[currentRound]._id;
 
-        let result = updateGame.players.map(x => ({id: x.id}));
-        console.log(result)
-        socket.sendMessage([result, updateGame.hostId], {method: 'readyadded', data: null});
-        res.json(updateGame);
+        let updateGame = await gameCtrl.addReady(req.body.gameId, round, roundsId);
+        if (updateGame) {
+          let result = updateGame.players.map(x => ({id: x.id}));
+          socket.sendMessage([result, updateGame.hostId], {method: 'readyadded', data: null});
+          res.json(updateGame);
+        } else {
+          res.status(404).json(
+            {message: 'game is not updated'}
+          )
+        }
       } else {
-        res.status(404).json(
-          {message: 'game is not updated'}
-        )
+        console.log("else")
+        let currentRound = game.currentRound - 1;
+        let round = {
+          ballsArrangement: req.body.ballsArrangement,
+        }
+        const roundsId = game.rounds[currentRound]._id;
+
+        let updateGame = await gameCtrl.addArrangement(req.body.gameId, round, roundsId);
+        if (updateGame) {
+          let result = updateGame.players.map(x => ({id: x.id}));
+          socket.sendMessage([result, updateGame.hostId], {method: 'readyadded', data: null});
+          res.json(updateGame);
+        } else {
+          res.status(404).json(
+            {message: 'game is not updated'}
+          )
+        }
       }
     } else {
       res.status(404).json({

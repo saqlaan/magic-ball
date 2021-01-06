@@ -18,6 +18,8 @@ import {WaitingplayersComponent} from '@app/host/waitingplayers/waitingplayers.c
 import {UpdatepasswordComponent} from '@app/host/updatepassword/updatepassword.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import {AddplanComponent} from '@app/host/addplan/addplan.component';
+import {AddestimateComponent} from '@app/host/addestimate/addestimate.component';
+import {AddreadyComponent} from '@app/host/addready/addready.component';
 
 const routes: Routes = [
   {
@@ -43,10 +45,22 @@ const routes: Routes = [
     component: AddplanComponent,
     canActivate: [AuthGuard],
   },
+
+  {
+    path: 'addready',
+    component: AddreadyComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'addestimate',
+    component: AddestimateComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'playerdashboard',
     component: PlayerdashboardComponent,
   },
+
   {
     path: 'gamedashboard',
     component: GamedashboardComponent,

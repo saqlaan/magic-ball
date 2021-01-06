@@ -157,21 +157,48 @@ export class GameService {
       headers: headers_object
     });
   }
+
   public startGame(
     gameId: string,
-  ):Observable<Game> {
+  ): Observable<Game> {
     return this.http.post<Game>('/api/game/start-game', {
       gameId
     });
   }
+
   public addPlan(
     gameId: string,
-    arrangement:any [],
-  ):Observable<Game> {
+    arrangement: any [],
+  ): Observable<Game> {
     return this.http.post<Game>('/api/game/add-plan', {
       gameId,
       arrangement
     });
   }
 
+
+  public addEstimate(
+    gameId: any,
+    balls: number,
+    archWizard: any,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/add-estimate', {
+      gameId,
+      balls,
+      archWizard
+    });
+  }
+
+
+  public addReady(
+    gameId: any,
+    ballsArrangement: any[],
+    batchNumber: any,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/add-ready', {
+      gameId,
+      ballsArrangement,
+      batchNumber
+    });
+  }
 }

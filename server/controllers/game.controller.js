@@ -43,6 +43,19 @@ async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
   );
 
 }
+async function updateStepEndingTime(gameId, roundsId, roundsTime) {
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    {
+      $set: {
+        'rounds.$.stepEndingTime': roundsTime
+      }
+    }, {
+      new: true
+    }
+  );
+
+}
 
 async function updateArch(gameId, archWizard, round, roundsId) {
   return Game.findOneAndUpdate(
@@ -71,7 +84,20 @@ async function addReady(gameId, round, roundsId) {
     }
   );
 }
+async function addArrangement(gameId, round, roundsId) {
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    {
+      $set: {
+        'rounds.$.ballsArrangement': round.ballsArrangement,
+      }
+    }, {
+      new: true
+    }
+  );
+}
+
 
 module.exports = {
-  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady
+  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,updateStepEndingTime,addArrangement
 }

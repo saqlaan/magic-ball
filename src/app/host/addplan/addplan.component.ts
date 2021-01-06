@@ -1,16 +1,25 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {GameService} from '@app/shared/services';
+import {Router} from '@angular/router';
+
 @Component(
-  { selector: 'app-addplan',
-  templateUrl: './addplan.component.html',
-  styleUrls: ['./addplan.component.css'] }
-  )
+  {
+    selector: 'app-addplan',
+    templateUrl: './addplan.component.html',
+    styleUrls: ['./addplan.component.css']
+  }
+)
 export class AddplanComponent implements AfterViewInit {
   @ViewChild('parentDiv') divView: any;
 
   list: any[] = [];
-  updateList : any[]= [];
+
+  updateList: any[] = [];
   div: any = 0;
+  currentTime: any;
+  minutes: any;
+  messageSuccess!: boolean;
+  time: any;
   gameCode!: string;
   gameId!: string;
   radius: any = 0;
@@ -21,22 +30,30 @@ export class AddplanComponent implements AfterViewInit {
   timekeeper: any = 5;
   swapped: any[] = [];
 
-  constructor(private gameService: GameService) {
-    this.div = 360 / this.list.length;
-    this.radius = 100;
+  constructor(private gameService: GameService, private  router: Router) {
 
   }
 
   ngAfterViewInit() {
-    this.updateList = this.list;
-    const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
-    const offsetToChildCenter = 20;
-    this.totalOffset = offsetToParentCenter - offsetToChildCenter;
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((Game) => {
-      this.list =Game.players.map((inc_id:any) => {(inc_id.incrementalId)});
-       console.log("list=>",this.list);
+      console.log(Game.currentRound);
+      this.time = Game.rounds[Game.currentRound-1].stepEndingTime;
+      let date = new Date();
+      this.currentTime = date.getTime();
+      this.currentTime = this.currentTime - this.time ;
+      this.updateList = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
+      this.list = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
       this.gameId = Game._id;
+      this.div = 360 / this.list.length;
+      this.radius = 100;
+      const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
+      const offsetToChildCenter = 20;
+      this.totalOffset = offsetToParentCenter - offsetToChildCenter;
+      this.messageSuccess = true;
+      // setTimeout(() => {
+      //   this.addplan();
+      // }, this.currentTime);
     });
   }
 
@@ -78,10 +95,16 @@ export class AddplanComponent implements AfterViewInit {
     }
     return null;
   }
-  addplan(){
-    if(this.list === this.updateList)
-    this.gameService.addPlan(this.gameId, this.list).subscribe((Game)=>{
-        console.log(Game);
-    });
+
+  addplan() {
+    if (JSON.stringify(this.list) !== JSON.stringify(this.updateList)) {
+      this.gameService.addPlan(this.gameId, this.list).subscribe((Game) => {
+        this.router.navigate(['/addestimate']);
+      });
+    } else {
+      this.gameService.addPlan(this.gameId, []).subscribe((Game) => {
+        this.router.navigate(['/addestimate']);
+      });
+    }
   }
 }

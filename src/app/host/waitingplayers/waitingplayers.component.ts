@@ -27,18 +27,22 @@ export class WaitingplayersComponent implements OnInit {
       this.totalPlayers = Game.maxPlayers;
       this.joinedPlayers = Game.players.length;
       this.gameId = Game._id;
-      if(this.totalPlayers === this.joinedPlayers){
-        this.gameService.startGame(this.gameId).subscribe((Game) => {
-          this.toast.success('Game is created successfully', 'Game Settings', {
-            titleClass: 'center',
-            messageClass: 'center'
-          });
-          this.router.navigate(['/addplan']);
-        });
-      }
+      // if(this.totalPlayers === this.joinedPlayers){
+      //   this.gameService.startGame(this.gameId).subscribe((Game) => {
+      //     this.toast.success('Game is created successfully', 'Game Settings', {
+      //       titleClass: 'center',
+      //       messageClass: 'center'
+      //     });
+      //     this.router.navigate(['/waitingplayers']);
+      //   });
+      // }
     });
   }
-
+  startGame(){
+    this.gameService.startGame(this.gameId).subscribe((Game)=>{
+      this.router.navigate(['/addplan']);
+    })
+}
 
 
 }
