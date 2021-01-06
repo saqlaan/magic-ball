@@ -10,51 +10,94 @@ async function findGameByCode(gameCode) {
   return Game.findOne({gameCode: gameCode});
 }
 
-async function addUserInGame(player) {
-  return Game.findOneAndUpdate({gameCode: player.gameCode}, {
-    $push: {players: player.playerId}
+async function addUserInGame(player, gameCode) {
+  return Game.findOneAndUpdate({gameCode: gameCode}, {
+    $push: {players: player}
   }, {new: true});
 }
-async function findGameById(id, rounds){
+
+async function findGameById(id, rounds) {
   return await Game.findById(id);
 }
-async function updateGameStart(id, rounds){
-  return  Game.findOneAndUpdate({_id: id},{
-      "currentRound": 1,
-    $push: {rounds: rounds }
-  }, {new:true});
+
+async function updateGameStart(id, rounds) {
+  return Game.findOneAndUpdate({_id: id}, {
+    "currentRound": 1,
+    $push: {rounds: rounds}
+  }, {new: true});
 }
-async function updatePlan(players, gameId){
-  return Game.findByIdAndUpdate( gameId, {
-    players: players
-    },{new:true})
-}
-async function updateArch(gameId, archWizard, round, roundsId){
+
+async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
+  console.log(arrangement)
+  console.log(roundsId);
   return Game.findOneAndUpdate(
-    {_id:gameId, 'rounds._id': roundsId},
+    {_id: gameId, 'rounds._id': roundsId},
+    {
+      $set: {
+        'rounds.$.arrangement': arrangement,
+        'rounds.$.stepEndingTime': roundsTime
+      }
+    }, {
+      new: true
+    }
+  );
+
+}
+async function updateStepEndingTime(gameId, roundsId, roundsTime) {
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    {
+      $set: {
+        'rounds.$.stepEndingTime': roundsTime
+      }
+    }, {
+      new: true
+    }
+  );
+
+}
+
+async function updateArch(gameId, archWizard, round, roundsId) {
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
     {
       archWizard: archWizard,
-      $set:{
+      $set: {
         'rounds.$.ballsEstimate': round.ballsEstimate
       }
-    },{
-      new:true
-    }
-    );
-}
-async function addReady(gameId,  round,roundsId){
-  return Game.findOneAndUpdate(
-    {_id:gameId, 'rounds._id': roundsId},
-    {
-      $set:{
-        'rounds.$.ballsArrangement': round.ballsArrangement,
-        'rounds.$.batchFlow': round.batchFlow
-      }
-    },{
-      new:true
+    }, {
+      new: true
     }
   );
 }
+
+async function addReady(gameId, round, roundsId) {
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    {
+      $set: {
+        'rounds.$.ballsArrangement': round.ballsArrangement,
+        'rounds.$.batchFlow': round.batchFlow
+      }
+    }, {
+      new: true
+    }
+  );
+}
+async function addArrangement(gameId, round, roundsId) {
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    {
+      $set: {
+        'rounds.$.ballsArrangement': round.ballsArrangement,
+      }
+    }, {
+      new: true
+    }
+  );
+}
+
+
 module.exports = {
-  insert, addUserInGame, findGameByCode,findGameById,updateGameStart,updatePlan,updateArch,addReady
+  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,updateStepEndingTime,addArrangement
 }

@@ -51,7 +51,6 @@ const socket = {
   },
   init: (client, data) => {
     let userData = data.data;
-    console.log(userData)
     socket.clients[userData.userId] = {
       client: {
         client: client
@@ -67,17 +66,17 @@ const socket = {
     client.send(JSON.stringify(payload));
   },
   // Alert everyone in the game that new user has added including host
-  playerAdded: (client, userId, name) => {
-    console.log('player added', userId);
-    const data = {
-      method: 'playerAdded',
-      payload: {
-        name: name,
-        userId: userId
-      }
-    };
-    client.send(JSON.stringify(data));
-  },
+  // playerAdded: (client, userId, name) => {
+  //   console.log('player added', userId);
+  //   const data = {
+  //     method: 'playerAdded',
+  //     payload: {
+  //       name: name,
+  //       userId: userId
+  //     }
+  //   };
+  //   client.send(JSON.stringify(data));
+  // },
   startGame: (gameCode) => {
     if (socket.games[gameCode].players.length !== 0) {
       socket.games[gameCode] = {...socket.games[gameCode], ['ballIndex']: 0}
@@ -135,7 +134,6 @@ const socket = {
     return null;
   },
   testSend: () => {
-    console.log(socket.clients);
     Object.keys(socket.clients).forEach((key) => {
       socket.clients[key].client.client.send("hello");
     })

@@ -31,13 +31,20 @@ sports_soccer
     </div>
   </div>
   <div fxLayoutAlign="end end">
-    <h1 class="statics">5/8</h1>
+    <h1 class="statics">{{joinedPlayers}}/{{totalPlayers}}</h1>
   </div>
   <div fxLayout="column">
     <div class="para" fxFlex="70" fxLayoutAlign="center center">
       waiting for <br> team to <br> join...
     </div>
   </div>
-
+  <div fxLayout="column">
+    <div fxLayoutAlign="center">
+      <div fxLayout="column" fxFlex="50" fxLayoutAlign="left center">
+        <button (click)="startGame()" class="publish" mat-raised-button>Start Game</button>
+      </div>
+    </div>
+  </div>
 </div>
+
 

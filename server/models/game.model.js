@@ -37,9 +37,10 @@ const GameSchema = new mongoose.Schema({
     ref: 'User'
   },
   players: [{
-    type: Schema.ObjectId,
-    ref: 'User',
-  }],
+    _id: false,
+    id: {type: Schema.ObjectId, ref: 'User'},
+    incrementalId: {type: String}
+}],
   ballsPerRound: {
     type: Number,
     required: false,
@@ -49,7 +50,7 @@ const GameSchema = new mongoose.Schema({
     required: false
   },
 
-  timePerSecond: {
+  timePerRound: {
     type: Number,
     required: false
   },
@@ -65,3 +66,4 @@ const GameSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Game', GameSchema);
+

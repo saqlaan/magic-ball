@@ -2,16 +2,19 @@ import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Game} from '@app/shared/interfaces/game/game.interface';
 import {Player} from '@app/shared/interfaces/player/player.interface';
-import {PlayerName} from '@app/shared/interfaces/player/playername.interface'
+import {PlayerName} from '@app/shared/interfaces/player/playername.interface';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
+  private counter: number;
+  private totalPlayerSubject = new Subject<any>();
   private hasBall: boolean;
   private playerSubject = new Subject<any>();
   private userSubject = new Subject<any>();
+  private gameSubject = new Subject<any>();
   private playersList: any = [];
   private usersList: any = [];
   private ballSubject = new Subject<any>();
@@ -20,12 +23,13 @@ export class GameService {
 
   constructor(private http: HttpClient) {
     this.hasBall = false;
+    this.counter = 0;
   }
 
-  public addPlayers(usersList: any) {
-    this.usersList.push({usersList: usersList,});
-    this.playerSubject.next(this.usersList);
-  }
+  // public addPlayers() {
+  //   this.counter = this.counter + 1;
+  //   this.totalPlayerSubject.next(this.counter);
+  // }
 
   public ballReceived() {
     this.hasBall = true;
@@ -52,19 +56,26 @@ export class GameService {
     return this.methodStatusSubject.asObservable();
   }
 
+  public playerAdded(userId: any) {
+    let gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
+
+  };
 
   public ballMoved() {
     this.hasBall = false;
-    this.ballSubject.next(this.hasBall);
+    this.ballSubject.next('usama');
+  }
+
+
+  public totalUsers() {
+    return this.totalPlayerSubject.asObservable();
   }
 
   public getBallStatus() {
     return this.ballSubject.asObservable();
   }
 
-  public getUsers() {
-    return this.userSubject.asObservable();
-  }
 
   public updateBallPosition(userId: any) {
     this.playersList = this.playersList.map((player: any) => {
@@ -82,7 +93,6 @@ export class GameService {
     status: string,
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/addgame', {
-
       status,
     });
 
@@ -115,6 +125,15 @@ export class GameService {
     });
   }
 
+  public getGame(
+    code: string,
+  ) {
+    this.http.get<Game>('/api/game/get-game/' + code).subscribe(res => {
+      this.gameSubject.next(res);
+    });
+    return this.gameSubject;
+  }
+
   public addplayer(
     playerName: string,
   ): Observable<Player> {
@@ -122,9 +141,10 @@ export class GameService {
       playerName
     });
   }
+
   public searchPlayer(
     playerName: string,
-  ){
+  ) {
     const json = JSON.parse(<string>localStorage.getItem('user'));
     const token = json.userToken;
     const headers_object = new HttpHeaders({
@@ -138,6 +158,47 @@ export class GameService {
     });
   }
 
+  public startGame(
+    gameId: string,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/start-game', {
+      gameId
+    });
+  }
+
+  public addPlan(
+    gameId: string,
+    arrangement: any [],
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/add-plan', {
+      gameId,
+      arrangement
+    });
+  }
 
 
+  public addEstimate(
+    gameId: any,
+    balls: number,
+    archWizard: any,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/add-estimate', {
+      gameId,
+      balls,
+      archWizard
+    });
+  }
+
+
+  public addReady(
+    gameId: any,
+    ballsArrangement: any[],
+    batchNumber: any,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/add-ready', {
+      gameId,
+      ballsArrangement,
+      batchNumber
+    });
+  }
 }

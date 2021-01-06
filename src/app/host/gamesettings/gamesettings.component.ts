@@ -21,6 +21,7 @@ export class GamesettingsComponent implements OnInit {
   players: any[] = [];
   userName: any;
   totalGames: any;
+  playerObject: any = [];
   highestScore: any;
   averageScore: any;
   message: any;
@@ -64,12 +65,20 @@ export class GamesettingsComponent implements OnInit {
   gameSettings() {
     {
       this.players = this.dataService.getData();
+      console.log("player =>",this.playerObject);
+      for (let counter = 0; counter < this.players.length; counter++) {
+        console.log(counter)
+        this.playerObject.push({
+          id: this.players[counter],
+          incrementalId: counter + 1
+        });
+      }
       this.game.groupName = this.gameSettingFomm.value.groupName;
       this.game.maxPlayers = this.gameSettingFomm.value.groupSize;
       this.game.noOfRounds = this.gameSettingFomm.value.rounds;
       this.game.ballsPerRound = this.gameSettingFomm.value.balls;
       this.game.timePerSecond = this.gameSettingFomm.value.timePerRound;
-      this.game.players = this.players;
+      this.game.players = this.playerObject;
 
       this.gameService.gameSettings(this.game).subscribe((Game) => {
         localStorage.setItem('gameCode', Game.gameCode);

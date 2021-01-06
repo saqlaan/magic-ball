@@ -332,8 +332,7 @@ async function searchPlayer(req, res) {
   if (errors.length === 0) {
     let player = await userCtrl.searchPlayer(req.body.playerName);
     if (player) {
-      res.json(
-         player);
+      res.json(player);
     } else {
       res.status(404).json({
         message: 'player not found'

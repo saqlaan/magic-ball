@@ -36,3 +36,12 @@
   font-weight: bolder;
   margin-right: 30px;
 }
+.publish{
+  background-color: #8fd14f;
+  color: white;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-left: 10px;
+  width: 30%;
+  height: 50px;
+}
