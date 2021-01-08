@@ -14,6 +14,7 @@ export class AddplanComponent implements AfterViewInit {
 
   list: any[] = [];
 
+  myTime: any;
   updateList: any[] = [];
   div: any = 0;
   currentTime: any;
@@ -30,6 +31,7 @@ export class AddplanComponent implements AfterViewInit {
   timekeeper: any = 5;
   swapped: any[] = [];
 
+
   constructor(private gameService: GameService, private  router: Router) {
 
   }
@@ -38,10 +40,10 @@ export class AddplanComponent implements AfterViewInit {
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((Game) => {
       console.log(Game.currentRound);
-      this.time = Game.rounds[Game.currentRound-1].stepEndingTime;
+      this.time = Game.rounds[Game.currentRound - 1].stepEndingTime;
       let date = new Date();
       this.currentTime = date.getTime();
-      this.currentTime = this.currentTime - this.time ;
+      this.currentTime = this.time - this.currentTime;
       this.updateList = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
       this.list = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
       this.gameId = Game._id;
@@ -51,9 +53,9 @@ export class AddplanComponent implements AfterViewInit {
       const offsetToChildCenter = 20;
       this.totalOffset = offsetToParentCenter - offsetToChildCenter;
       this.messageSuccess = true;
-      // setTimeout(() => {
-      //   this.addplan();
-      // }, this.currentTime);
+      setTimeout(() => {
+        this.addplan();
+      }, this.currentTime);
     });
   }
 

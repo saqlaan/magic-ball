@@ -50,6 +50,22 @@ const RoundSchema = new mongoose.Schema({
     arrangement: [{
       type: Number
     }],
+  greenPlayers: [{
+    type: String,
+    required: false,
+  }],
+  redPlayers: [{
+    type: String,
+    required: false,
+  }],
+  moved: [{
+    type: Number,
+    required: false,
+  }],
+  currentBallHolder: {
+      type:String,
+      required:false
+  }
 
   })
 ;

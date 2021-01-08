@@ -29,15 +29,6 @@
   font-weight: bolder;
 }
 
-.mat-form {
-  background-color: grey;
-  width: 50%;
-  height: 38px;
-  color: white;
-  border-radius: 5px;
-  border: 2px solid;
-  font-size: 20px;
-}
 .next{
   background-color: #8fd14f;
   color: white;
@@ -63,4 +54,15 @@
   .para {
     font-size: 20px;
   }
+}
+
+.mat-form {
+  background-color: grey;
+  width: 50%;
+  height: 38px;
+  color: white;
+  margin-left: 30px;
+  border-radius: 5px;
+  border: 2px solid;
+  font-size: 20px;
 }

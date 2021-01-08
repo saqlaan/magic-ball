@@ -71,13 +71,16 @@ async function updateArch(gameId, archWizard, round, roundsId) {
   );
 }
 
-async function addReady(gameId, round, roundsId) {
+async function addReady(gameId, roundId, {batchFlow, ballsArrangement, greenPlayers, redPlayers, currentBallHolder}) {
   return Game.findOneAndUpdate(
-    {_id: gameId, 'rounds._id': roundsId},
+    {_id: gameId, 'rounds._id': roundId},
     {
       $set: {
-        'rounds.$.ballsArrangement': round.ballsArrangement,
-        'rounds.$.batchFlow': round.batchFlow
+        'rounds.$.ballsArrangement': ballsArrangement,
+        'rounds.$.batchFlow': batchFlow,
+        'rounds.$.greenPlayers': greenPlayers,
+        'rounds.$.redPlayers': redPlayers,
+        'rounds.$.currentBallHolder': currentBallHolder,
       }
     }, {
       new: true
@@ -97,7 +100,21 @@ async function addArrangement(gameId, round, roundsId) {
   );
 }
 
+async  function ballMovement(redPlayers,greenPlayers, gameId, roundsId,currentBallHolder ){
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    {
+      $set: {
+        'rounds.$.greenPlayers': greenPlayers,
+        'rounds.$.redPlayers': redPlayers,
+        'rounds.$.currentBallHolder': currentBallHolder,
+      }
+    }, {
+      new: true
+    }
+  );
+}
 
 module.exports = {
-  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,updateStepEndingTime,addArrangement
+  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,updateStepEndingTime,addArrangement,ballMovement
 }
