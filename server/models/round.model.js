@@ -6,7 +6,7 @@ const ballMovement = require('./ballMovementModel')
 const RoundSchema = new mongoose.Schema({
     status: {
       type: String,
-      enum: ['plan', 'estimate', 'ready', 'planning', 'end'],
+      enum: ['plan', 'estimate', 'ready', 'planning', 'end', 'playing', 'halt'],
       required: false
     },
     ballsEstimate: {
@@ -59,7 +59,7 @@ const RoundSchema = new mongoose.Schema({
     required: false,
   }],
   moved: [{
-    type: Number,
+    type: String,
     required: false,
   }],
   currentBallHolder: {

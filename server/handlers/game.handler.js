@@ -1,3 +1,4 @@
+const {filterListWithList, isNeighbour} = require("../Utils");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const userCtrl = require('../controllers/user.controller');
@@ -294,7 +295,9 @@ async function addReady(req, res) {
         });
       if (updatedGame) {
         socket.sendMessage([...game.players.map(player => player.id), game.hostId], {method: 'readyadded', data: null});
-        res.send(game);
+        socket.sendMessage([updatedGame.rounds[updatedGame.currentRound - 1].currentBallHolder], {method: 'ballReceived', data: null});
+        socket.sendMessage([updatedGame.hostId], {method: 'ballMoved', data: null});
+        res.send(updatedGame);
       } else {
         res.status(400).send({
           message: "Error! Game not updated",
@@ -353,10 +356,22 @@ async function moveBall(req, res) {
   if (errors.length === 0) {
     let game = await gameCtrl.findGameById(req.body.gameId);
     if (game) {
-      const {greenList, redList, currentBallHolder} = getPlayerNextBallMovement(game, req.body.playerId);
-      let ballMovement = await gameCtrl.ballMovement(redList, greenList, game._id, game.rounds[game.currentRound - 1]._id, currentBallHolder)
-      if (ballMovement) {
-        res.json(ballMovement);
+      // If all players have been passed the ball the give the ball to arch
+      const {greenList, redList, currentBallHolder, movedList, status, ballsMade, ballsWasted} = getPlayerNextBallMovement(game, req.body.playerId);
+      let updatedGame = await gameCtrl.ballMovement(game._id, {
+        roundId: game.rounds[game.currentRound - 1]._id,
+        currentBallHolder,movedList, redList, greenList, ballsMade, ballsWasted, status
+    })
+      if (updatedGame) {
+        socket.sendMessage([currentBallHolder], {
+          method: 'ballReceived',
+          data: null
+        });
+        socket.sendMessage([updatedGame.hostId], {
+          method: 'ballMoved',
+          data: null
+        });
+        res.json(updatedGame);
       } else {
         res.status(404).json({
           message: "ballMovement",
@@ -373,11 +388,39 @@ async function moveBall(req, res) {
 }
 
 function getPlayerNextBallMovement(game, playerId) {
-  let players = game.players.map(player => player.id);
   let currentBallHolder = playerId;
-  let currentBallHolderIndex = players.indexOf((currentBallHolder));
+  let currentBallHolderIndex;
   let redList = [];
   let greenList = [];
+  let ballsMade = game.rounds[game.currentRound - 1].ballsMade;
+  let ballsWasted = game.rounds[game.currentRound - 1].ballsWasted;
+  let players = game.players.map(player => player.id);
+  let movedList = game.rounds[game.currentRound - 1].moved;
+
+  if(game.rounds[game.currentRound - 1].currentBallHolder != undefined){
+    // movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
+    if(currentBallHolder.toString() === game.archWizard.toString()){
+      movedList = [];
+      ballsMade +=game.rounds[game.currentRound - 1].batchFlow;
+      //  Add points to the
+    }else {
+      movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
+    }
+  }
+  //If path is completed
+  //Put the arch next and restart the cycle
+  if(movedList.length === (game.players.length - 1)){
+    if(!isNeighbour(game.players, currentBallHolder, game.archWizard)){
+      greenList.push(game.archWizard);
+      redList= [...movedList];
+      return {redList, greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
+    }else{
+      greenList = [];
+      redList = [...movedList]
+      return {redList, greenList, currentBallHolder, movedList, status:'halt', ballsMade, ballsWasted}
+    }
+  }
+  currentBallHolderIndex = players.indexOf((currentBallHolder))
   if (currentBallHolderIndex === 0) {
     redList.push(players[1], players[players.length - 1]);
   } else if (currentBallHolderIndex === players.length - 1) {
@@ -385,24 +428,9 @@ function getPlayerNextBallMovement(game, playerId) {
   } else {
     redList.push(players[currentBallHolderIndex + 1], players[currentBallHolderIndex - 1]);
   }
-  players.forEach((player) => {
-    if (currentBallHolder.toString() === player.toString()) {
-    } else if (redList.length === 1) {
-      if (player.toString() != redList[0].toString()) {
-      } else {
-        greenList.push(player)
-      }
-    } else if (redList.length === 2) {
-      if (player.toString() === redList[0].toString() || player.toString() === redList[1].toString()) {
-      } else {
-        greenList.push(player)
-      }
-    } else {
-      greenList.push(player);
-    }
-
-  })
-  return {redList, greenList, currentBallHolder};
+  redList = filterListWithList(redList,[...movedList, currentBallHolder]);
+  greenList = filterListWithList(players, [...redList,...movedList,currentBallHolder]);
+  return {redList:[...redList,...movedList], greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
 }
 
 module.exports = {

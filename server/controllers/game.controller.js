@@ -81,6 +81,9 @@ async function addReady(gameId, roundId, {batchFlow, ballsArrangement, greenPlay
         'rounds.$.greenPlayers': greenPlayers,
         'rounds.$.redPlayers': redPlayers,
         'rounds.$.currentBallHolder': currentBallHolder,
+        'rounds.$.ballsMade': 0,
+        'rounds.$.wastedBalls': 0,
+        'rounds.$.status': 'playing',
       }
     }, {
       new: true
@@ -100,14 +103,19 @@ async function addArrangement(gameId, round, roundsId) {
   );
 }
 
-async  function ballMovement(redPlayers,greenPlayers, gameId, roundsId,currentBallHolder ){
+async  function ballMovement(gameId, {roundId,redList, greenList, currentBallHolder, movedList, status, ballsMade, ballsWasted} ){
   return Game.findOneAndUpdate(
-    {_id: gameId, 'rounds._id': roundsId},
+    {_id: gameId, 'rounds._id': roundId},
     {
       $set: {
-        'rounds.$.greenPlayers': greenPlayers,
-        'rounds.$.redPlayers': redPlayers,
+        'rounds.$.greenPlayers': greenList,
+        'rounds.$.redPlayers': redList,
         'rounds.$.currentBallHolder': currentBallHolder,
+        'rounds.$.moved': movedList,
+        'rounds.$.status': status,
+        'rounds.$.ballsMade': ballsMade,
+        'rounds.$.ballsWasted': ballsWasted,
+
       }
     }, {
       new: true
