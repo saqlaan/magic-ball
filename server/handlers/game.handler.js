@@ -89,7 +89,7 @@ async function joinGame(req, res) {
             console.log("Usama", result);
             result.pop(req.body.playerId)
             console.log(result);
-            socket.sendMessage([result, game.hostId], {method: 'playerAdded', data: null});
+            socket.sendMessage([...result, game.hostId], {method: 'playerAdded', data: null});
             return res.json(game);
           } else {
             res.status(404).json({
@@ -140,7 +140,7 @@ async function startGame(req, res) {
       let startGame = await gameCtrl.updateGameStart(game._id, round);
       if (startGame) {
         let result = startGame.players.map(x => (x.id));
-        socket.sendMessage([result, startGame.hostId], {method: 'planStarted', data: null});
+        socket.sendMessage([...result, startGame.hostId], {method: 'planStarted', data: null});
         res.json(startGame);
       } else {
         res.status(404).json({
@@ -179,7 +179,7 @@ async function addEstimate(req, res) {
       let updateGame = await gameCtrl.updateArch(req.body.gameId, req.body.archWizard, round, roundsId);
       if (updateGame) {
         let result = updateGame.players.map(x => (x.id));
-        socket.sendMessage([result, updateGame.hostId], {method: 'estimateAdded', data: null});
+        socket.sendMessage([...result, updateGame.hostId], {method: 'estimateAdded', data: null});
         res.json(updateGame);
       } else {
         res.status(404).json({
@@ -206,7 +206,7 @@ async function addEstimate(req, res) {
         let updateGame = await gameCtrl.updateArch(req.body.gameId, null, round, roundsId);
         if (updateGame) {
           let result = updateGame.players.map(x => (x.id));
-          socket.sendMessage([result, updateGame.hostId], {method: 'estimateAdded', data: null});
+          socket.sendMessage([...result, updateGame.hostId], {method: 'estimateAdded', data: null});
           res.json(updateGame);
         } else {
           res.status(404).json({
@@ -250,7 +250,7 @@ async function addPlan(req, res) {
 
         if (updateGame) {
           let result = updateGame.players.map(x => (x.id));
-          socket.sendMessage([result, updateGame.hostId], {method: 'planAdded', data: null});
+          socket.sendMessage([...result, updateGame.hostId], {method: 'planAdded', data: null});
           res.json(updateGame);
         } else {
           res.status(404).json(
@@ -276,7 +276,7 @@ async function addPlan(req, res) {
         let updateGame = await gameCtrl.updateStepEndingTime(req.body.gameId, roundsId, roundTime);
         if (updateGame) {
           let result = updateGame.players.map(x => (x.id));
-          socket.sendMessage([result, updateGame.hostId], {method: 'planAdded', data: null});
+          socket.sendMessage([...result, updateGame.hostId], {method: 'planAdded', data: null});
           res.json(updateGame);
         } else {
           res.status(404).json(
