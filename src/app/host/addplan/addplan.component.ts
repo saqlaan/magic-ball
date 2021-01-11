@@ -53,9 +53,9 @@ export class AddplanComponent implements AfterViewInit {
       const offsetToChildCenter = 20;
       this.totalOffset = offsetToParentCenter - offsetToChildCenter;
       this.messageSuccess = true;
-      setTimeout(() => {
-        this.addplan();
-      }, this.currentTime);
+    //   setTimeout(() => {
+    //     this.addplan();
+    //   }, this.currentTime);
     });
   }
 

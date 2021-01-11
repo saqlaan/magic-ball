@@ -159,18 +159,13 @@ async function startGame(req, res) {
 async function addEstimate(req, res) {
   let errors = [];
   if (req.body.gameId === undefined || req.body.gameId === '') {
-    errors.push("gameId is required");
+    res.status(400).json({
+      message: "GameId is required",
+    })
   }
-  if (req.body.balls === undefined || req.body.balls === '') {
-    errors.push("balls is required");
-  }
-  if (req.body.archWizard === undefined || req.body.archWizard === '') {
-    errors.push("archWizard is required");
-  }
-
-  if (errors.length === 0) {
-    let game = await gameCtrl.findGameById(req.body.gameId);
-    if (game) {
+  let game = await gameCtrl.findGameById(req.body.gameId);
+  if (game) {
+    if (game.currentRound === 1) {
       let date = new Date();
       let time = date.getTime() + 120000;
       let currentRound = game.currentRound - 1;
@@ -191,15 +186,43 @@ async function addEstimate(req, res) {
         })
       }
     } else {
-      res.status(404).json({
-        message: "Game is not found"
-      })
+      if (req.body.balls === undefined || req.body.balls === '') {
+        errors.push("balls is required");
+      }
+      if (req.body.archWizard === undefined || req.body.archWizard === '') {
+        errors.push("archWizard is required");
+      }
+      if (errors.length === 0) {
+        let date = new Date();
+        let time = date.getTime() + 120000;
+        let currentRound = game.currentRound - 1;
+        let round = {
+          ballsEstimate: req.body.balls,
+          stepEndingTime: time
+        }
+        const roundsId = game.rounds[currentRound]._id;
+
+        let updateGame = await gameCtrl.updateArch(req.body.gameId, null, round, roundsId);
+        if (updateGame) {
+          let result = updateGame.players.map(x => (x.id));
+          socket.sendMessage([result, updateGame.hostId], {method: 'estimateAdded', data: null});
+          res.json(updateGame);
+        } else {
+          res.status(404).json({
+            message: "Game is not updated"
+          })
+        }
+      } else {
+        res.status(400).json(errors)
+      }
     }
   } else {
-    res.status(404).json({
-      errors
+    res.status(400).json({
+      message: "Game Not Found"
     })
   }
+
+
 }
 
 async function addPlan(req, res) {
@@ -210,7 +233,6 @@ async function addPlan(req, res) {
   if (req.body.arrangement === undefined || req.body.arrangement === '') {
     errors.push("arrangement is required");
   }
-  console.log(req.body.arrangement.length)
   if (errors.length === 0) {
     if (req.body.arrangement.length !== 0) {
       console.log("if");
@@ -282,6 +304,7 @@ async function addReady(req, res) {
   }
   let game = await gameCtrl.findGameById(req.body.gameId);
   if (game) {
+    console.log(game.archWizard)
     if (game.currentRound === 1) {
       const {greenList, redList, currentBallHolder} = getPlayerNextBallMovement(game, game.archWizard);
       let updatedGame = await gameCtrl.addReady(game._id, game.rounds[game.currentRound - 1]._id,
@@ -294,7 +317,7 @@ async function addReady(req, res) {
         });
       if (updatedGame) {
         socket.sendMessage([...game.players.map(player => player.id), game.hostId], {method: 'readyadded', data: null});
-        res.send(game);
+        res.send(updatedGame);
       } else {
         res.status(400).send({
           message: "Error! Game not updated",
