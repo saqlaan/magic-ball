@@ -11,19 +11,46 @@
       </div>
     </div>
   </div>
-  <div fxLayout="row" fxFlex="100">
+  <div fxLayout="row" fxFlex="100" >
     <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
       <p class="team">How many Fire <br> balls can the<br> team make</p>
     </div>
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" *ngIf="show">
+      <p class="team">Assigning any<br>roles?</p>
+    </div>
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >
+      <p class="team">Who is your Arch <br>Wizard</p>
+    </div>
   </div>
   <form class="example-form" [formGroup]="estimateForm">
-    <div fxLayout="row" fxLayoutAlign="center center">
+    <div fxLayout="row" fxFlex="100">
       <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">
         <p class="Estimate">Estimate:</p>
         <mat-form-field>
           <input formControlName="estimatedBalls" matbutton type="number" class="mat-form" min="1" max="30">
         </mat-form-field>
-
+      </div>
+      <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center" *ngIf="show">
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">
+            <p class="Estimate">Time Keeper:</p>
+            <mat-form-field>
+              <input formControlName="archWizard" matbutton type="number" class="mat-form" min="1" max="30">
+            </mat-form-field>
+          </div>
+          <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">
+            <p class="Estimate">Score Keeper:</p>
+            <mat-form-field>
+              <input formControlName="archWizard" matbutton type="number" class="mat-form" min="1" max="30">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">
+        <p class="Estimate">Fire By:</p>
+        <mat-form-field>
+          <input formControlName="archWizard" matbutton type="number" class="mat-form" min="1" max="30">
+        </mat-form-field>
       </div>
     </div>
   </form>
