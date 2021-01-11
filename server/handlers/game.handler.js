@@ -316,7 +316,7 @@ async function addReady(req, res) {
           currentBallHolder: currentBallHolder
         });
       if (updatedGame) {
-        socket.sendMessage([...game.players.map(player => player.id), game.hostId], {method: 'readyadded', data: null});
+        socket.sendMessage([...game.players.map(player => player.id), game.hostId], {method: 'readyAdded', data: null});
         res.send(updatedGame);
       } else {
         res.status(400).send({
@@ -343,7 +343,7 @@ async function addReady(req, res) {
           });
         if (updatedGame) {
           socket.sendMessage([...updatedGame.players.map(player => player.id), updatedGame.hostId], {
-            method: 'readyadded',
+            method: 'readyAdded',
             data: null
           });
           res.send(updatedGame);
