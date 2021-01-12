@@ -518,9 +518,9 @@ async function endRound(req, res) {
 
     let game = await gameCtrl.findGameById(req.body.gameId);
     if (game) {
-      let ballsMade = game.rounds[game.currentRound -1].ballsMade = game.totalScore;
-      let endRound = await gameCtrl.endRound(game._id,  game.currentRound +1,{
-        status: "finish", roundsId: game.rounds[game.currentRound - 1]._id, ballsMade: ballsMade});
+      let totalScore = game.rounds[game.currentRound -1].ballsMade + game.totalScore;
+      let endRound = await gameCtrl.endRound(game._id,  game.currentRound +1,totalScore,{
+        status: "finish", roundsId: game.rounds[game.currentRound - 1]._id});
       if (endRound) {
         res.json(endRound);
       } else {

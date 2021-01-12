@@ -27,17 +27,13 @@ async function updateGameStart(id, rounds) {
   }, {new: true});
 }
 
-async function endRound(gameId,currentRound, {status, roundsId,ballsMade}) {
-  console.log(ballsMade);
-  console.log(currentRound);
-  console.log(status);
-  console.log(roundsId);
+async function endRound(gameId,currentRound,totalScore, {status, roundsId}) {
   return Game.findOneAndUpdate(
     {_id: gameId, 'rounds._id': roundsId},
     { currentRound :currentRound,
+      totalScore: totalScore,
 
       $set: {
-        'rounds.$.ballsMade': ballsMade,
         'rounds.$.status': status
       }
     }, {
