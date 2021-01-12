@@ -8,11 +8,14 @@
 <div class="main-section" fxLayout="row">
   <div fxLayout="row" class="timer-side">
     <div class="">Timer</div>
-    <div class="timer-btn"><mat-icon>visibility</mat-icon></div>
+    <div class="timer-btn">
+      <mat-icon>visibility</mat-icon>
+    </div>
   </div>
-  <div  fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
+  <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
     <div id="parentdiv" #parentDiv>
-      <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 " [ngClass]="{'selected': isPlayerSelected(item)}"
+      <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 "
+           [ngClass]="{'selected': isPlayerSelected(item)}"
            *ngFor="let item of list; let i = index"
            style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
         <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
@@ -22,14 +25,17 @@
             <div class="counting-balls"></div>
           </div>
         </div>
-        <div *ngIf="timekeeper === i+1" class="timer"><mat-icon>timer</mat-icon></div>
+        <div *ngIf="timekeeper === i+1" class="timer">
+          <mat-icon>timer</mat-icon>
+        </div>
         <mat-icon *ngIf="icons && arch !== i+1">person</mat-icon>
         <span *ngIf="!icons && arch !== i+1" class="number">{{item.inc_id}}</span>
         <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/fire.svg">
       </div>
     </div>
     <div>
-      <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions</button>
+      <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions
+      </button>
     </div>
   </div>
   <!--Next Button-->

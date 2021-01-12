@@ -38,7 +38,7 @@ export class AddreadyComponent implements OnInit {
 
   addReady() {
     if (this.currentRound == 1) {
-      this.gameService.addReady(this.gameId, [[1, 2, 3, 4, 5]], '').subscribe((Game) => {
+      this.gameService.addReady(this.gameId, [null], '').subscribe((Game) => {
         this.router.navigate(['/addready']);
       });
     } else {

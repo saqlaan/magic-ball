@@ -318,7 +318,10 @@ async function addReady(req, res) {
         });
       if (updatedGame) {
         socket.sendMessage([...game.players.map(player => player.id), game.hostId], {method: 'readyAdded', data: null});
-        socket.sendMessage([updatedGame.rounds[updatedGame.currentRound - 1].currentBallHolder], {method: 'ballReceived', data: null});
+        socket.sendMessage([updatedGame.rounds[updatedGame.currentRound - 1].currentBallHolder], {
+          method: 'ballReceived',
+          data: null
+        });
         socket.sendMessage([updatedGame.hostId], {method: 'ballMoved', data: null});
         res.send(updatedGame);
       } else {
@@ -383,8 +386,8 @@ async function moveBall(req, res) {
       const {greenList, redList, currentBallHolder, movedList, status, ballsMade, ballsWasted} = getPlayerNextBallMovement(game, req.body.playerId);
       let updatedGame = await gameCtrl.ballMovement(game._id, {
         roundId: game.rounds[game.currentRound - 1]._id,
-        currentBallHolder,movedList, redList, greenList, ballsMade, ballsWasted, status
-    })
+        currentBallHolder, movedList, redList, greenList, ballsMade, ballsWasted, status
+      })
       if (updatedGame) {
         socket.sendMessage([currentBallHolder], {
           method: 'ballReceived',
@@ -420,27 +423,27 @@ function getPlayerNextBallMovement(game, playerId) {
   let players = game.players.map(player => player.id);
   let movedList = game.rounds[game.currentRound - 1].moved;
 
-  if(game.rounds[game.currentRound - 1].currentBallHolder != undefined){
+  if (game.rounds[game.currentRound - 1].currentBallHolder != undefined) {
     // movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
-    if(currentBallHolder.toString() === game.archWizard.toString()){
+    if (currentBallHolder.toString() === game.archWizard.toString()) {
       movedList = [];
-      ballsMade +=game.rounds[game.currentRound - 1].batchFlow;
+      ballsMade += game.rounds[game.currentRound - 1].batchFlow;
       //  Add points to the
-    }else {
+    } else {
       movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
     }
   }
   //If path is completed
   //Put the arch next and restart the cycle
-  if(movedList.length === (game.players.length - 1)){
-    if(!isNeighbour(game.players, currentBallHolder, game.archWizard)){
+  if (movedList.length === (game.players.length - 1)) {
+    if (!isNeighbour(game.players, currentBallHolder, game.archWizard)) {
       greenList.push(game.archWizard);
-      redList= [...movedList];
+      redList = [...movedList];
       return {redList, greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
-    }else{
+    } else {
       greenList = [];
       redList = [...movedList]
-      return {redList, greenList, currentBallHolder, movedList, status:'halt', ballsMade, ballsWasted}
+      return {redList, greenList, currentBallHolder, movedList, status: 'halt', ballsMade, ballsWasted}
     }
   }
   currentBallHolderIndex = players.indexOf((currentBallHolder))
@@ -451,11 +454,91 @@ function getPlayerNextBallMovement(game, playerId) {
   } else {
     redList.push(players[currentBallHolderIndex + 1], players[currentBallHolderIndex - 1]);
   }
-  redList = filterListWithList(redList,[...movedList, currentBallHolder]);
-  greenList = filterListWithList(players, [...redList,...movedList,currentBallHolder]);
-  return {redList:[...redList,...movedList], greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
+  redList = filterListWithList(redList, [...movedList, currentBallHolder]);
+  greenList = filterListWithList(players, [...redList, ...movedList, currentBallHolder]);
+  return {
+    redList: [...redList, ...movedList],
+    greenList,
+    currentBallHolder,
+    movedList,
+    status: 'playing',
+    ballsMade,
+    ballsWasted
+  };
 }
 
+async function startRound(req, res) {
+  let errors = [];
+  if (req.body.gameId === undefined || req.body.gameId === '') {
+    errors.push("gameId is required");
+  }
+  if (errors.length === 0) {
+    let date = new Date();
+    let time = date.getTime() + 120000;
+    console.log(time)
+    let round = {
+      status: "plan",
+      ballsEstimate: 0,
+      batchFlow: 1,
+      BallsArrangement: null,
+      ballsMade: 0,
+      ballStatus: 0,
+      wastedBall: 0,
+      stepEndingTime: time
+    }
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
+      let startGame = await gameCtrl.updateGameStart(game._id, round);
+      if (startGame) {
+        let result = startGame.players.map(x => (x.id));
+        socket.sendMessage([...result, startGame.hostId], {method: 'planStarted', data: null});
+        res.json(startGame);
+      } else {
+        res.status(404).json({
+          message: "Game is not Started",
+        })
+      }
+    } else {
+      res.status(404).json({
+        message: "Game not Found",
+      })
+    }
+  } else {
+    res.status(404).json(errors);
+  }
+}
+
+
+async function endRound(req, res) {
+  let errors = [];
+  if (req.body.gameId === undefined || req.body.gameId === '') {
+    errors.push("gameId is required");
+  }
+  if (errors.length === 0) {
+
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
+      let ballsMade = game.rounds[game.currentRound -1].ballsMade = game.totalScore;
+      let endRound = await gameCtrl.endRound(game._id,  game.currentRound +1,{
+        status: "finish", roundsId: game.rounds[game.currentRound - 1]._id, ballsMade: ballsMade});
+      if (endRound) {
+        res.json(endRound);
+      } else {
+        res.status(404).json({
+          message: "Game is not Started",
+        })
+      }
+    } else {
+      res.status(404).json({
+        message: "Game not Found",
+      })
+    }
+  } else {
+    res.status(404).json(errors);
+  }
+}
+
+
 module.exports = {
-  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan, addReady, moveBall
+  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan, addReady, moveBall, startRound, endRound
 }

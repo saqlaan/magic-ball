@@ -20,6 +20,8 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import {AddplanComponent} from '@app/host/addplan/addplan.component';
 import {AddestimateComponent} from '@app/host/addestimate/addestimate.component';
 import {AddreadyComponent} from '@app/host/addready/addready.component';
+import {FinalresultComponent} from '@app/host/finalresult/finalresult.component';
+import {GameplayComponent} from '@app/host/gameplay/gameplay.component';
 
 const routes: Routes = [
   {
@@ -45,7 +47,15 @@ const routes: Routes = [
     component: AddplanComponent,
     canActivate: [AuthGuard],
   },
-
+  {
+    path: 'finalresult',
+    component: FinalresultComponent,
+    canActivate: [AuthGuard],
+  }, {
+    path: 'gameplay',
+    component: GameplayComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'addready',
     component: AddreadyComponent,

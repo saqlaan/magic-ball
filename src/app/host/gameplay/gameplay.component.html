@@ -1,0 +1,93 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div fxLayout="column" fxFlex="20" fxFlex.md="40">
+      <h1 class="magic">Fire Ball</h1>
+    </div>
+    <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
+      <h1 class="estimate">Round 2</h1>
+    </div>
+  </div>
+  <div class="main-section" fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="90" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column" >
+        <p class="team">The Rules</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column" >
+          <p class="team">The Rules</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column" >
+          <p class="team">The Rules</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column" >
+          <p class="team">The Rules</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" >
+        <div fxLayout="column" >
+          <p class="team">The Rules</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" >
+        <div fxLayout="column">
+          <p class="team">The Rules</p>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="100" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center">
+      <div id="parentdiv" #parentDiv>
+        <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 "
+             [ngClass]="{'selected': isPlayerSelected(item)}"
+             *ngFor="let item of list; let i = index"
+             style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+          <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
+            <div fxLayout="row">
+              <div class="counting-balls"></div>
+              <div class="counting-balls"></div>
+              <div class="counting-balls"></div>
+            </div>
+          </div>
+          <div *ngIf="timekeeper === i+1" class="timer">
+            <mat-icon>timer</mat-icon>
+          </div>
+          <mat-icon *ngIf="icons && arch !== i+1">person</mat-icon>
+          <span *ngIf="!icons && arch !== i+1" class="number">{{item.inc_id}}</span>
+          <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/fire.svg">
+        </div>
+      </div>
+      <div>
+        <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions
+        </button>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="90" fxFlex.sm="90" fxFlex.md=>
+      <div class="main-section" fxLayout="row" fxFlex="80">
+        <div fxLayout="column" fxFlex="100">
+          <mat-icon>visibility</mat-icon>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" fxFlex="80">
+        <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="">
+          <p>Round</p>
+        </div>
+        <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="">
+          <p>Estimate <br></p>
+        </div>
+        <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="">
+          <p>Actual</p>
+        </div>
+      </div>
+    </div>
+    <!--Next Button-->
+  </div>
+
+
+</div>
+

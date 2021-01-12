@@ -27,6 +27,27 @@ async function updateGameStart(id, rounds) {
   }, {new: true});
 }
 
+async function endRound(gameId,currentRound, {status, roundsId,ballsMade}) {
+  console.log(ballsMade);
+  console.log(currentRound);
+  console.log(status);
+  console.log(roundsId);
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    { currentRound :currentRound,
+
+      $set: {
+        'rounds.$.ballsMade': ballsMade,
+        'rounds.$.status': status
+      }
+    }, {
+      new: true
+    }
+  );
+
+}
+
+
 async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
   console.log(arrangement)
   console.log(roundsId);
@@ -124,5 +145,5 @@ async  function ballMovement(gameId, {roundId,redList, greenList, currentBallHol
 }
 
 module.exports = {
-  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,updateStepEndingTime,addArrangement,ballMovement
+  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,updateStepEndingTime,addArrangement,ballMovement,endRound
 }
