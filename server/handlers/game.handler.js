@@ -363,8 +363,7 @@ async function moveBall(req, res) {
   }
   if(errors.length === 0) {
     let game = await gameCtrl.findGameById(req.body.gameId);
-    if(game) {
-      // If all players have been passed the ball the give the ball to arch
+    if (game) {
       const {greenList, redList, currentBallHolder, movedList, status, ballsMade, ballsWasted} = getPlayerNextBallMovement(game, req.body.playerId);
       let updatedGame = await gameCtrl.ballMovement(game._id, {
         roundId: game.rounds[game.currentRound - 1]._id,
@@ -405,25 +404,15 @@ function getPlayerNextBallMovement(game, playerId) {
   let players = game.players.map(player => player.id);
   let movedList = game.rounds[game.currentRound - 1].moved;
 
-  if(game.rounds[game.currentRound - 1].currentBallHolder != undefined) {
-    // movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
+  if(game.rounds[game.currentRound - 1].currentBallHolder != undefined){
     if(currentBallHolder.toString() === game.archWizard.toString()){
       movedList = [];
-      ballsMade += game.rounds[game.currentRound - 1].batchFlow;
-      //  Add points to the
-    }else{
-      movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
-    }
-  }
-  if(movedList.length === (game.players.length - 1)) {
-    if(!isNeighbour(game.players, currentBallHolder, game.archWizard)) {
-      greenList.push(game.archWizard);
-      redList = [...movedList];
-      return {redList, greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
-    } else {
-      greenList = [];
-      redList = [...movedList]
-      return {redList, greenList, currentBallHolder, movedList, status: 'halt', ballsMade, ballsWasted}
+      ballsMade +=game.rounds[game.currentRound - 1].batchFlow;
+    }else {
+      //Make sure movedList is not duplicated
+      if(!movedList.includes(game.rounds[game.currentRound - 1].currentBallHolder.toString())){
+        movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
+      }
     }
   }
   currentBallHolderIndex = players.indexOf((currentBallHolder))
