@@ -14,7 +14,6 @@ export class GameplayComponent implements AfterViewInit {
   @ViewChild('parentDiv') divView: any;
   @ViewChild(MatSort)
   sort!: MatSort;
-  elementData: any = [];
 
   displayedColumns: string[] = ['currentRound',  'ballsEstimate', "ballsMade" ];
   dataSource: any;
@@ -46,13 +45,12 @@ export class GameplayComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.gameCode = localStorage.getItem('gameCode') as string;
-    this.gameService.getGame(this.gameCode).subscribe((Game) => {
-      this.players = Game.players.map((id: any) => (id.id));
-      this.list = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
-      this.arch = 1 + this.players.indexOf((Game.rounds[Game.currentRound - 1].currentBallHolder));
-      this. currentRound = Game.rounds.length;
-      this.elementData = Game.rounds;
-      this.dataSource = new MatTableDataSource(this.elementData);
+    this.gameService.getGame(this.gameCode).subscribe((game) => {
+      this.players = game.players.map((id: any) => (id.id));
+      this.list = game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
+      this.arch = 1 + this.players.indexOf((game.rounds[game.currentRound - 1].currentBallHolder));
+      this. currentRound = game.rounds.length;
+      this.dataSource = new MatTableDataSource(game.rounds);
       this.div = 360 / this.list.length;
       this.radius = 100;
       const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
