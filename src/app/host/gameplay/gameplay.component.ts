@@ -1,21 +1,28 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {GameService} from '@app/shared/services';
 import {Router} from '@angular/router';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
-@Component(
-  {
-    selector: 'app-addplan',
-    templateUrl: './addplan.component.html',
-    styleUrls: ['./addplan.component.css']
-  }
-)
-export class AddplanComponent implements AfterViewInit {
+
+@Component({
+  selector: 'app-gameplay',
+  templateUrl: './gameplay.component.html',
+  styleUrls: ['./gameplay.component.css']
+})
+export class GameplayComponent implements AfterViewInit {
   @ViewChild('parentDiv') divView: any;
+  @ViewChild(MatSort)
+  sort!: MatSort;
 
+  displayedColumns: string[] = ['currentRound',  'ballsEstimate', "ballsMade" ];
+  dataSource: any;
   list: any[] = [];
 
   myTime: any;
-  updateList: any[] = [];
+  ballsEstimate: any;
+  ballsMade: any;
+  players: any;
   div: any = 0;
   currentTime: any;
   minutes: any;
@@ -30,34 +37,27 @@ export class AddplanComponent implements AfterViewInit {
   countingResponsible: any = 3;
   timekeeper: any = 5;
   swapped: any[] = [];
+  currentRound: any;
 
 
   constructor(private gameService: GameService, private  router: Router) {
-
   }
 
   ngAfterViewInit() {
     this.gameCode = localStorage.getItem('gameCode') as string;
-    this.gameService.getGame(this.gameCode).subscribe((Game) => {
-      console.log(Game.currentRound);
-      this.time = Game.rounds[Game.currentRound - 1].stepEndingTime;
-      let date = new Date();
-      this.currentTime = date.getTime();
-      this.currentTime = this.time - this.currentTime;
-      this.updateList = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
-      this.list = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
-      console.log(this.list)
-      this.gameId = Game._id;
+    this.gameService.getGame(this.gameCode).subscribe((game) => {
+      this.players = game.players.map((id: any) => (id.id));
+      this.list = game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
+      this.arch = 1 + this.players.indexOf((game.rounds[game.currentRound - 1].currentBallHolder));
+      this. currentRound = game.rounds.length;
+      this.dataSource = new MatTableDataSource(game.rounds);
       this.div = 360 / this.list.length;
       this.radius = 100;
       const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
       const offsetToChildCenter = 20;
       this.totalOffset = offsetToParentCenter - offsetToChildCenter;
-      this.messageSuccess = true;
-    //   setTimeout(() => {
-    //     this.addplan();
-    //   }, this.currentTime);
     });
+    this.dataSource.sort = this.sort;
   }
 
   getChildTopValue(index: any) {
@@ -79,7 +79,6 @@ export class AddplanComponent implements AfterViewInit {
         this.swapped = this.swapped.filter(i => i !== item);
       }
     }
-    console.log(this.swapped);
   }
 
   isPlayerSelected(item: any) {
@@ -93,21 +92,10 @@ export class AddplanComponent implements AfterViewInit {
       let temp = this.list[indexA];
       this.list[indexA] = this.list[indexB];
       this.list[indexB] = temp;
-      console.log(this.list);
       this.swapped = [];
     }
     return null;
   }
 
-  addplan() {
-    if (JSON.stringify(this.list) !== JSON.stringify(this.updateList)) {
-      this.gameService.addPlan(this.gameId, this.list).subscribe((Game) => {
-        this.router.navigate(['/addestimate']);
-      });
-    } else {
-      this.gameService.addPlan(this.gameId, []).subscribe((Game) => {
-        this.router.navigate(['/addestimate']);
-      });
-    }
-  }
+
 }

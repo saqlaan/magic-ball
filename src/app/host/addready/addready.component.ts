@@ -38,12 +38,12 @@ export class AddreadyComponent implements OnInit {
 
   addReady() {
     if (this.currentRound == 1) {
-      this.gameService.addReady(this.gameId, [[1, 2, 3, 4, 5]], '').subscribe((Game) => {
-        this.router.navigate(['/addready']);
+      this.gameService.addReady(this.gameId, [null], '').subscribe((Game) => {
+        this.router.navigate(['/gameplay']);
       });
     } else {
       this.gameService.addReady(this.gameId, [[1, 2, 3, 4, 5]], this.readyForm.value.batchNumber).subscribe((Game) => {
-        this.router.navigate(['/addready']);
+        this.router.navigate(['/gameplay']);
       });
     }
   }

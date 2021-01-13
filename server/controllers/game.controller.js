@@ -26,6 +26,28 @@ async function updateGameStart(id, rounds) {
     $push: {rounds: rounds}
   }, {new: true});
 }
+async function addRound(id, rounds, currentRound) {
+  return Game.findOneAndUpdate({_id: id}, {
+    "currentRound": currentRound,
+    $push: {rounds: rounds}
+  }, {new: true});
+}
+
+async function endRound(gameId,totalScore, {status, roundsId}) {
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    {
+      totalScore: totalScore,
+      $set: {
+        'rounds.$.status': status
+      }
+    }, {
+      new: true
+    }
+  );
+
+}
+
 
 async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
   console.log(arrangement)
@@ -62,6 +84,19 @@ async function updateArch(gameId, archWizard, round, roundsId) {
     {_id: gameId, 'rounds._id': roundsId},
     {
       archWizard: archWizard,
+      $set: {
+        'rounds.$.ballsEstimate': round.ballsEstimate
+      }
+    }, {
+      new: true
+    }
+  );
+}
+
+async function updateRoundArch(gameId, round, roundsId) {
+  return Game.findOneAndUpdate(
+    {_id: gameId, 'rounds._id': roundsId},
+    {
       $set: {
         'rounds.$.ballsEstimate': round.ballsEstimate
       }
@@ -124,5 +159,6 @@ async  function ballMovement(gameId, {roundId,redList, greenList, currentBallHol
 }
 
 module.exports = {
-  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,updateStepEndingTime,addArrangement,ballMovement
+  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,addRound,updateStepEndingTime
+  ,addArrangement,ballMovement,endRound,updateRoundArch
 }

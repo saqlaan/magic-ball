@@ -34,22 +34,28 @@ import { DialogboxComponent } from './host/dialogbox/dialogbox.component';
 import { AddplanComponent } from './host/addplan/addplan.component';
 import { AddestimateComponent } from './host/addestimate/addestimate.component';
 import { AddreadyComponent } from './host/addready/addready.component';
+import { FinalresultComponent } from './host/finalresult/finalresult.component';
+import { GameplayComponent } from './host/gameplay/gameplay.component';
+import {MatTableModule} from '@angular/material/table';
+
+
 
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    HttpClientModule,
-    SharedModule,
-    AppRoutingModule,
-    MatProgressSpinnerModule,
-    FlexLayoutModule,
-    MatCheckboxModule,
-    ToastrModule.forRoot(),
-  ],
+    imports: [
+        BrowserAnimationsModule,
+        HttpClientModule,
+        SharedModule,
+        AppRoutingModule,
+        MatProgressSpinnerModule,
+        FlexLayoutModule,
+        MatCheckboxModule,
+        ToastrModule.forRoot(),
+        MatTableModule,
+    ],
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
-    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent, DialogboxComponent, AddplanComponent, AddestimateComponent, AddreadyComponent],
+    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent, DialogboxComponent, AddplanComponent, AddestimateComponent, AddreadyComponent, FinalresultComponent, GameplayComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

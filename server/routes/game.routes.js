@@ -12,6 +12,8 @@ router.post('/game-settings', verifyToken, asyncHandler(GameHandler.gameSettings
 router.get('/get-game/:gameCode',  asyncHandler(GameHandler.getGameByCode));
 router.post('/join-game', asyncHandler(GameHandler.joinGame));
 router.post('/start-game', asyncHandler(GameHandler.startGame));
+router.post('/start-round', asyncHandler(GameHandler.startRound));
+router.post('/round-end', asyncHandler(GameHandler.endRound));
 router.post('/add-estimate', asyncHandler(GameHandler.addEstimate));
 router.post('/add-plan', asyncHandler(GameHandler.addPlan));
 router.post('/add-ready', asyncHandler(GameHandler.addReady));

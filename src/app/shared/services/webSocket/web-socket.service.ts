@@ -33,6 +33,9 @@ export class WebSocketService {
         case 'ballReceived':
           this.gameService.ballReceived();
           break;
+        case 'ballMoved':
+          this.gameService.ballMoved();
+          break;
         case 'ballPositionUpdated':
           this.gameService.updateBallPosition(data.payload.userId);
           break;

@@ -29,7 +29,7 @@ const GameSchema = new mongoose.Schema({
     required: false,
   },
   noOfRounds: {
-    type: String,
+    type: Number,
     required: false,
   },
   archWizard: {
@@ -47,7 +47,8 @@ const GameSchema = new mongoose.Schema({
   },
   totalScore: {
     type: Number,
-    required: false
+    required: false,
+    default: 0
   },
 
   timePerRound: {
