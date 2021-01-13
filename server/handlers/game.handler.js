@@ -10,6 +10,7 @@ async function gameSettings(req, res) {
   let errors = [];
   if (errors.length === 0) {
     req.body.hostId = req.user.id;
+
     if (req.body.players.length <= req.body.maxPlayers) {
       let game = await gameCtrl.insert(req.body);
       if (game) {
@@ -36,7 +37,6 @@ async function getGameByCode(req, res) {
   if (errors.length === 0) {
     let game = await gameCtrl.findGameByCode(req.params.gameCode);
     if (game) {
-      console.log(socket);
       res.json(game);
     } else {
       res.status(404).json({
@@ -68,15 +68,11 @@ async function joinGame(req, res) {
       // const found = code.players.includes(req.body.playerId);
       let found = false
       for (let index = 0; index < code.players.length; index++) {
-        console.log(code.players[index].id);
-        console.log(req.body.playerId);
         if (code.players[index].id === req.body.playerId) {
-          console.log(index);
           found = true;
           break;
         }
       }
-      console.log(found)
       if (found === false) {
         player = {
           id: req.body.playerId,
@@ -86,9 +82,7 @@ async function joinGame(req, res) {
           let game = await gameCtrl.addUserInGame(player, req.body.gameCode);
           if (game) {
             let result = game.players.map(x => (x.id));
-            console.log("Usama", result);
             result.pop(req.body.playerId)
-            console.log(result);
             socket.sendMessage([...result, game.hostId], {method: 'playerAdded', data: null});
             return res.json(game);
           } else {
@@ -124,7 +118,6 @@ async function startGame(req, res) {
   if (errors.length === 0) {
     let date = new Date();
     let time = date.getTime() + 120000;
-    console.log(time)
     let round = {
       status: "plan",
       ballsEstimate: 0,
@@ -203,7 +196,7 @@ async function addEstimate(req, res) {
         }
         const roundsId = game.rounds[currentRound]._id;
 
-        let updateGame = await gameCtrl.updateArch(req.body.gameId, null, round, roundsId);
+        let updateGame = await gameCtrl.updateRoundArch(req.body.gameId, round, roundsId);
         if (updateGame) {
           let result = updateGame.players.map(x => (x.id));
           socket.sendMessage([...result, updateGame.hostId], {method: 'estimateAdded', data: null});
@@ -236,7 +229,6 @@ async function addPlan(req, res) {
   }
   if (errors.length === 0) {
     if (req.body.arrangement.length !== 0) {
-      console.log("if");
       let game = await gameCtrl.findGameById(req.body.gameId);
       if (game) {
         let date = new Date();
@@ -264,7 +256,7 @@ async function addPlan(req, res) {
         })
       }
     } else {
-      console.log("else")
+
       debugger
       let game = await gameCtrl.findGameById(req.body.gameId);
       if (game) {
@@ -305,7 +297,6 @@ async function addReady(req, res) {
   }
   let game = await gameCtrl.findGameById(req.body.gameId);
   if (game) {
-    console.log(game.archWizard)
     if (game.currentRound === 1) {
       const {greenList, redList, currentBallHolder} = getPlayerNextBallMovement(game, game.archWizard);
       let updatedGame = await gameCtrl.addReady(game._id, game.rounds[game.currentRound - 1]._id,
@@ -475,7 +466,6 @@ async function startRound(req, res) {
   if (errors.length === 0) {
     let date = new Date();
     let time = date.getTime() + 120000;
-    console.log(time)
     let round = {
       status: "plan",
       ballsEstimate: 0,
@@ -488,10 +478,10 @@ async function startRound(req, res) {
     }
     let game = await gameCtrl.findGameById(req.body.gameId);
     if (game) {
-      let startGame = await gameCtrl.updateGameStart(game._id, round);
+      let startGame = await gameCtrl.addRound(game._id, round, game.currentRound + 1);
       if (startGame) {
         let result = startGame.players.map(x => (x.id));
-        socket.sendMessage([...result, startGame.hostId], {method: 'planStarted', data: null});
+        socket.sendMessage([...result, startGame.hostId], {method: 'roundStarted', data: null});
         res.json(startGame);
       } else {
         res.status(404).json({
@@ -519,9 +509,11 @@ async function endRound(req, res) {
     let game = await gameCtrl.findGameById(req.body.gameId);
     if (game) {
       let totalScore = game.rounds[game.currentRound -1].ballsMade + game.totalScore;
-      let endRound = await gameCtrl.endRound(game._id,  game.currentRound +1,totalScore,{
+      let endRound = await gameCtrl.endRound(game._id,totalScore,{
         status: "finish", roundsId: game.rounds[game.currentRound - 1]._id});
       if (endRound) {
+        let result = endRound.players.map(x => (x.id));
+        socket.sendMessage([...result, endRound.hostId], {method: 'roundEnded', data: null});
         res.json(endRound);
       } else {
         res.status(404).json({

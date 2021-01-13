@@ -1,6 +1,9 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {GameService} from '@app/shared/services';
 import {Router} from '@angular/router';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+
 
 @Component({
   selector: 'app-gameplay',
@@ -9,15 +12,18 @@ import {Router} from '@angular/router';
 })
 export class GameplayComponent implements AfterViewInit {
   @ViewChild('parentDiv') divView: any;
+  @ViewChild(MatSort)
+  sort!: MatSort;
+  elementData: any = [];
 
-
-  list: any[] = [
-    {inc_id: 1, id: 1213}, {inc_id: 2, id: 1223}, {inc_id: 3, id: 1233},
-    {inc_id: 4, id: 1423}, {inc_id: 5, id: 1253}, {inc_id: 6, id: 1263},
-    {inc_id: 7, id: 1273}, {inc_id: 8, id: 1293}
-]
+  displayedColumns: string[] = ['currentRound',  'ballsEstimate', "ballsMade" ];
+  dataSource: any;
+  list: any[] = [];
 
   myTime: any;
+  ballsEstimate: any;
+  ballsMade: any;
+  players: any;
   div: any = 0;
   currentTime: any;
   minutes: any;
@@ -32,17 +38,28 @@ export class GameplayComponent implements AfterViewInit {
   countingResponsible: any = 3;
   timekeeper: any = 5;
   swapped: any[] = [];
+  currentRound: any;
 
 
   constructor(private gameService: GameService, private  router: Router) {
-    this.div = 360 / this.list.length;
-    this.radius = 100;
   }
 
   ngAfterViewInit() {
-    const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
-    const offsetToChildCenter = 20;
-    this.totalOffset = offsetToParentCenter - offsetToChildCenter;
+    this.gameCode = localStorage.getItem('gameCode') as string;
+    this.gameService.getGame(this.gameCode).subscribe((Game) => {
+      this.players = Game.players.map((id: any) => (id.id));
+      this.list = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
+      this.arch = 1 + this.players.indexOf((Game.rounds[Game.currentRound - 1].currentBallHolder));
+      this. currentRound = Game.rounds.length;
+      this.elementData = Game.rounds;
+      this.dataSource = new MatTableDataSource(this.elementData);
+      this.div = 360 / this.list.length;
+      this.radius = 100;
+      const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
+      const offsetToChildCenter = 20;
+      this.totalOffset = offsetToParentCenter - offsetToChildCenter;
+    });
+    this.dataSource.sort = this.sort;
   }
 
   getChildTopValue(index: any) {
@@ -64,7 +81,6 @@ export class GameplayComponent implements AfterViewInit {
         this.swapped = this.swapped.filter(i => i !== item);
       }
     }
-    console.log(this.swapped);
   }
 
   isPlayerSelected(item: any) {
@@ -78,7 +94,6 @@ export class GameplayComponent implements AfterViewInit {
       let temp = this.list[indexA];
       this.list[indexA] = this.list[indexB];
       this.list[indexB] = temp;
-      console.log(this.list);
       this.swapped = [];
     }
     return null;

@@ -63,8 +63,8 @@ export class GameService {
   };
 
   public ballMoved() {
-    this.hasBall = false;
-    this.ballSubject.next('usama');
+    let gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
   }
 
 

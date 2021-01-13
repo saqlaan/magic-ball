@@ -46,6 +46,7 @@ export class AddplanComponent implements AfterViewInit {
       this.currentTime = this.time - this.currentTime;
       this.updateList = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
       this.list = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
+      console.log(this.list)
       this.gameId = Game._id;
       this.div = 360 / this.list.length;
       this.radius = 100;

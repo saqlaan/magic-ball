@@ -36,20 +36,22 @@ import { AddestimateComponent } from './host/addestimate/addestimate.component';
 import { AddreadyComponent } from './host/addready/addready.component';
 import { FinalresultComponent } from './host/finalresult/finalresult.component';
 import { GameplayComponent } from './host/gameplay/gameplay.component';
+import {MatTableModule} from '@angular/material/table';
 
 
 
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    HttpClientModule,
-    SharedModule,
-    AppRoutingModule,
-    MatProgressSpinnerModule,
-    FlexLayoutModule,
-    MatCheckboxModule,
-    ToastrModule.forRoot(),
-  ],
+    imports: [
+        BrowserAnimationsModule,
+        HttpClientModule,
+        SharedModule,
+        AppRoutingModule,
+        MatProgressSpinnerModule,
+        FlexLayoutModule,
+        MatCheckboxModule,
+        ToastrModule.forRoot(),
+        MatTableModule,
+    ],
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
