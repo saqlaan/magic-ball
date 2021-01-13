@@ -5,7 +5,7 @@
       <h1 class="magic">Fire Ball</h1>
     </div>
     <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
-      <h1 class="estimate">Round 2</h1>
+      <h1 class="estimate">Round {{currentRound}}</h1>
     </div>
   </div>
   <div class="main-section" fxLayout="row" fxFlex="100">
@@ -75,7 +75,7 @@
 
         <ng-container matColumnDef="currentRound">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Round.</th>
-          <td mat-cell *matCellDef="let element"> {{currentRound}} </td>
+          <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
         </ng-container>
 
 
@@ -94,4 +94,11 @@
       </table>
     </div>
   </div>
+
+  <div class="main-section" fxLayout="row" fxFlex="100" style="margin-top: 100px">
+    <div fxLayout="column" fxFlex="90" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="endRound()" mat-raised-button color="primary">End Round</button>
+    </div>
+  </div>
 </div>
+

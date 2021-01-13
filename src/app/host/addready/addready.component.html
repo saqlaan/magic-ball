@@ -17,22 +17,12 @@
 <!--    </div>-->
 <!--  </div>-->
   <form class="example-form" [formGroup]="readyForm">
-    <div fxLayout="row" *ngIf="show" >
+    <div fxLayout="row" *ngIf="show"  fxLayoutAlign="center center" fxFlex="100">
       <div fxFlex="100" fxFlex.xs="50" fxFlex.md="100" fxFlex.sm="20" fxFlex.gt-xs="80" fxLayoutAlign="center center">
         <p class="Estimate">Batch Number:</p>
         <div fxLayout="column" fxFlex="15" fxFlex.md="19" fxFlex.sm="20" fxFlex.xs="20" fxLayoutAlign="center center">
           <mat-form-field>
             <input formControlName="batchNumber" matbutton type="number" class="mat-form" min="-1" max="30">
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-    <div fxLayout="row"  *ngIf="show" >
-      <div fxFlex="100" fxFlex.xs="50" fxFlex.md="100" fxFlex.sm="20" fxFlex.gt-xs="80" fxLayoutAlign="center center">
-        <p class="Estimate">Balls Arrangement:</p>
-        <div fxLayout="column" fxFlex="15" fxFlex.md="19" fxFlex.sm="20" fxFlex.xs="20" fxLayoutAlign="center center">
-          <mat-form-field>
-            <input  matbutton type="number" class="mat-form" min="-1" max="30">
           </mat-form-field>
         </div>
       </div>

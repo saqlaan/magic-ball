@@ -22,6 +22,7 @@ import {AddestimateComponent} from '@app/host/addestimate/addestimate.component'
 import {AddreadyComponent} from '@app/host/addready/addready.component';
 import {FinalresultComponent} from '@app/host/finalresult/finalresult.component';
 import {GameplayComponent} from '@app/host/gameplay/gameplay.component';
+import {RoundresultComponent} from '@app/host/roundresult/roundresult.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,11 @@ const routes: Routes = [
   {
     path: 'addestimate',
     component: AddestimateComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'roundresult',
+    component: RoundresultComponent,
     canActivate: [AuthGuard],
   },
   {

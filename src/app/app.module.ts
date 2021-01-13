@@ -37,6 +37,7 @@ import { AddreadyComponent } from './host/addready/addready.component';
 import { FinalresultComponent } from './host/finalresult/finalresult.component';
 import { GameplayComponent } from './host/gameplay/gameplay.component';
 import {MatTableModule} from '@angular/material/table';
+import { RoundresultComponent } from './host/roundresult/roundresult.component';
 
 
 
@@ -55,7 +56,7 @@ import {MatTableModule} from '@angular/material/table';
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
-    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent, DialogboxComponent, AddplanComponent, AddestimateComponent, AddreadyComponent, FinalresultComponent, GameplayComponent],
+    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent, DialogboxComponent, AddplanComponent, AddestimateComponent, AddreadyComponent, FinalresultComponent, GameplayComponent,  RoundresultComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

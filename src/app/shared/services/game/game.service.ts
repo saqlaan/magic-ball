@@ -193,12 +193,27 @@ export class GameService {
   public addReady(
     gameId: any,
     ballsArrangement: any[],
-    batchNumber: any,
+    batchFlow: any,
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/add-ready', {
       gameId,
       ballsArrangement,
-      batchNumber
+      batchFlow
+    });
+  }
+  public startRound(
+    gameId: any,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/start-round', {
+      gameId,
+    });
+  }
+
+  public endRound(
+    gameId: any,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/end-round', {
+      gameId,
     });
   }
 }
