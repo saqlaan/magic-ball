@@ -379,7 +379,6 @@ async function moveBall(req, res) {
   if (errors.length === 0) {
     let game = await gameCtrl.findGameById(req.body.gameId);
     if (game) {
-      // If all players have been passed the ball the give the ball to arch
       const {greenList, redList, currentBallHolder, movedList, status, ballsMade, ballsWasted} = getPlayerNextBallMovement(game, req.body.playerId);
       let updatedGame = await gameCtrl.ballMovement(game._id, {
         roundId: game.rounds[game.currentRound - 1]._id,
@@ -421,26 +420,14 @@ function getPlayerNextBallMovement(game, playerId) {
   let movedList = game.rounds[game.currentRound - 1].moved;
 
   if(game.rounds[game.currentRound - 1].currentBallHolder != undefined){
-    // movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
     if(currentBallHolder.toString() === game.archWizard.toString()){
       movedList = [];
       ballsMade +=game.rounds[game.currentRound - 1].batchFlow;
-      //  Add points to the
     }else {
-      movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
-    }
-  }
-  //If path is completed
-  //Put the arch next and restart the cycle
-  if(movedList.length === (game.players.length - 1)){
-    if(!isNeighbour(game.players, currentBallHolder, game.archWizard)){
-      greenList.push(game.archWizard);
-      redList= [...movedList];
-      return {redList, greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
-    }else{
-      greenList = [];
-      redList = [...movedList]
-      return {redList, greenList, currentBallHolder, movedList, status:'halt', ballsMade, ballsWasted}
+      //Make sure movedList is not duplicated
+      if(!movedList.includes(game.rounds[game.currentRound - 1].currentBallHolder.toString())){
+        movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
+      }
     }
   }
   currentBallHolderIndex = players.indexOf((currentBallHolder))
@@ -451,9 +438,9 @@ function getPlayerNextBallMovement(game, playerId) {
   } else {
     redList.push(players[currentBallHolderIndex + 1], players[currentBallHolderIndex - 1]);
   }
-  redList = filterListWithList(redList,[...movedList, currentBallHolder]);
-  greenList = filterListWithList(players, [...redList,...movedList,currentBallHolder]);
-  return {redList:[...redList,...movedList], greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
+  redList = filterListWithList(redList);
+  greenList = filterListWithList(players, [...redList,currentBallHolder]);
+  return {redList, greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
 }
 
 module.exports = {
