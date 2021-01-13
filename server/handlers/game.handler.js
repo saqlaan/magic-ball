@@ -409,31 +409,22 @@ function getPlayerNextBallMovement(game, playerId) {
       movedList = [];
       ballsMade +=game.rounds[game.currentRound - 1].batchFlow;
     }else {
-      //Make sure movedList is not duplicated
       if(!movedList.includes(game.rounds[game.currentRound - 1].currentBallHolder.toString())){
         movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
       }
     }
   }
   currentBallHolderIndex = players.indexOf((currentBallHolder))
-  if(currentBallHolderIndex === 0) {
+  if (currentBallHolderIndex === 0) {
     redList.push(players[1], players[players.length - 1]);
-  }else if(currentBallHolderIndex === players.length - 1) {
+  } else if (currentBallHolderIndex === players.length - 1) {
     redList.push(players[0], players[players.length - 2]);
-  }else{
+  } else {
     redList.push(players[currentBallHolderIndex + 1], players[currentBallHolderIndex - 1]);
   }
-  redList = filterListWithList(redList, [...movedList, currentBallHolder]);
-  greenList = filterListWithList(players, [...redList, ...movedList, currentBallHolder]);
-  return {
-    redList: [...redList, ...movedList],
-    greenList,
-    currentBallHolder,
-    movedList,
-    status: 'playing',
-    ballsMade,
-    ballsWasted
-  };
+  redList = filterListWithList(redList);
+  greenList = filterListWithList(players, [...redList,currentBallHolder]);
+  return {redList, greenList, currentBallHolder, movedList, status: 'playing', ballsMade, ballsWasted};
 }
 
 async function startRound(req, res) {
