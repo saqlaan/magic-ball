@@ -17,46 +17,47 @@ import {GamedashboardComponent} from './host/gamedashboard/gamedashboard.compone
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {AddplayerComponent} from './player/addplayer/addplayer.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { SignupComponent } from './host/signup/signup.component';
-import { LoginComponent } from './host/login/login.component';
-import { UpdateprofileComponent } from './host/updateprofile/updateprofile.component';
-import { LoginhelpComponent } from './host/loginhelp/loginhelp.component';
-import { HomescreenComponent } from './host/homescreen/homescreen.component';
-import { DashboardComponent } from './host/dashboard/dashboard.component';
-import { ResetpasswordComponent } from './host/resetpassword/resetpassword.component';
-import { MessageComponent } from './host/message/message.component';
-import { GamesettingsComponent } from './host/gamesettings/gamesettings.component';
-import { WaitingplayersComponent } from './host/waitingplayers/waitingplayers.component';
+import {SignupComponent} from './host/signup/signup.component';
+import {LoginComponent} from './host/login/login.component';
+import {UpdateprofileComponent} from './host/updateprofile/updateprofile.component';
+import {LoginhelpComponent} from './host/loginhelp/loginhelp.component';
+import {HomescreenComponent} from './host/homescreen/homescreen.component';
+import {DashboardComponent} from './host/dashboard/dashboard.component';
+import {ResetpasswordComponent} from './host/resetpassword/resetpassword.component';
+import {MessageComponent} from './host/message/message.component';
+import {GamesettingsComponent} from './host/gamesettings/gamesettings.component';
+import {WaitingplayersComponent} from './host/waitingplayers/waitingplayers.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { UpdatepasswordComponent } from './host/updatepassword/updatepassword.component';
-import { ToastrModule } from 'ngx-toastr';
-import { DialogboxComponent } from './host/dialogbox/dialogbox.component';
-import { AddplanComponent } from './host/addplan/addplan.component';
-import { AddestimateComponent } from './host/addestimate/addestimate.component';
-import { AddreadyComponent } from './host/addready/addready.component';
-import { FinalresultComponent } from './host/finalresult/finalresult.component';
-import { GameplayComponent } from './host/gameplay/gameplay.component';
+import {UpdatepasswordComponent} from './host/updatepassword/updatepassword.component';
+import {ToastrModule} from 'ngx-toastr';
+import {DialogboxComponent} from './host/dialogbox/dialogbox.component';
+import {AddplanComponent} from './host/addplan/addplan.component';
+import {AddestimateComponent} from './host/addestimate/addestimate.component';
+import {AddreadyComponent} from './host/addready/addready.component';
+import {FinalresultComponent} from './host/finalresult/finalresult.component';
+import {GameplayComponent} from './host/gameplay/gameplay.component';
 import {MatTableModule} from '@angular/material/table';
-import { RoundresultComponent } from './host/roundresult/roundresult.component';
-
+import {RoundresultComponent} from './host/roundresult/roundresult.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 @NgModule({
-    imports: [
-        BrowserAnimationsModule,
-        HttpClientModule,
-        SharedModule,
-        AppRoutingModule,
-        MatProgressSpinnerModule,
-        FlexLayoutModule,
-        MatCheckboxModule,
-        ToastrModule.forRoot(),
-        MatTableModule,
-    ],
+  imports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
+    SharedModule,
+    AppRoutingModule,
+    MatProgressSpinnerModule,
+    FlexLayoutModule,
+    MatCheckboxModule,
+    ToastrModule.forRoot(),
+    MatTableModule,
+    DragDropModule
+  ],
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
-    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent, DialogboxComponent, AddplanComponent, AddestimateComponent, AddreadyComponent, FinalresultComponent, GameplayComponent,  RoundresultComponent],
+    GamedashboardComponent, AddplayerComponent, SignupComponent, LoginComponent, UpdateprofileComponent, LoginhelpComponent, HomescreenComponent, DashboardComponent, ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent, UpdatepasswordComponent, DialogboxComponent, AddplanComponent, AddestimateComponent, AddreadyComponent, FinalresultComponent, GameplayComponent, RoundresultComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

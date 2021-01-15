@@ -65,15 +65,17 @@ async function joinGame(req, res) {
   if (errors.length === 0) {
     let code = await gameCtrl.findGameByCode(req.body.gameCode)
     if (code) {
-      // const found = code.players.includes(req.body.playerId);
       let found = false
-      for (let index = 0; index < code.players.length; index++) {
-        if (code.players[index].id === req.body.playerId) {
+      let result = code.players.map(x => (x.id));
+      result.forEach(element => {
+        console.log(element)
+        if(element === req.body.playerId){
+          console.log(usama)
           found = true;
-          break;
         }
-      }
+      })
       if (found === false) {
+        console.log("false")
         player = {
           id: req.body.playerId,
           incrementalId: code.players.length + 1
@@ -159,6 +161,11 @@ async function addEstimate(req, res) {
   let game = await gameCtrl.findGameById(req.body.gameId);
   if(game) {
     if(game.currentRound === 1) {
+      if(req.body.archWizard === undefined || req.body.archWizard === '') {
+        res.status(400).json({
+          message: "archWizard is required",
+        })
+      }
       let time =new Date().getTime() + 120000;
       let currentRound = game.currentRound - 1;
       let round = {
@@ -180,9 +187,6 @@ async function addEstimate(req, res) {
     } else {
       if(req.body.balls === undefined || req.body.balls === '') {
         errors.push("balls is required");
-      }
-      if(req.body.archWizard === undefined || req.body.archWizard === '') {
-        errors.push("archWizard is required");
       }
       if(errors.length === 0) {
         let time = new Date().getTime() + 120000;

@@ -1,48 +1,62 @@
 <div class="container" fxLayout="column" fxFlex="100">
   <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    <div fxLayout="column" fxFlex="20" fxFlex.md="40">
+    <div fxLayout="column" fxFlex="20" fxFlex.md="20">
       <h1 class="magic">Fire Ball</h1>
     </div>
-    <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="50" fxFlex.md="50" fxLayoutAlign="center center">
       <h1 class="estimate">Round {{currentRound}}</h1>
+    </div>
+    <div fxLayout="column" fxFlex="30" fxFlex.md="30" fxLayoutAlign="center center">
+      <h1><mat-icon>visibility</mat-icon>Statistics</h1>
     </div>
   </div>
   <div class="main-section" fxLayout="row" fxFlex="100">
-    <div fxLayout="column" fxFlex="90" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="20" fxFlex.sm="98" fxFlex.md="90" style="padding-left:1% " >
       <div class="main-section" fxLayout="row" fxFlex="100">
-        <div fxLayout="column">
-          <p class="team">The Rules</p>
+        <div fxLayout="column" >
+          <p><mat-icon style="font-size: 20px">visibility</mat-icon>The Rules</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column" >
+          <p style="margin: 0px"><mat-icon style="font-size: 20px">arrow_right</mat-icon>Process starts and ends<br>with ArchWizard</p>
         </div>
       </div>
       <div class="main-section" fxLayout="row" fxFlex="100">
         <div fxLayout="column">
-          <p class="team">The Rules</p>
+          <p><mat-icon >lens</mat-icon>The ArchWizard Selection is <br><u>permanent</u></p>
         </div>
       </div>
       <div class="main-section" fxLayout="row" fxFlex="100">
         <div fxLayout="column">
-          <p class="team">The Rules</p>
-        </div>
-      </div>
-      <div class="main-section" fxLayout="row" fxFlex="100">
-        <div fxLayout="column">
-          <p class="team">The Rules</p>
+          <p><mat-icon >arrow_right</mat-icon>Each Wizard must touch<br>the ball for it to become a<br>magic ball</p>
         </div>
       </div>
       <div class="main-section" fxLayout="row">
         <div fxLayout="column">
-          <p class="team">The Rules</p>
+          <p><mat-icon>error</mat-icon>Ball may not flow to the<br>neighbor in<br>the wizarding circle!</p>
         </div>
       </div>
       <div class="main-section" fxLayout="row">
         <div fxLayout="column">
-          <p class="team">The Rules</p>
+          <p><mat-icon>error</mat-icon>Ball position must be<br>on the 2 lines</p>
         </div>
       </div>
     </div>
-    <div fxLayout="column" fxFlex="100" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="50" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center" >
       <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
+        <div  fxLayout="row">
+          <div fxLayout="column" fxFlex="40" fxLayoutAlign="center center">
+            <mat-icon >visibility</mat-icon>
+          </div>
+          <div fxLayout="column" fxFlex="60" fxLayoutAlign="center center">
+            <mat-icon>alarm</mat-icon>
+          </div>
+          <div fxLayout="column" fxFlex="20" fxLayoutAlign="center center">
+            <mat-icon>pause</mat-icon>
+          </div>
+        </div>
         <div id="parentdiv" #parentDiv>
           <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 "
                [ngClass]="{'selected': isPlayerSelected(item)}"
@@ -59,8 +73,8 @@
               <mat-icon>timer</mat-icon>
             </div>
             <mat-icon *ngIf="icons && arch !== i+1">person</mat-icon>
-            <span *ngIf="!icons && arch !== i+1" class="number">{{item.inc_id}}</span>
-            <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/fire.svg">
+            <span *ngIf="!icons && arch !== i+1" class="number"><mat-icon>person</mat-icon></span>
+            <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/add.svg">
           </div>
         </div>
         <div>
@@ -69,7 +83,7 @@
         </div>
       </div>
     </div>
-    <div fxLayout="column" fxFlex="100" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="30" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
 
