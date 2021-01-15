@@ -23,10 +23,12 @@ import {AddreadyComponent} from '@app/host/addready/addready.component';
 import {FinalresultComponent} from '@app/host/finalresult/finalresult.component';
 import {GameplayComponent} from '@app/host/gameplay/gameplay.component';
 import {RoundresultComponent} from '@app/host/roundresult/roundresult.component';
+import {loggedInGuard} from '@app/shared/guards/loggedin.guard';
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [loggedInGuard],
     component: HomescreenComponent
   },
   {
@@ -83,14 +85,17 @@ const routes: Routes = [
   },
   {
     path: 'hostsignup',
+    canActivate: [loggedInGuard],
     component: SignupComponent
   },
   {
     path: 'hostlogin',
+    canActivate: [loggedInGuard],
     component: LoginComponent
   },
   {
     path: 'hostloginhelp',
+    canActivate: [loggedInGuard],
     component: LoginhelpComponent
   },
   {
@@ -100,6 +105,7 @@ const routes: Routes = [
   },
   {
     path: 'hostresetpassword',
+    canActivate: [loggedInGuard],
     component: ResetpasswordComponent
   },
   {

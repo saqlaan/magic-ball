@@ -21,5 +21,8 @@ export class FinalresultComponent implements OnInit {
 
     });
   }
+  dashboard(){
+    this.router.navigate(['/hostdashboard'])
+  }
 
 }

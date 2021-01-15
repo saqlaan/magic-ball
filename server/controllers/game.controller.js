@@ -47,6 +47,17 @@ async function endRound(gameId,totalScore, {status, roundsId}) {
   );
 
 }
+async function endGame(gameId,{completed}) {
+  return Game.findOneAndUpdate(
+    {_id: gameId},
+    {
+      completed: completed
+    }, {
+      new: true
+    }
+  );
+
+}
 
 
 async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
@@ -160,5 +171,5 @@ async  function ballMovement(gameId, {roundId,redList, greenList, currentBallHol
 
 module.exports = {
   insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,addRound,updateStepEndingTime
-  ,addArrangement,ballMovement,endRound,updateRoundArch
+  ,addArrangement,ballMovement,endRound,updateRoundArch,endGame
 }

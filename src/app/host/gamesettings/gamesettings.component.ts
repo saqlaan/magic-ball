@@ -45,6 +45,13 @@ export class GamesettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.gameSettingFomm.setValue({
+      groupName: "",
+      groupSize: 4,
+      rounds: 0,
+      balls: 1,
+      timePerRound: 1
+    });
     this.game.save_metrics = false;
     this.game.access_toolbox = false;
     const user = JSON.parse(<string>localStorage.getItem('user'));

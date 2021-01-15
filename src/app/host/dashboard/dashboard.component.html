@@ -23,7 +23,7 @@
     <button (click)="updateProfile()" class="upgrade" mat-raised-button >Upgrade your account</button>
     <button class="archive" mat-raised-button>Metrics Archive</button>
     <button class="manual" mat-raised-button>Manual Delegate entry </button>
-    <p fxLayoutAlign="center end">Name <br> <br> UserName<br> <br> Number of games facilitated <br> <br> Highest Score</p>
+    <p fxLayoutAlign="center end">Name:  {{name}}<br><br>UserName:  {{userName}}<br> <br> Number of games facilitated <br> <br> Highest Score</p>
   </div>
   <div fxLayout="column" fxFlex="50" fxLayoutAlign="left center" >
     <button (click)="addGame()" class="new" mat-raised-button>New Game</button>

@@ -10,11 +10,18 @@ import {WebSocketService} from '@app/shared/services';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  name: any;
+  userName: any;
 
   constructor(private router: Router, private userService: UserService, private ws: WebSocketService) {
   }
 
   ngOnInit(): void {
+    const user = JSON.parse(<string>localStorage.getItem('user'));
+    this.userService.getProfile(user.userId).subscribe((data) => {
+      this.name = data.firstName;
+      this.userName = data.lastName;
+    });
   }
 
   updateProfile() {

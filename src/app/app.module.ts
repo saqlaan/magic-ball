@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {SharedModule} from './shared/shared.module';
-
 import {AppComponent} from './app.component';
 import {AuthHeaderInterceptor} from './interceptors/header.interceptor';
 import {CatchErrorInterceptor} from './interceptors/http-error.interceptor';
@@ -39,6 +38,8 @@ import {GameplayComponent} from './host/gameplay/gameplay.component';
 import {MatTableModule} from '@angular/material/table';
 import {RoundresultComponent} from './host/roundresult/roundresult.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatCheckboxModule,
     ToastrModule.forRoot(),
     MatTableModule,
-    DragDropModule
+    DragDropModule,
+    MatAutocompleteModule
   ],
   declarations: [AppComponent,
     HeaderComponent,

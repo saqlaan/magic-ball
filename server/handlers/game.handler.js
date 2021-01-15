@@ -66,7 +66,6 @@ async function joinGame(req, res) {
     let code = await gameCtrl.findGameByCode(req.body.gameCode)
     if (code) {
       let result = code.players.map(x => (x.id));
-      result.forEach()
       let found = false
       for (let index = 0; index < code.players.length; index++) {
         if (code.players[index].id === req.body.playerId) {
@@ -160,6 +159,11 @@ async function addEstimate(req, res) {
   let game = await gameCtrl.findGameById(req.body.gameId);
   if(game) {
     if(game.currentRound === 1) {
+      if(req.body.archWizard === undefined || req.body.archWizard === '') {
+        res.status(400).json({
+          message: "archWizard is required"
+        })
+      }
       let time =new Date().getTime() + 120000;
       let currentRound = game.currentRound - 1;
       let round = {
@@ -181,9 +185,6 @@ async function addEstimate(req, res) {
     } else {
       if(req.body.balls === undefined || req.body.balls === '') {
         errors.push("balls is required");
-      }
-      if(req.body.archWizard === undefined || req.body.archWizard === '') {
-        errors.push("archWizard is required");
       }
       if(errors.length === 0) {
         let time = new Date().getTime() + 120000;
@@ -519,8 +520,35 @@ async function endRound(req, res) {
     res.status(404).json(errors);
   }
 }
+async function gameEnd(req, res){
+  let errors = [];
+  if(req.body.gameId === undefined || req.body.gameId === '') {
+    errors.push("gameId is required");
+  }
+  if(errors.length === 0) {
 
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
+      let gameEnd = await gameCtrl.endGame(game._id, {completed: true});
+      if(gameEnd) {
+        let result = gameEnd.players.map(x => (x.id));
+        socket.sendMessage([...result, gameEnd.hostId], {method: 'gameEnded', data: null});
+        res.json(gameEnd);
+      } else {
+        res.status(404).json({
+          message: "Game is not ended",
+        })
+      }
+    } else {
+      res.status(404).json({
+        message: "Game not Found",
+      })
+    }
+  } else {
+    res.status(404).json(errors);
+  }
+}
 
 module.exports = {
-  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan, addReady, moveBall, startRound, endRound
+  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan, addReady, moveBall, startRound, endRound, gameEnd
 }

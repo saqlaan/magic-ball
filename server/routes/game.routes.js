@@ -18,6 +18,7 @@ router.post('/add-estimate', asyncHandler(GameHandler.addEstimate));
 router.post('/add-plan', asyncHandler(GameHandler.addPlan));
 router.post('/add-ready', asyncHandler(GameHandler.addReady));
 router.post('/move-ball', asyncHandler(GameHandler.moveBall));
+router.post('/game-end', asyncHandler(GameHandler.gameEnd));
 
 async function addgame(req, res) {
   let game = await gameCtrl.insert(req.body);

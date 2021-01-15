@@ -16,11 +16,14 @@ export class AddestimateComponent implements OnInit {
   gameId: any;
   archWizard: any;
   show!: boolean;
+  show1 = true;
   batchNumber: any;
   estimatedBalls: any;
   estimateForm = new FormGroup({
     estimatedBalls: new FormControl('', [Validators.required]),
     archWizard: new FormControl('', [Validators.required]),
+    scoreKeeper: new FormControl('', [Validators.required]),
+    timeKeeper: new FormControl('', [Validators.required]),
   });
 
   constructor(private gameService: GameService, private  router: Router) {

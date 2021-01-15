@@ -63,7 +63,11 @@ const GameSchema = new mongoose.Schema({
   currentRound: {
     type: Number,
     required: false
-  },
+  },completed: {
+  type: Boolean,
+    required: false,
+    default: false,
+},
 });
 
 module.exports = mongoose.model('Game', GameSchema);
