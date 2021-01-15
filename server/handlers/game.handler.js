@@ -6,6 +6,16 @@ const gameCtrl = require("../controllers/game.controller");
 const socket = require('../socket');
 const Round = require('../models/round.model')
 
+async function addGame(req, res) {
+  let game = await gameCtrl.insert(req.body);
+  res.json(game);
+}
+
+async function searchGame(req, res) {
+  let game = await gameCtrl.addUserInGame(req.body);
+  return res.json(game);
+}
+
 async function gameSettings(req, res) {
   let errors = [];
   if (errors.length === 0) {
@@ -30,20 +40,51 @@ async function gameSettings(req, res) {
 
 async function getGameByCode(req, res) {
   let errors = [];
-
   if (req.params.gameCode === undefined || req.params.gameCode === '') {
     errors.push("gameId is required");
   }
   if (errors.length === 0) {
     let game = await gameCtrl.findGameByCode(req.params.gameCode);
     if (game) {
-      res.json(game);
+      const obj = game.toObject();
+      if(game.currentRound > 0){
+        let currentRound = obj.rounds[obj.currentRound - 1];
+        currentRound['playersWithStatus'] = []
+        currentRound.arrangement.forEach((arrangement,index) => {
+          let playerObj = {
+            ...arrangement,
+            status: '',
+            archWizard: '',
+            currentBallHolder: ''
+          };
+          if(currentRound.greenPlayers.includes(arrangement.id.toString())) {
+            playerObj['status'] = 'green';
+          }else if(currentRound.redPlayers.includes(arrangement.id.toString())) {
+            playerObj['status'] = 'red';
+          }
+          if(game.archWizard != undefined){
+            if(game.archWizard.toString() == arrangement.id.toString()){
+              playerObj['archWizard'] = true;
+            }else{
+              playerObj['archWizard'] = false;
+            }
+          }
+          if(currentRound.currentBallHolder != undefined){
+            if(currentRound.currentBallHolder.toString() == arrangement.id.toString()){
+              playerObj['currentBallHolder'] = true;
+            }else{
+              playerObj['currentBallHolder'] = false;
+            }
+          }
+          currentRound['playersWithStatus'].push(playerObj);
+        })
+      }
+      res.json(obj);
     } else {
       res.status(404).json({
         message: 'game not found'
       });
     }
-
   } else {
     res.status(404).json({
       errors
@@ -223,59 +264,31 @@ async function addPlan(req, res) {
     errors.push("arrangement is required");
   }
   if(errors.length === 0) {
-    if(req.body.arrangement.length !== 0) {
-      let game = await gameCtrl.findGameById(req.body.gameId);
-      if(game) {
-        let time = new Date().getTime() + 120000;
-        let currentRound = game.currentRound - 1;
-        let roundTime = time;
-
-        const roundsId = game.rounds[currentRound]._id;
-        let arrangement = req.body.arrangement.map(x => (x.inc_id));
-        let updateGame = await gameCtrl.updatePlan(arrangement, req.body.gameId, roundsId, roundTime);
-
-        if(updateGame) {
-          let result = updateGame.players.map(x => (x.id));
-          socket.sendMessage([...result, updateGame.hostId], {method: 'planAdded', data: null});
-          res.json(updateGame);
-        }else{
-          res.status(404).json(
-            {message: 'game is not updated'}
-          )
-        }
-
-      }else{
-        res.status(404).json({
-          message: "Game not Found",
-        })
-      }
-    }else{
-      let game = await gameCtrl.findGameById(req.body.gameId);
-      if(game) {
-        let time = new Date().getTime() + 120000;
-        let currentRound = game.currentRound - 1;
-        let roundTime = time;
-        const roundsId = game.rounds[currentRound]._id;
-        let updateGame = await gameCtrl.updateStepEndingTime(req.body.gameId, roundsId, roundTime);
-        if(updateGame) {
-          let result = updateGame.players.map(x => (x.id));
-          socket.sendMessage([...result, updateGame.hostId], {method: 'planAdded', data: null});
-          res.json(updateGame);
-        } else {
-          res.status(404).json(
-            {message: 'game is not updated'}
-          )
-        }
-
+    let game = await gameCtrl.findGameById(req.body.gameId);
+    if (game) {
+      let roundEndingTime = new Date().getTime() + 120000;
+      let currentRound = game.currentRound - 1;
+      const roundsId = game.rounds[currentRound]._id;
+      let updatedGame;
+      if (req.body.arrangement.length !== 0) {
+        updatedGame = await gameCtrl.updatePlan(req.body.arrangement, req.body.gameId, roundsId, roundEndingTime);
       } else {
-        res.status(404).json({
-          message: "Game not Found",
-        })
+        updatedGame = await gameCtrl.updatePlan(game.players, req.body.gameId, roundsId, roundEndingTime);
       }
-
+      if (updatedGame) {
+        let result = updatedGame.players.map(x => (x.id));
+        socket.sendMessage([...result, updatedGame.hostId], {method: 'planAdded', data: null});
+        res.json(updatedGame);
+      } else {
+        res.status(404).json(
+          {message: 'game is not updated'}
+        )
+      }
+    } else {
+      res.status(404).json({
+        message: "Game not Found",
+      })
     }
-  } else {
-    res.status(404).json(errors)
   }
 }
 
@@ -501,5 +514,16 @@ async function endRound(req, res) {
 
 
 module.exports = {
-  gameSettings, joinGame, getGameByCode, startGame, addEstimate, addPlan, addReady, moveBall, startRound, endRound
+  addGame,
+  searchGame,
+  gameSettings,
+  joinGame,
+  getGameByCode,
+  startGame,
+  addEstimate,
+  addPlan,
+  addReady,
+  moveBall,
+  startRound,
+  endRound
 }
