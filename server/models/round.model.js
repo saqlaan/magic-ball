@@ -48,7 +48,7 @@ const RoundSchema = new mongoose.Schema({
     },
     ballMovement: {},
     arrangement: [{
-      type: Number
+      type: Object
     }],
   greenPlayers: [{
     type: String,
