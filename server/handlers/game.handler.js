@@ -40,14 +40,46 @@ async function gameSettings(req, res) {
 
 async function getGameByCode(req, res) {
   let errors = [];
-
   if (req.params.gameCode === undefined || req.params.gameCode === '') {
     errors.push("gameId is required");
   }
   if (errors.length === 0) {
     let game = await gameCtrl.findGameByCode(req.params.gameCode);
     if (game) {
-      res.json(game);
+      const obj = game.toObject();
+      if(game.currentRound > 0){
+        let currentRound = obj.rounds[obj.currentRound - 1];
+        currentRound['playersWithStatus'] = []
+        currentRound.arrangement.forEach((arrangement,index) => {
+          let playerObj = {
+            ...arrangement,
+            status: '',
+            archWizard: '',
+            currentBallHolder: ''
+          };
+          if(currentRound.greenPlayers.includes(arrangement.id.toString())) {
+            playerObj['status'] = 'green';
+          }else if(currentRound.redPlayers.includes(arrangement.id.toString())) {
+            playerObj['status'] = 'red';
+          }
+          if(game.archWizard != undefined){
+            if(game.archWizard.toString() == arrangement.id.toString()){
+              playerObj['archWizard'] = true;
+            }else{
+              playerObj['archWizard'] = false;
+            }
+          }
+          if(currentRound.currentBallHolder != undefined){
+            if(currentRound.currentBallHolder.toString() == arrangement.id.toString()){
+              playerObj['currentBallHolder'] = true;
+            }else{
+              playerObj['currentBallHolder'] = false;
+            }
+          }
+          currentRound['playersWithStatus'].push(playerObj);
+        })
+      }
+      res.json(obj);
     } else {
       res.status(404).json({
         message: 'game not found'
