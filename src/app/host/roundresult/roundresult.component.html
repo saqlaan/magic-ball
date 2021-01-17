@@ -1,0 +1,33 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div fxLayout="column" fxFlex="20" fxFlex.md="40">
+      <h1 class="magic">Fire Ball</h1>
+    </div>
+    <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
+      <h1 class="estimate">Round Results</h1>
+    </div>
+  </div>
+  <div fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <p class="team" style="font-size: 100px">{{roundScore}}!</p>
+      <div fxLayout="row" fxFlex="100">
+        <p class="team">Magic Balls!</p>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <button class="next" mat-raised-button>Metrics</button>
+    </div>
+  </div>
+  <div *ngIf="!roundComplete" class="main-section" fxLayout="row" fxFlex="100" style="margin-top: 20px" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="90" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="startRound()" mat-raised-button color="primary">Start Next Round</button>
+    </div>
+  </div>
+  <div *ngIf="roundComplete" class="main-section" fxLayout="row" fxFlex="100" style="margin-top: 20px" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="90" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="finalResult()" mat-raised-button color="primary">Final Result</button>
+    </div>
+  </div>
+
+</div>

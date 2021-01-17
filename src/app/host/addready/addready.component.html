@@ -11,32 +11,45 @@
       </div>
     </div>
   </div>
-<!--  <div fxLayout="row" fxFlex="100">-->
-<!--    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">-->
-<!--      <p class="team">How many Fire <br> balls can the<br> team make</p>-->
-<!--    </div>-->
-<!--  </div>-->
   <form class="example-form" [formGroup]="readyForm">
-    <div fxLayout="row" *ngIf="show" >
-      <div fxFlex="100" fxFlex.xs="50" fxFlex.md="100" fxFlex.sm="20" fxFlex.gt-xs="80" fxLayoutAlign="center center">
-        <p class="Estimate">Batch Number:</p>
-        <div fxLayout="column" fxFlex="15" fxFlex.md="19" fxFlex.sm="20" fxFlex.xs="20" fxLayoutAlign="center center">
-          <mat-form-field>
-            <input formControlName="batchNumber" matbutton type="number" class="mat-form" min="-1" max="30">
+    <div fxLayout="row" *ngIf="show" fxLayoutAlign="center center" fxFlex="100">
+      <div fxFlex="100" fxLayoutAlign="center center">
+        <div fxLayout="column" fxFlex="40" fxFlex.md="10" fxFlex.sm="20" fxFlex.xs="20" fxLayoutAlign="center center">
+          <mat-form-field appearance="fill">
+            <mat-label>Batch Number</mat-label>
+            <mat-select formControlName="batchNumber">
+              <mat-option value="1">1</mat-option>
+              <mat-option value="2">2</mat-option>
+              <mat-option value="3">3</mat-option>
+              <mat-option value="4">4</mat-option>
+              <mat-option value="5">5</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
-    </div>
-    <div fxLayout="row"  *ngIf="show" >
       <div fxFlex="100" fxFlex.xs="50" fxFlex.md="100" fxFlex.sm="20" fxFlex.gt-xs="80" fxLayoutAlign="center center">
-        <p class="Estimate">Balls Arrangement:</p>
-        <div fxLayout="column" fxFlex="15" fxFlex.md="19" fxFlex.sm="20" fxFlex.xs="20" fxLayoutAlign="center center">
-          <mat-form-field>
-            <input  matbutton type="number" class="mat-form" min="-1" max="30">
-          </mat-form-field>
+        <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
+          <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">
+            <div *ngFor="let ballArrangement of ballsArrangement; let i= index" fxFlex="100" fxLayout="row" fxFlex="50"
+                 fxFlex.xs="70" fxLayoutAlign="center center">
+              <div *ngFor=" let balls of ballArrangement; let j= index" fxFlex="50" fxLayout="column" fxFlex="9"
+                   fxFlex.xs="20" fxLayoutAlign="center center" style="margin-left: 10%; margin-right: 10% ">
+                <div (click)="redBall(i,j)">
+                  <mat-icon style="color: lightpink" *ngIf="balls === -1">circle</mat-icon>
+                </div>
+                <div (click)="greenBall(i,j)">
+                  <mat-icon style="color: lightgreen" *ngIf="balls === 1">circle</mat-icon>
+                </div>
+                <div (click)="whiteBall(i,j)">
+                  <mat-icon *ngIf="balls === 0" style="color: lightgreen">sports_baseball</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
   </form>
   <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
     <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">

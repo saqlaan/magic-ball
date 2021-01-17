@@ -15,7 +15,7 @@ export class GameplayComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  displayedColumns: string[] = ['currentRound',  'ballsEstimate', "ballsMade" ];
+  displayedColumns: string[] = ['currentRound', 'ballsEstimate', 'ballsMade'];
   dataSource: any;
   list: any[] = [];
 
@@ -37,7 +37,7 @@ export class GameplayComponent implements AfterViewInit {
   countingResponsible: any = 3;
   timekeeper: any = 5;
   swapped: any[] = [];
-  currentRound: any;
+  currentRound: number = 0;
 
 
   constructor(private gameService: GameService, private  router: Router) {
@@ -48,8 +48,9 @@ export class GameplayComponent implements AfterViewInit {
     this.gameService.getGame(this.gameCode).subscribe((game) => {
       this.players = game.players.map((id: any) => (id.id));
       this.list = game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
+      this.gameId = game._id;
       this.arch = 1 + this.players.indexOf((game.rounds[game.currentRound - 1].currentBallHolder));
-      this. currentRound = game.rounds.length;
+      this.currentRound = game.currentRound;
       this.dataSource = new MatTableDataSource(game.rounds);
       this.div = 360 / this.list.length;
       this.radius = 100;
@@ -97,5 +98,11 @@ export class GameplayComponent implements AfterViewInit {
     return null;
   }
 
+
+  endRound() {
+    this.gameService.endRound(this.gameId).subscribe((game) => {
+      this.router.navigate(['roundresult']);
+    });
+  }
 
 }

@@ -1,0 +1,46 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div fxLayout="column" fxFlex="20" fxFlex.md="40">
+      <h1 class="magic">Fire Ball</h1>
+    </div>
+    <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
+      <h1 class="estimate">Final Results</h1>
+    </div>
+  </div>
+  <div fxLayout="row" fxFlex="100" >
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >
+      <p class="team">Congratulations!!!<br><br>Share Your<br> Results</p>
+      <div fxLayout="row" fxFlex="100" >
+<!--        <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >-->
+<!--          <button type="button" mdbBtn color="fb" class="waves-light" mdbWavesEffect><mdb-icon fab icon="facebook-f"></mdb-icon></button>-->
+<!--        </div>-->
+<!--        <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >-->
+<!--          <button type="button" mdbBtn color="fb" class="waves-light" mdbWavesEffect><i class="fab fa-twitter left"></i><mat-icon>facebook</mat-icon></button>-->
+<!--        </div>-->
+<!--        <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >-->
+<!--          <button type="button" mdbBtn color="fb" class="waves-light" mdbWavesEffect><i class="fab fa-facebook-f left"></i><mat-icon>facebook</mat-icon></button>-->
+<!--        </div>-->
+<!--        <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >-->
+<!--          <button type="button" mdbBtn color="li" class=" waves-light" mdbWavesEffect><mdb-icon fab icon="linkedin-in"></mdb-icon></button>-->
+<!--        </div>-->
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <p class="team" style="font-size: 100px">{{totalScore}}!</p>
+      <div fxLayout="row" fxFlex="100" >
+        <p class="team">Magic Balls!</p>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >
+      <button  class="next" mat-raised-button>Metrics</button>
+    </div>
+  </div>
+
+  <div  class="main-section" fxLayout="row" fxFlex="100" style="margin-top: 20px" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="90" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="dashboard()" mat-raised-button color="primary">Go to dashboard</button>
+    </div>
+  </div>
+
+</div>

@@ -2,6 +2,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {GameService} from '@app/shared/services/game/game.service';
 import {DataService} from '@app/shared/services/data.service';
 import {GamesettingsComponent} from '@app/host/gamesettings/gamesettings.component';
+import {error} from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-dialogbox',
@@ -27,9 +28,12 @@ export class DialogboxComponent implements OnInit {
   }
 
   addplayer(player: any) {
-    this.playerAdded.push(player.firstName);
-    this.dataService.setData(player._id);
+    let result = this.dataService.getData();
+    let index = result.indexOf((player._id));
+    if (index == -1) {
+      this.playerAdded.push(player.firstName);
+      this.dataService.setData(player._id);
+    }
+
   }
-
-
 }
