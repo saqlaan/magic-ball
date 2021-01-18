@@ -31,17 +31,24 @@ export class LoginComponent implements OnInit {
     this.user.password = this.loginForm.value.password;
 
     this.userService.loginUser(this.user).subscribe((User) => {
+
       const user = {
         'userToken': User.token,
         'userId': User._id
       };
       localStorage.setItem('user', JSON.stringify(user));
-      this.toast.success('you are logged in successfully', 'LoginIn', {
+      this.toast.success('you are logged in successfully', 'Login', {
         titleClass: 'center',
         messageClass: 'center'
       });
       this.ws.init(User._id);
       this.router.navigate(['hostdashboard']);
+    }, error => {
+      console.log(error.error)
+      this.toast.error(error.error.message, 'Login!', {
+        titleClass: 'center',
+        messageClass: 'center'
+      });
     });
   }
 

@@ -18,9 +18,12 @@ export class AddreadyComponent implements OnInit {
     [-1, -1, -1, -1, -1]
   ];
   gameCode!: string;
+  selectedBalls: number = 0;
+  batchCompleted: boolean = false;
   totalRounds: any;
   whiteBallStatus: any;
   currentRound: any;
+  balls: any;
   gameId: any;
   show: boolean;
   readyForm = new FormGroup({
@@ -34,12 +37,9 @@ export class AddreadyComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    console.log(this.ballsArrangement);
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((Game) => {
       this.currentRound = Game.currentRound;
-      console.log(this.currentRound);
       if (this.currentRound == 1) {
         this.show = false;
       }
@@ -48,7 +48,14 @@ export class AddreadyComponent implements OnInit {
     });
   }
 
+  onValueChanges(val: any): void {
+    this.batchCompleted = false;
+    console.log(this.readyForm.value.batchNumber);
+    this.readyForm.value.batchNumber = val;
+  }
+
   addReady() {
+
     if (this.currentRound == 1) {
       this.gameService.addReady(this.gameId, [null], '').subscribe((Game) => {
         this.router.navigate(['/gameplay']);
@@ -61,6 +68,10 @@ export class AddreadyComponent implements OnInit {
   }
 
   redBall(i: any, j: any) {
+    this.selectedBalls = this.selectedBalls + 1;
+    if ( this.readyForm.value.batchNumber == this.selectedBalls) {
+      this.batchCompleted = true;
+    }
     for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
       for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
         if (index1 == i && index2 == j) {
@@ -71,6 +82,10 @@ export class AddreadyComponent implements OnInit {
   }
 
   whiteBall(b: any, s: any) {
+    this.selectedBalls = this.selectedBalls - 1;
+    if ( this.readyForm.value.batchNumber !== this.selectedBalls) {
+      this.batchCompleted = false;
+    }
     for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
       for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
         if (index1 == b && index2 == s) {
@@ -86,6 +101,10 @@ export class AddreadyComponent implements OnInit {
 
 
   greenBall(i: any, j: any) {
+    this.selectedBalls = this.selectedBalls + 1;
+    if (this.readyForm.value.batchNumber == this.selectedBalls) {
+      this.batchCompleted = true;
+    }
     for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
       for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
         if (index1 == i && index2 == j) {

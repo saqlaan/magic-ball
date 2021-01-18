@@ -36,6 +36,13 @@ export class UserService {
       ...user
     });
   }
+  public logout(
+    userId: any
+  ): Observable<Message> {
+    return this.http.post<Message>('/api/user/logout', {
+      userId
+    });
+  }
 
   public updateUser(
     user: any,

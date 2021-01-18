@@ -17,7 +17,7 @@
         <div fxLayout="column" fxFlex="40" fxFlex.md="10" fxFlex.sm="20" fxFlex.xs="20" fxLayoutAlign="center center">
           <mat-form-field appearance="fill">
             <mat-label>Batch Number</mat-label>
-            <mat-select formControlName="batchNumber">
+            <mat-select formControlName="batchNumber" (ngModelChange)="onValueChanges($event)">
               <mat-option value="1">1</mat-option>
               <mat-option value="2">2</mat-option>
               <mat-option value="3">3</mat-option>
@@ -27,20 +27,20 @@
           </mat-form-field>
         </div>
       </div>
-      <div fxFlex="100" fxFlex.xs="50" fxFlex.md="100" fxFlex.sm="20" fxFlex.gt-xs="80" fxLayoutAlign="center center">
+      <div fxFlex="100" fxFlex.xs="50" fxFlex.md="100" fxFlex.sm="20" fxFlex.gt-xs="80" fxLayoutAlign="center center"  [attr.readonly]="selectedBalls">
         <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
           <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">
             <div *ngFor="let ballArrangement of ballsArrangement; let i= index" fxFlex="100" fxLayout="row" fxFlex="50"
                  fxFlex.xs="70" fxLayoutAlign="center center">
               <div *ngFor=" let balls of ballArrangement; let j= index" fxFlex="50" fxLayout="column" fxFlex="9"
-                   fxFlex.xs="20" fxLayoutAlign="center center" style="margin-left: 10%; margin-right: 10% ">
-                <div (click)="redBall(i,j)">
+                   fxFlex.xs="20" fxLayoutAlign="center center" style="margin-left: 10%; margin-right: 10% " >
+                <div (click)="(!batchCompleted ? redBall(i,j):false)">
                   <mat-icon style="color: lightpink" *ngIf="balls === -1">circle</mat-icon>
                 </div>
-                <div (click)="greenBall(i,j)">
+                <div (click)="(!batchCompleted ? greenBall(i,j):false)">
                   <mat-icon style="color: lightgreen" *ngIf="balls === 1">circle</mat-icon>
                 </div>
-                <div (click)="whiteBall(i,j)">
+                <div (click)="whiteBall(i,j)"  >
                   <mat-icon *ngIf="balls === 0" style="color: lightgreen">sports_baseball</mat-icon>
                 </div>
               </div>
@@ -53,7 +53,7 @@
   </form>
   <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
     <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">
-      <button (click)="addReady()" class="next" mat-raised-button>Start Play</button>
+      <button (click)="(currentRound == 1 ? addReady(): (!batchCompleted ? false: addReady()))" class="next" mat-raised-button>Start Play</button>
     </div>
   </div>
 </div>

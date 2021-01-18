@@ -6,13 +6,17 @@ const escapeStringRegexp = require('escape-string-regexp');
 async function insert(user) {
     return await new User(user).save();
 }
+async function removeToken(id){
+    return await User.findByIdAndUpdate({_id: id}, {
+        token: ''
+    }, {new: true});
+}
 
 async function findById(id) {
     return await User.findById(id);
 }
 
-async function findByEmail(user) {
-    let email = user;
+async function findByEmail(email) {
     return User.findOne({email: email});
 }
 
@@ -81,5 +85,6 @@ module.exports = {
     findById,
     updatePassword,
     oldPassword,
-    searchPlayer
+    searchPlayer,
+    removeToken
 }

@@ -33,7 +33,7 @@ export class SignupComponent implements OnInit {
     password: new FormControl('', [Validators.minLength(6)])
   });
 
-  constructor(private router: Router, private userService: UserService, private ws: WebSocketService , private toast: ToastrService) {
+  constructor(private router: Router, private userService: UserService, private ws: WebSocketService, private toast: ToastrService) {
 
   }
 
@@ -51,12 +51,21 @@ export class SignupComponent implements OnInit {
     this.user.password = this.userForm.value.password;
     this.user.type = 'host';
     this.userService.addUser(this.user).subscribe((message) => {
-      localStorage.setItem('message', message.message);
-      this.toast.success('you are registered successfully', 'Sign Up',  {
-        titleClass: "center",
-        messageClass: "center"
-      });
-      this.router.navigate(['']);
+      if (message.message == 'you are registered') {
+        this.toast.success('you are registered successfully', 'Sign Up', {
+          titleClass: 'center',
+          messageClass: 'center'
+        });
+        this.router.navigate(['']);
+
+      } else {
+        this.toast.error(message.message, 'Sign Up Error!', {
+          titleClass: 'center',
+          messageClass: 'center'
+        });
+        this.router.navigate(['hostsignup']);
+        this.userForm.reset();
+      }
     });
   }
 }
