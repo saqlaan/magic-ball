@@ -43,6 +43,10 @@ const socket = {
         case 'moveBall':
           socket.moveBall(data.data.gameCode, client);
           break;
+        case 'connect':
+          client.send(JSON.stringify({
+            method: 'ok',
+          }));
       }
     };
     client.isAlive = true;
