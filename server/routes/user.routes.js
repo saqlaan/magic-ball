@@ -6,6 +6,7 @@ const {verifyToken} = require("../middleware/index.middleware");
 
 router.post('/signup', asyncHandler(UserHandler.signup));
 router.post('/login', asyncHandler(UserHandler.login));
+router.post('/logout', asyncHandler(UserHandler.logout));
 router.post('/forgot-password', asyncHandler(UserHandler.forgotPassword));
 router.post('/reset-password', asyncHandler(UserHandler.resetPassword));
 router.post('/get-profile', asyncHandler(UserHandler.getProfile));

@@ -33,18 +33,25 @@ async function signup(req, res) {
     errors.push("type is required");
   }
   if (errors.length === 0) {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    req.body.password = hashedPassword;
+    let email = await userCtrl.findByEmail(req.body.email);
+    if (!email) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      req.body.password = hashedPassword;
 
-    let user = await userCtrl.insert(req.body);
-    if (user) {
-      res.json({
-        message: "you are registered"
-      });
+      let user = await userCtrl.insert(req.body);
+      if (user) {
+        res.json({
+          message: "you are registered"
+        });
+      } else {
+        res.status(400).json({
+          message: "not registered successfully"
+        });
+      }
     } else {
-      res.status(400).json({
-        message: "not registered successfully"
+      res.json({
+        message: "email is already exist"
       });
     }
   } else {
@@ -70,19 +77,27 @@ async function login(req, res) {
     let user = await userCtrl.findByEmail(req.body.email);
     if (user) {
       bcrypt.compare(req.body.password, user.password, async function (err, result) {
-        if (result) {
-          const payLoad = {email: user.email, firstName: user.firstName, lastName: user.lastName, id: user._id};
-          const token = jwt.sign(payLoad, process.env.JWT_SECRET);
-          let update = await userCtrl.updateToken(user._id, token);
-          update = update.toObject();
-          delete update.password;
-          res.json(update);
-        } else {
-          res.status(400).json({
-            message: 'passsword not correct',
-          })
+          if (result) {
+            console.log("dss", user.token)
+            if (!user.token) {
+              const payLoad = {email: user.email, firstName: user.firstName, lastName: user.lastName, id: user._id};
+              const token = jwt.sign(payLoad, process.env.JWT_SECRET);
+              let update = await userCtrl.updateToken(user._id, token);
+              update = update.toObject();
+              delete update.password;
+              res.json(update);
+            } else {
+              res.status(400).json({
+                message: 'you are  already loggedIn',
+              })
+            }
+          } else {
+            res.status(400).json({
+              message: 'passsword not correct',
+            })
+          }
         }
-      })
+      )
     } else {
       res.status(404).json({
         message: "email not exist"
@@ -343,7 +358,45 @@ async function searchPlayer(req, res) {
   }
 }
 
+async function logout(req, res) {
+  let errors = [];
+
+  if (req.body.userId === undefined || req.body.userId === '') {
+    errors.push("userId is required");
+  }
+  if (errors.length === 0) {
+    let user = await userCtrl.findById(req.body.userId);
+    if (user) {
+      let updateUser = await userCtrl.removeToken(req.body.userId);
+      if (updateUser) {
+        res.json({
+          message: "you are loggedout succesfully"
+        })
+      } else {
+        res.status(404).json({
+          message: "user not logged out"
+        })
+      }
+    } else {
+      res.status(404).json({
+        message: "user not found"
+      })
+    }
+  } else {
+    res.status(404).json(errors);
+  }
+}
+
 
 module.exports = {
-  signup, login, updateProfile, forgotPassword, resetPassword, getProfile, guestLogin, updatePassword, searchPlayer
+  signup,
+  login,
+  logout,
+  updateProfile,
+  forgotPassword,
+  resetPassword,
+  getProfile,
+  guestLogin,
+  updatePassword,
+  searchPlayer
 }
