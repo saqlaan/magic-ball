@@ -506,6 +506,7 @@ async function endRound(req, res) {
       if(endRound) {
         let result = endRound.players.map(x => (x.id));
         socket.sendMessage([...result, endRound.hostId], {method: 'roundEnded', data: null});
+        socket.removeUsers(...result);
         res.json(endRound);
       } else {
         res.status(404).json({

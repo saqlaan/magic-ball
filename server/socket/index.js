@@ -150,6 +150,13 @@ const socket = {
         socket.clients[element].client.client.send(JSON.stringify({method,data}));
       }
     });
+  },
+  removeUsers: (users) => {
+    users.forEach(element => {
+      if (socket.clients[element] !== undefined) {
+        delete socket.clients[element]
+      }
+    });
   }
 }
 module.exports = SocketSingleton.getInstance().socket
