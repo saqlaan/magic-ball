@@ -16,7 +16,6 @@ export class AddestimateComponent implements OnInit {
   result: any;
   gameId: any;
   archWizard: any;
-  playerLength: number = 0;
   show!: boolean;
   show1 = true;
   batchNumber: any;
@@ -38,7 +37,6 @@ export class AddestimateComponent implements OnInit {
       this.currentRound = Game.currentRound;
       this.totalRounds = Game.noOfRounds;
       this.gameId = Game._id;
-      this.playerLength = Game.players.length;
       if (this.currentRound == 1) {
         this.estimateForm.patchValue({
           scoreKeeper: 1,
