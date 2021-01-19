@@ -15,7 +15,7 @@
     <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
       <p class="team">How many Fire <br> balls can the<br> team make</p>
     </div>
-    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" *ngIf="!show">
       <p class="team">Assigning any<br>roles?</p>
     </div>
     <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" *ngIf="show">
@@ -30,18 +30,13 @@
           <input formControlName="estimatedBalls" matInput type="number" class="mat-form" min="1" max="30">
         </mat-form-field>
       </div>
-      <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">
+      <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center" *ngIf="!show">
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">
             <mat-form-field appearance="fill">
               <mat-label>Time Keeper</mat-label>
               <mat-select formControlName="timeKeeper">
-                <mat-option value="1">1</mat-option>
-                <mat-option value="2">2</mat-option>
-                <mat-option value="3">3</mat-option>
-                <mat-option value="4">4</mat-option>
-                <mat-option value="5">5</mat-option>
-                <mat-option value="5">5</mat-option>
+                <mat-option *ngFor="let player of result; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -49,12 +44,7 @@
             <mat-form-field appearance="fill">
               <mat-label>Score Keeper</mat-label>
               <mat-select formControlName="scoreKeeper">
-                <mat-option value="1">1</mat-option>
-                <mat-option value="2">2</mat-option>
-                <mat-option value="3">3</mat-option>
-                <mat-option value="4">4</mat-option>
-                <mat-option value="5">5</mat-option>
-                <mat-option value="5">5</mat-option>
+                <mat-option *ngFor="let player of result; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -63,13 +53,8 @@
       <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center" *ngIf="show">
         <mat-form-field appearance="fill">
           <mat-label>Fire By</mat-label>
-          <mat-select formControlName="archWizard">
-            <mat-option value="1">1</mat-option>
-            <mat-option value="2">2</mat-option>
-            <mat-option value="3">3</mat-option>
-            <mat-option value="4">4</mat-option>
-            <mat-option value="5">5</mat-option>
-            <mat-option value="5">5</mat-option>
+          <mat-select  formControlName="archWizard">
+            <mat-option *ngFor="let player of result; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -77,7 +62,8 @@
   </form>
   <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
     <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">
-      <button (click)="addEstimate()" class="next" mat-raised-button>Next Round</button>
+      <button [disabled]="!estimateForm.valid" (click)="addEstimate()" class="next" mat-raised-button>Next Round</button>
     </div>
   </div>
+
 </div>

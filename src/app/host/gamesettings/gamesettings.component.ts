@@ -44,7 +44,7 @@ export class GamesettingsComponent implements OnInit {
   ngOnInit(): void {
     this.gameSettingFomm.setValue({
       groupName: "",
-      groupSize: 4,
+      groupSize: 5,
       rounds: 0,
       balls: 1,
       timePerRound: 1
