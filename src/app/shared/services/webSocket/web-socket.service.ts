@@ -14,6 +14,14 @@ export class WebSocketService {
   constructor(private gameService: GameService) {
     this.ws.onopen = () => {
       console.log('Connection opened!');
+      let user = localStorage.getItem('user');
+      if (user) {
+        user = JSON.parse(<string>localStorage.getItem('user'));
+        if (user) {
+          this.init(user['userId']);
+        }
+      }
+      // console.log(JSON.parse(localStorage.getItem('user') || ""));
     };
     this.ws.onerror = (e) => {
       console.log(e);
