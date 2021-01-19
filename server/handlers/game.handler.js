@@ -506,7 +506,6 @@ async function endRound(req, res) {
       if(endRound) {
         let result = endRound.players.map(x => (x.id));
         socket.sendMessage([...result, endRound.hostId], {method: 'roundEnded', data: null});
-        socket.removeUsers(...result);
         res.json(endRound);
       } else {
         res.status(404).json({
@@ -535,6 +534,7 @@ async function gameEnd(req, res){
       if(gameEnd) {
         let result = gameEnd.players.map(x => (x.id));
         socket.sendMessage([...result, gameEnd.hostId], {method: 'gameEnded', data: null});
+        socket.removeUsers([...result]);
         res.json(gameEnd);
       } else {
         res.status(404).json({

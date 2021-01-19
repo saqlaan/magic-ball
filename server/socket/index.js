@@ -151,7 +151,7 @@ const socket = {
       }
     });
   },
-  removeUsers: (users) => {
+  removeUsers: (users=[]) => {
     users.forEach(element => {
       if (socket.clients[element] !== undefined) {
         delete socket.clients[element]
