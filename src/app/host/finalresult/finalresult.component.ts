@@ -22,7 +22,8 @@ export class FinalresultComponent implements OnInit {
     });
   }
   dashboard(){
-    this.router.navigate(['/hostdashboard'])
+    this.gameService.endGame(this.gameId).subscribe((game)=>{
+      this.router.navigate(['/hostdashboard']);
+    })
   }
-
 }

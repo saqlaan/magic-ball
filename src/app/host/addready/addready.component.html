@@ -34,14 +34,14 @@
                  fxFlex.xs="70" fxLayoutAlign="center center">
               <div *ngFor=" let balls of ballArrangement; let j= index" fxFlex="50" fxLayout="column" fxFlex="9"
                    fxFlex.xs="20" fxLayoutAlign="center center" style="margin-left: 10%; margin-right: 10% " >
-                <div (click)="(!batchCompleted ? redBall(i,j):false)">
-                  <mat-icon style="color: lightpink" *ngIf="balls === -1">circle</mat-icon>
+                <div (click)="(!batchCompleted ? onBallChange(i,j):false)" class="pointer">
+                  <mat-icon *ngIf="balls === -1" class="redBall" >circle</mat-icon>
                 </div>
-                <div (click)="(!batchCompleted ? greenBall(i,j):false)">
-                  <mat-icon style="color: lightgreen" *ngIf="balls === 1">circle</mat-icon>
+                <div (click)="(!batchCompleted ? onBallChange(i,j):false)" class="pointer">
+                  <mat-icon *ngIf="balls === 1"class="greenBall">circle</mat-icon>
                 </div>
-                <div (click)="whiteBall(i,j)"  >
-                  <mat-icon *ngIf="balls === 0" style="color: lightgreen">sports_baseball</mat-icon>
+                <div (click)="getBallStatus(i,j)" class="pointer" >
+                  <mat-icon *ngIf="balls === 0" class="whiteBall">sports_baseball</mat-icon>
                 </div>
               </div>
             </div>
@@ -53,7 +53,8 @@
   </form>
   <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
     <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">
-      <button (click)="(currentRound == 1 ? addReady(): (!batchCompleted ? false: addReady()))" class="next" mat-raised-button>Start Play</button>
+      <button [disabled]="currentRound !==1 && selectedBalls != balls" (click)="(currentRound == 1 ? addReady(): (selectedBalls == balls ? addReady():false))" class="next" mat-raised-button>Start Play</button>
+
     </div>
   </div>
 </div>

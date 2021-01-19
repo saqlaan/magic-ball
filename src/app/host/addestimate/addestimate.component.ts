@@ -9,6 +9,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./addestimate.component.css']
 })
 export class AddestimateComponent implements OnInit {
+  game: any = {};
   gameCode: any;
   totalRounds: any;
   currentRound: any;
@@ -46,9 +47,12 @@ export class AddestimateComponent implements OnInit {
   }
 
   addEstimate() {
-    this.archWizard = this.result[this.estimateForm.value.archWizard - 1];
-    this.estimatedBalls = this.estimateForm.value.estimatedBalls;
-    this.gameService.addEstimate(this.gameId, this.estimatedBalls, this.archWizard).subscribe((Game) => {
+    this.game.archWizard = this.result[this.estimateForm.value.archWizard - 1];
+    this.game.balls = this.estimateForm.value.estimatedBalls;
+    this.game.scoreKeeper = this.result[this.estimateForm.value.scoreKeeper - 1];
+    this.game.timeKeeper = this.result[this.estimateForm.value.timeKeeper -1];
+    this.game.gameId = this.gameId;
+    this.gameService.addEstimate(this.game).subscribe((Game) => {
       this.router.navigate(['/addready']);
     });
   }

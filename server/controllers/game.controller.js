@@ -90,24 +90,13 @@ async function updateStepEndingTime(gameId, roundsId, roundsTime) {
 
 }
 
-async function updateArch(gameId, archWizard, round, roundsId) {
+async function updateArch(gameId, archWizard, round, roundsId,timeKeeper,scoreKeeper) {
   return Game.findOneAndUpdate(
     {_id: gameId, 'rounds._id': roundsId},
     {
       archWizard: archWizard,
-      $set: {
-        'rounds.$.ballsEstimate': round.ballsEstimate
-      }
-    }, {
-      new: true
-    }
-  );
-}
-
-async function updateRoundArch(gameId, round, roundsId) {
-  return Game.findOneAndUpdate(
-    {_id: gameId, 'rounds._id': roundsId},
-    {
+      timeKeeper: timeKeeper,
+      scoreKeeper: scoreKeeper,
       $set: {
         'rounds.$.ballsEstimate': round.ballsEstimate
       }
@@ -136,18 +125,7 @@ async function addReady(gameId, roundId, {batchFlow, ballsArrangement, greenPlay
     }
   );
 }
-async function addArrangement(gameId, round, roundsId) {
-  return Game.findOneAndUpdate(
-    {_id: gameId, 'rounds._id': roundsId},
-    {
-      $set: {
-        'rounds.$.ballsArrangement': round.ballsArrangement,
-      }
-    }, {
-      new: true
-    }
-  );
-}
+
 
 async  function ballMovement(gameId, {roundId,redList, greenList, currentBallHolder, movedList, status, ballsMade, ballsWasted} ){
   return Game.findOneAndUpdate(
@@ -170,6 +148,6 @@ async  function ballMovement(gameId, {roundId,redList, greenList, currentBallHol
 }
 
 module.exports = {
-  insert, addUserInGame, findGameByCode, findGameById, updateGameStart, updatePlan, updateArch, addReady,addRound,updateStepEndingTime
-  ,addArrangement,ballMovement,endRound,updateRoundArch,endGame
+  insert, addUserInGame, findGameByCode, findGameById, updateGameStart,
+  updatePlan, updateArch, addReady,addRound,updateStepEndingTime,ballMovement,endRound,endGame
 }

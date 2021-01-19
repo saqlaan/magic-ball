@@ -6,7 +6,8 @@ const escapeStringRegexp = require('escape-string-regexp');
 async function insert(user) {
     return await new User(user).save();
 }
-async function removeToken(id){
+
+async function removeToken(id) {
     return await User.findByIdAndUpdate({_id: id}, {
         token: ''
     }, {new: true});
@@ -70,8 +71,8 @@ async function oldPassword(Password) {
 }
 
 async function searchPlayer(firstName) {
-    return User.find({firstName:  { $regex: firstName}}, {
-      firstName: 1
+    return User.find({firstName: {$regex: firstName}}, {
+        firstName: 1
     });
 }
 

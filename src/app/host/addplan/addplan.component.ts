@@ -88,7 +88,6 @@ export class AddplanComponent implements AfterViewInit {
       let temp = this.list[indexA];
       this.list[indexA] = this.list[indexB];
       this.list[indexB] = temp;
-      console.log(this.list);
       this.swapped = [];
     }
     return null;

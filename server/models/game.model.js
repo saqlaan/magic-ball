@@ -36,11 +36,19 @@ const GameSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User'
   },
+  timeKeeper: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
+  scoreKeeper: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
   players: [{
     _id: false,
     id: {type: Schema.ObjectId, ref: 'User'},
     incrementalId: {type: String}
-}],
+  }],
   ballsPerRound: {
     type: Number,
     required: false,
@@ -63,11 +71,11 @@ const GameSchema = new mongoose.Schema({
   currentRound: {
     type: Number,
     required: false
-  },completed: {
-  type: Boolean,
+  }, completed: {
+    type: Boolean,
     required: false,
     default: false,
-},
+  },
 });
 
 module.exports = mongoose.model('Game', GameSchema);

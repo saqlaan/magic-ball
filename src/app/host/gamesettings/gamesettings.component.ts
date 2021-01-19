@@ -26,9 +26,6 @@ export class GamesettingsComponent implements OnInit {
   averageScore: any;
   message: any;
 
-  // receiveMessage($event){
-  //   this.message = $event;
-  // }
 
   @Input() data!: any[];
 
@@ -72,9 +69,7 @@ export class GamesettingsComponent implements OnInit {
   gameSettings() {
     {
       this.players = this.dataService.getData();
-      console.log("player =>",this.playerObject);
       for (let counter = 0; counter < this.players.length; counter++) {
-        console.log(counter)
         this.playerObject.push({
           id: this.players[counter],
           incrementalId: counter + 1

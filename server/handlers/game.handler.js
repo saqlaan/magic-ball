@@ -197,6 +197,17 @@ async function addEstimate(req, res) {
       message: "GameId is required",
     })
   }
+  if(req.body.scoreKeeper === undefined || req.body.scoreKeeper === '') {
+    res.status(400).json({
+      message: "scoreKeeper is required"
+    })
+  }
+  if(req.body.timeKeeper === undefined || req.body.timeKeeper === '') {
+    res.status(400).json({
+      message: "timeKeeper is required"
+    })
+  }
+
   let game = await gameCtrl.findGameById(req.body.gameId);
   if(game) {
     if(game.currentRound === 1) {
@@ -213,7 +224,7 @@ async function addEstimate(req, res) {
       }
       const roundsId = game.rounds[currentRound]._id;
 
-      let updateGame = await gameCtrl.updateArch(req.body.gameId, req.body.archWizard, round, roundsId);
+      let updateGame = await gameCtrl.updateArch(req.body.gameId, req.body.archWizard, round, roundsId, req.body.timeKeeper, req.body.scoreKeeper);
       if(updateGame) {
         let result = updateGame.players.map(x => (x.id));
         socket.sendMessage([...result, updateGame.hostId], {method: 'estimateAdded', data: null});
@@ -236,7 +247,7 @@ async function addEstimate(req, res) {
         }
         const roundsId = game.rounds[currentRound]._id;
 
-        let updateGame = await gameCtrl.updateRoundArch(req.body.gameId, round, roundsId);
+        let updateGame = await gameCtrl.updateArch(req.body.gameId,game.archWizard, round, roundsId, req.body.timeKeeper, req.body.scoreKeeper);
         if(updateGame) {
           let result = updateGame.players.map(x => (x.id));
           socket.sendMessage([...result, updateGame.hostId], {method: 'estimateAdded', data: null});

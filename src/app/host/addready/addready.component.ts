@@ -10,16 +10,18 @@ import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
   styleUrls: ['./addready.component.css']
 })
 export class AddreadyComponent implements OnInit {
-  public ballsArrangement: any[][] = [
+  list: any;
+  ballsArrangement: any[][] = [
     [-1, -1, -1, -1, -1],
     [-1, 1, 1, 1, -1],
     [-1, 1, 1, 1, -1],
     [-1, 1, 1, 1, -1],
     [-1, -1, -1, -1, -1]
   ];
+  copyList: any;
   gameCode!: string;
   selectedBalls: number = 0;
-  batchCompleted: boolean = false;
+  batchCompleted!: boolean;
   totalRounds: any;
   whiteBallStatus: any;
   currentRound: any;
@@ -29,7 +31,7 @@ export class AddreadyComponent implements OnInit {
   readyForm = new FormGroup({
     batchNumber: new FormControl('', [Validators.required]),
   });
-  JSON = JSON;
+
 
   constructor(private gameService: GameService, private ws: WebSocketService, private  router: Router) {
     this.show = true;
@@ -37,6 +39,8 @@ export class AddreadyComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.copyList = [...this.ballsArrangement];
+    this.batchCompleted = true;
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((Game) => {
       this.currentRound = Game.currentRound;
@@ -49,13 +53,14 @@ export class AddreadyComponent implements OnInit {
   }
 
   onValueChanges(val: any): void {
+    this.selectedBalls = 0;
+    this.balls = this.readyForm.value.batchNumber;
+    this.ballsArrangement = [...this.copyList];
     this.batchCompleted = false;
-    console.log(this.readyForm.value.batchNumber);
     this.readyForm.value.batchNumber = val;
   }
 
   addReady() {
-
     if (this.currentRound == 1) {
       this.gameService.addReady(this.gameId, [null], '').subscribe((Game) => {
         this.router.navigate(['/gameplay']);
@@ -67,51 +72,29 @@ export class AddreadyComponent implements OnInit {
     }
   }
 
-  redBall(i: any, j: any) {
-    this.selectedBalls = this.selectedBalls + 1;
-    if ( this.readyForm.value.batchNumber == this.selectedBalls) {
-      this.batchCompleted = true;
-    }
-    for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
-      for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
-        if (index1 == i && index2 == j) {
-          this.ballsArrangement[index1][index2] = 0;
-        }
-      }
-    }
-  }
-
-  whiteBall(b: any, s: any) {
-    this.selectedBalls = this.selectedBalls - 1;
-    if ( this.readyForm.value.batchNumber !== this.selectedBalls) {
-      this.batchCompleted = false;
-    }
-    for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
-      for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
-        if (index1 == b && index2 == s) {
-          if (index1 == 0 || index2 == 0 || index1 == this.ballsArrangement.length - 1 || index2 == this.ballsArrangement.length - 1) {
-            this.ballsArrangement[index1][index2] = -1;
-          } else {
-            this.ballsArrangement[index1][index2] = 1;
-          }
-        }
-      }
-    }
-  }
-
-
-  greenBall(i: any, j: any) {
-    this.selectedBalls = this.selectedBalls + 1;
+  onBallChange(i: any, j: any) {
+    this.selectedBalls++;
     if (this.readyForm.value.batchNumber == this.selectedBalls) {
       this.batchCompleted = true;
     }
-    for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
-      for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
-        if (index1 == i && index2 == j) {
-          this.ballsArrangement[index1][index2] = 0;
+    let temp = [...this.ballsArrangement[i]];
+    temp[j] = 0;
+    this.ballsArrangement[i] = temp;
+  }
 
-        }
-      }
+  getBallStatus(i: any, j: any) {
+    this.selectedBalls --;
+    if (this.readyForm.value.batchNumber !== this.selectedBalls) {
+      this.batchCompleted = false;
+    }
+    if (i == 0 || j == 0 || i == this.ballsArrangement.length - 1 || j == this.ballsArrangement.length - 1) {
+      let temp = [...this.ballsArrangement[i]];
+      temp[j] = -1;
+      this.ballsArrangement[i] = temp;
+    } else {
+      let temp = [...this.ballsArrangement[i]];
+      temp[j] = 1;
+      this.ballsArrangement[i] = temp;
     }
   }
 
