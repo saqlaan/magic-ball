@@ -23,6 +23,12 @@
   font-size: 40px;
   font-weight: bolder;
 }
+.score {
+  text-align: center;
+  font-family: Calibri;
+  font-size: 100px;
+  font-weight: bolder;
+}
 
 .Estimate {
   font-size: 30px;
@@ -65,4 +71,7 @@
   border-radius: 5px;
   border: 2px solid;
   font-size: 20px;
+}
+.button-margin{
+  margin-top: 20px;
 }

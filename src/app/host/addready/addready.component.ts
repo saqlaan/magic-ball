@@ -61,7 +61,6 @@ export class AddreadyComponent implements OnInit {
   }
 
   addReady() {
-
     if (this.currentRound == 1) {
       this.gameService.addReady(this.gameId, [null], '').subscribe((Game) => {
         this.router.navigate(['/gameplay']);
@@ -73,60 +72,30 @@ export class AddreadyComponent implements OnInit {
     }
   }
 
-  redBall(i: any, j: any) {
-    this.selectedBalls = this.selectedBalls + 1;
+  onBallChange(i: any, j: any) {
+    this.selectedBalls++;
     if (this.readyForm.value.batchNumber == this.selectedBalls) {
       this.batchCompleted = true;
     }
-    for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
-      for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
-        if (index1 == i && index2 == j) {
-          let temp = [...this.ballsArrangement[index1]];
-          temp[index2] = 0;
-          this.ballsArrangement[index1] = temp;
-        }
-      }
-    }
+    let temp = [...this.ballsArrangement[i]];
+    temp[j] = 0;
+    this.ballsArrangement[i] = temp;
   }
 
-  whiteBall(b: any, s: any) {
-    this.selectedBalls = this.selectedBalls - 1;
+  getBallStatus(i: any, j: any) {
+    this.selectedBalls --;
     if (this.readyForm.value.batchNumber !== this.selectedBalls) {
       this.batchCompleted = false;
     }
-    for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
-      for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
-        if (index1 == b && index2 == s) {
-          if (index1 == 0 || index2 == 0 || index1 == this.ballsArrangement.length - 1 || index2 == this.ballsArrangement.length - 1) {
-            let temp = [...this.ballsArrangement[index1]];
-            temp[index2] = -1;
-            this.ballsArrangement[index1] = temp;
-          } else {
-            let temp = [...this.ballsArrangement[index1]];
-            temp[index2] = 1;
-            this.ballsArrangement[index1] = temp;
-          }
-        }
-      }
+    if (i == 0 || j == 0 || i == this.ballsArrangement.length - 1 || j == this.ballsArrangement.length - 1) {
+      let temp = [...this.ballsArrangement[i]];
+      temp[j] = -1;
+      this.ballsArrangement[i] = temp;
+    } else {
+      let temp = [...this.ballsArrangement[i]];
+      temp[j] = 1;
+      this.ballsArrangement[i] = temp;
     }
   }
-
-
-  greenBall(i: any, j: any) {
-    this.selectedBalls = this.selectedBalls + 1;
-    if (this.readyForm.value.batchNumber == this.selectedBalls) {
-      this.batchCompleted = true;
-    }
-    for (let index1 = 0; index1 < this.ballsArrangement.length; index1++) {
-      for (let index2 = 0; index2 < this.ballsArrangement.length; index2++) {
-        if (index1 == i && index2 == j) {
-          let temp = [...this.ballsArrangement[index1]];
-          temp[index2] = 0;
-          this.ballsArrangement[index1] = temp;
-        }
-      }
-    }
-  }
-
 
 }

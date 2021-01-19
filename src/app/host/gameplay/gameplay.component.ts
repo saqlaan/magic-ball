@@ -50,6 +50,7 @@ export class GameplayComponent implements AfterViewInit {
       this.list = game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
       this.gameId = game._id;
       this.arch = 1 + this.players.indexOf((game.rounds[game.currentRound - 1].currentBallHolder));
+      this.timekeeper = this.players.indexOf(game.timeKeeper)
       this.currentRound = game.currentRound;
       this.dataSource = new MatTableDataSource(game.rounds);
       this.div = 360 / this.list.length;

@@ -178,14 +178,10 @@ export class GameService {
 
 
   public addEstimate(
-    gameId: any,
-    balls: number,
-    archWizard: any,
+    game: any
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/add-estimate', {
-      gameId,
-      balls,
-      archWizard
+    ...game
     });
   }
 
@@ -201,6 +197,7 @@ export class GameService {
       batchFlow
     });
   }
+
   public startRound(
     gameId: any,
   ): Observable<Game> {
@@ -213,6 +210,13 @@ export class GameService {
     gameId: any,
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/end-round', {
+      gameId,
+    });
+  }
+  public endGame(
+    gameId: any,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/end-game', {
       gameId,
     });
   }

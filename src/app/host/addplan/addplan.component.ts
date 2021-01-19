@@ -39,14 +39,12 @@ export class AddplanComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((Game) => {
-      console.log(Game.currentRound);
       this.time = Game.rounds[Game.currentRound - 1].stepEndingTime;
       let date = new Date();
       this.currentTime = date.getTime();
       this.currentTime = this.time - this.currentTime;
       this.updateList = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
       this.list = Game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
-      console.log(this.list)
       this.gameId = Game._id;
       this.div = 360 / this.list.length;
       this.radius = 100;
@@ -93,7 +91,6 @@ export class AddplanComponent implements AfterViewInit {
       let temp = this.list[indexA];
       this.list[indexA] = this.list[indexB];
       this.list[indexB] = temp;
-      console.log(this.list);
       this.swapped = [];
     }
     return null;

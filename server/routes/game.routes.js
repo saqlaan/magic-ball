@@ -17,7 +17,7 @@ router.post('/add-estimate', asyncHandler(GameHandler.addEstimate));
 router.post('/add-plan', asyncHandler(GameHandler.addPlan));
 router.post('/add-ready', asyncHandler(GameHandler.addReady));
 router.post('/move-ball', asyncHandler(GameHandler.moveBall));
-router.post('/game-end', asyncHandler(GameHandler.gameEnd));
+router.post('/end-game', asyncHandler(GameHandler.gameEnd));
 
 
 module.exports = router;
