@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const {Delegate} = require('../models/delegate.model');
-
+const {User} = require('./user.model')
 const ballMovement = require('./ballMovementModel')
 
 const RoundSchema = new mongoose.Schema({
@@ -48,7 +48,10 @@ const RoundSchema = new mongoose.Schema({
     },
     ballMovement: {},
     arrangement: [{
-      type: Object
+      id:{
+        type: mongoose.Schema.ObjectId, ref: 'User'
+      },
+      incrementalId: Number
     }],
   greenPlayers: [{
     type: String,

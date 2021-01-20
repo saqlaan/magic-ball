@@ -1,9 +1,20 @@
 <div>
-  <div class="title">Magic balls</div>
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div fxLayout="column" fxFlex="20" fxFlex.md="40">
+      <h1 class="magic">Fire Ball</h1>
+    </div>
+    <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
+      <h1 class="estimate">Add Plan</h1>
+      <div fxLayout="column" fxFlex="50" fxFlex.sm="10" fxFlex.xs="10" fxLayoutAlign="center center">
+<!--        <p class="para">Current Round<b>:{{currentRound}}/{{totalRounds}}</b></p>-->
+      </div>
+    </div>
+  </div>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center">
-  <div class="title t1">Planning</div>
+<div class="title" fxLayout="row" fxLayoutAlign="center">
+  <div class="t1">Arrange Players</div>
 </div>
 <div class="main-section" fxLayout="row">
   <div fxLayout="row" class="timer-side">
@@ -13,24 +24,10 @@
     </div>
   </div>
   <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
-    <div id="parentdiv" #parentDiv>
-      <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 "
-           [ngClass]="{'selected': isPlayerSelected(item)}"
-           *ngFor="let item of list; let i = index"
-           style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
-        <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
-          <div fxLayout="row">
-            <div class="counting-balls"></div>
-            <div class="counting-balls"></div>
-            <div class="counting-balls"></div>
-          </div>
-        </div>
-        <div *ngIf="timekeeper === i+1" class="timer">
-          <mat-icon>timer</mat-icon>
-        </div>
-        <mat-icon *ngIf="icons && arch !== i+1">person</mat-icon>
-        <span *ngIf="!icons && arch !== i+1" class="number">{{item.inc_id}}</span>
-        <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/fire.svg">
+    <div class="boundary">
+      <div class="player" *ngFor="let item of list;" cdkDragBoundary=".boundary" cdkDrag>
+        <div class="name">{{item.user.firstName +' '+ item.user.lastName}}</div>
+        <div class="number">{{item.incrementalId}}</div>
       </div>
     </div>
     <div>

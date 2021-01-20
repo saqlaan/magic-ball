@@ -57,13 +57,13 @@ export class GameService {
   }
 
   public playerAdded(userId: any) {
-    let gameCode = localStorage.getItem('gameCode') as string;
+    const gameCode = localStorage.getItem('gameCode') as string;
     this.getGame(gameCode);
 
-  };
+  }
 
   public ballMoved() {
-    let gameCode = localStorage.getItem('gameCode') as string;
+    const gameCode = localStorage.getItem('gameCode') as string;
     this.getGame(gameCode);
   }
 

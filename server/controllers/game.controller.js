@@ -7,7 +7,7 @@ async function insert(game) {
 }
 
 async function findGameByCode(gameCode) {
-  return Game.findOne({gameCode: gameCode});
+  return Game.findOne({gameCode: gameCode}).populate({ path: 'players.user', select:'firstName lastName email' });
 }
 
 async function addUserInGame(player, gameCode) {
@@ -61,8 +61,6 @@ async function endGame(gameId,{completed}) {
 
 
 async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
-  console.log(arrangement)
-  console.log(roundsId);
   return Game.findOneAndUpdate(
     {_id: gameId, 'rounds._id': roundsId},
     {

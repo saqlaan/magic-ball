@@ -30,7 +30,6 @@ const socket = {
     client.onmessage = (data) => {
       console.log(data.data);
       data = JSON.parse(data.data);
-      console.log(data.data);
       switch (data.method) {
         case 'init':
           socket.init(client, data);
@@ -43,6 +42,10 @@ const socket = {
         case 'moveBall':
           socket.moveBall(data.data.gameCode, client);
           break;
+        case 'connect':
+          client.send(JSON.stringify({
+            method: 'ok',
+          }));
       }
     };
     client.isAlive = true;
@@ -56,7 +59,6 @@ const socket = {
         client: client
       },
     };
-    console.log(socket);
     let payload = {
       method: 'userAdded',
       payload: {
@@ -140,9 +142,19 @@ const socket = {
   },
 
   sendMessage: (users, {method,data}) => {
+    console.log("---------message from sent---------");
+    console.log('users>>',users);
+    console.log('message>>',JSON.stringify({method,data}));
     users.forEach(element => {
       if (socket.clients[element] !== undefined) {
         socket.clients[element].client.client.send(JSON.stringify({method,data}));
+      }
+    });
+  },
+  removeUsers: (users=[]) => {
+    users.forEach(element => {
+      if (socket.clients[element] !== undefined) {
+        delete socket.clients[element]
       }
     });
   }

@@ -46,22 +46,27 @@
     </div>
     <div fxLayout="column" fxFlex="50" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center" >
       <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
-        <div  fxLayout="row">
-          <div fxLayout="column" fxFlex="40" fxLayoutAlign="center center">
-            <mat-icon >visibility</mat-icon>
-          </div>
-          <div fxLayout="column" fxFlex="60" fxLayoutAlign="center center">
-            <mat-icon>alarm</mat-icon>
-          </div>
-          <div fxLayout="column" fxFlex="20" fxLayoutAlign="center center">
-            <mat-icon>pause</mat-icon>
-          </div>
-        </div>
+<!--        <div  fxLayout="row">-->
+<!--          <div fxLayout="column" fxFlex="40" fxLayoutAlign="center center">-->
+<!--            <mat-icon >visibility</mat-icon>-->
+<!--          </div>-->
+<!--          <div fxLayout="column" fxFlex="60" fxLayoutAlign="center center">-->
+<!--            <mat-icon>alarm</mat-icon>-->
+<!--          </div>-->
+<!--          <div fxLayout="column" fxFlex="20" fxLayoutAlign="center center">-->
+<!--            <mat-icon>pause</mat-icon>-->
+<!--          </div>-->
+<!--        </div>-->
         <div id="parentdiv" #parentDiv>
-          <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 "
-               [ngClass]="{'selected': isPlayerSelected(item)}"
+          <div  fxFlex="100" fxLayoutAlign="center center" class="div2"
                *ngFor="let item of list; let i = index"
                style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+            <div class="name">
+              {{item.user.firstName +' '+ item.user.lastName}}
+            </div>
+            <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id">
+              <img class="ball-icon" src="assets/icons/ball.png">
+            </div>
             <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
               <div fxLayout="row">
                 <div class="counting-balls"></div>
@@ -72,9 +77,14 @@
             <div *ngIf="timekeeper === i+1" class="timer">
               <mat-icon>timer</mat-icon>
             </div>
-            <mat-icon *ngIf="icons && arch !== i+1">person</mat-icon>
-            <span *ngIf="!icons && arch !== i+1" class="number"><mat-icon>person</mat-icon></span>
-            <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/add.svg">
+            <div>
+              <div *ngIf="game.archWizard != item.id">{{item.incrementalId}}</div>
+              <div *ngIf="game.archWizard == item.id">
+                <img class="fire-icon" src="assets/icons/fire.png">
+              </div>
+            </div>
+
+<!--            <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/add.svg">-->
           </div>
         </div>
         <div>

@@ -117,7 +117,8 @@ async function joinGame(req, res) {
       if (found === false) {
         player = {
           id: req.body.playerId,
-          incrementalId: code.players.length + 1
+          incrementalId: code.players.length + 1,
+          user: req.body.playerId
         }
         if (code.players.length < code.maxPlayers && found === false) {
           let game = await gameCtrl.addUserInGame(player, req.body.gameCode);
@@ -341,7 +342,7 @@ async function addReady(req, res) {
         let updatedGame = await gameCtrl.addReady(game._id, game.rounds[game.currentRound - 1]._id,
           {
             batchFlow: req.body.batchFlow,
-            ballsArrangement: req.body.ballsArrangement,
+            ballsArrangement: null,
             greenPlayers: greenList,
             redPlayers: redList,
             currentBallHolder: currentBallHolder
@@ -422,14 +423,13 @@ function getPlayerNextBallMovement(game, playerId) {
   let players = game.players.map(player => player.id);
   let movedList = game.rounds[game.currentRound - 1].moved;
 
-  if(game.rounds[game.currentRound - 1].currentBallHolder != undefined){
-    if(currentBallHolder.toString() === game.archWizard.toString()){
+  if(game.rounds[game.currentRound - 1].currentBallHolder){
+    if(!movedList.includes(game.rounds[game.currentRound - 1].currentBallHolder.toString())){
+      movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
+    }
+    if((currentBallHolder.toString() === game.archWizard.toString()) && (movedList.length === game.players.length)){
       movedList = [];
       ballsMade +=game.rounds[game.currentRound - 1].batchFlow;
-    }else {
-      if(!movedList.includes(game.rounds[game.currentRound - 1].currentBallHolder.toString())){
-        movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
-      }
     }
   }
   currentBallHolderIndex = players.indexOf((currentBallHolder))
@@ -455,8 +455,8 @@ async function startRound(req, res) {
     let round = {
       status: "plan",
       ballsEstimate: 0,
-      batchFlow: 1,
-      BallsArrangement: null,
+      batchFlow: 0,
+      ballsArrangement: null,
       ballsMade: 0,
       ballStatus: 0,
       wastedBall: 0,
@@ -529,6 +529,7 @@ async function gameEnd(req, res){
       if(gameEnd) {
         let result = gameEnd.players.map(x => (x.id));
         socket.sendMessage([...result, gameEnd.hostId], {method: 'gameEnded', data: null});
+        socket.removeUsers([...result]);
         res.json(gameEnd);
       } else {
         res.status(404).json({

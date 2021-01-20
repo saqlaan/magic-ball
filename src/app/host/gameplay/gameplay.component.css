@@ -19,24 +19,31 @@
   border-radius: 150px;
   margin: 60px;
 }
-​
 .div2 {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  background-color: #b0b0b0;
-  border-radius: 100px;
+  width: 50px;
+  height: 50px;
+  margin: 15px;
+  background: #fff;
   cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+  0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
-.div2.selected {
-  background: #706f6f;
-}
+
 .div2 .number{
   font-size: 18px;
   font-weight: bold;
 }
 .div2 .fire-icon {
-  width: 24px;
+  width: 20px;
 }
 .timer {
   position: absolute;
@@ -102,5 +109,24 @@ table {
   width: 100%;
 }
 mat-icon{
-  font-size: 20pxpx
+  font-size: 20px;
 }
+.ball-icon{
+  width: 30px;
+  position: absolute;
+  left: -12px;
+  bottom: -12px;
+}
+.div2 .name {
+  display: none;
+  position:absolute;
+  top: -15px;
+  font-size: 12px
+}
+.div2:hover .name {
+  display: block;
+}
+.div2:hover .counting-balls-wrapper, .div2:hover .timer{
+  display: none;
+}
+

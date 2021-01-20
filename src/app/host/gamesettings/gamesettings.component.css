@@ -90,3 +90,6 @@ mat-icon{
   text-space: 3px;
   border: 2px solid;
 }
+.input-label{
+  margin-right: 10px;
+}

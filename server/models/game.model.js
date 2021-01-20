@@ -46,7 +46,8 @@ const GameSchema = new mongoose.Schema({
   },
   players: [{
     _id: false,
-    id: {type: Schema.ObjectId, ref: 'User'},
+    id: {type: Schema.ObjectId},
+    user: {type: Schema.ObjectId, ref: 'User'},
     incrementalId: {type: String}
   }],
   ballsPerRound: {

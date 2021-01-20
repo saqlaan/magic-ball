@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {GameService} from '@app/shared/services';
+import {GameService, WebSocketService} from '@app/shared/services';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
@@ -33,7 +33,7 @@ export class AddreadyComponent implements OnInit {
   });
 
 
-  constructor(private gameService: GameService, private  router: Router) {
+  constructor(private gameService: GameService, private ws: WebSocketService, private  router: Router) {
     this.show = true;
   }
 

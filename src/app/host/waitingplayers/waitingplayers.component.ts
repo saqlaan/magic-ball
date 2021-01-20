@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '@app/shared/services/user/user.service';
 import {Game} from '@app/shared/interfaces/game/game.interface';
-import {GameService} from '@app/shared/services';
+import {GameService, WebSocketService} from '@app/shared/services';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 
@@ -18,7 +18,7 @@ export class WaitingplayersComponent implements OnInit {
   gameId!: string;
   game: any;
 
-  constructor(private gameService: GameService,private toast: ToastrService, private router: Router) {
+  constructor(private gameService: GameService, private ws: WebSocketService, private toast: ToastrService, private router: Router) {
   }
 
   ngOnInit(): void {

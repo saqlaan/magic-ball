@@ -78,7 +78,6 @@ async function login(req, res) {
     if (user) {
       bcrypt.compare(req.body.password, user.password, async function (err, result) {
           if (result) {
-            console.log("dss", user.token)
             if (!user.token) {
               const payLoad = {email: user.email, firstName: user.firstName, lastName: user.lastName, id: user._id};
               const token = jwt.sign(payLoad, process.env.JWT_SECRET);
