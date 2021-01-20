@@ -1,4 +1,4 @@
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
