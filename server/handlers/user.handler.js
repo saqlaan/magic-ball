@@ -170,7 +170,6 @@ async function forgotPassword(req, res) {
       let update = await userCtrl.resetPasswordToken(user._id, resetToken);
 
       let link = "http://" + req.headers.host + "/hostresetpassword/";
-      console.log(link)
       let nodemailer = require('nodemailer');
       let transporter = nodemailer.createTransport({
         service: 'gmail',

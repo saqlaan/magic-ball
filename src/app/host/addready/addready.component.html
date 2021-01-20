@@ -53,7 +53,7 @@
   </form>
   <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
     <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">
-      <button [disabled]="currentRound !==1 && selectedBalls != balls" (click)="(currentRound == 1 ? addReady(): (selectedBalls == balls ? addReady():false))" class="next" mat-raised-button>Start Play</button>
+      <button [disabled]="currentRound !==1 && selectedBalls != balls" (click)="addReady()" class="next" mat-raised-button>Start Play</button>
 
     </div>
   </div>
