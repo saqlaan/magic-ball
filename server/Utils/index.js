@@ -1,6 +1,4 @@
 function filterListWithList(list1 = [], list2 = []) {
-  console.log(list1)
-  console.log(list2)
   return list1.filter(function (item) {
     return this.toString().indexOf(item) < 0
   }, list2)

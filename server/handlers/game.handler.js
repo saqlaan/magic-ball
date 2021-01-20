@@ -117,7 +117,8 @@ async function joinGame(req, res) {
       if (found === false) {
         player = {
           id: req.body.playerId,
-          incrementalId: code.players.length + 1
+          incrementalId: code.players.length + 1,
+          user: req.body.playerId
         }
         if (code.players.length < code.maxPlayers && found === false) {
           let game = await gameCtrl.addUserInGame(player, req.body.gameCode);

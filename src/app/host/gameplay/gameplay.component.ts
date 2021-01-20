@@ -38,7 +38,7 @@ export class GameplayComponent implements AfterViewInit {
   timekeeper: any = 5;
   swapped: any[] = [];
   currentRound: number = 0;
-
+  game: any;
 
   constructor(private gameService: GameService, private  router: Router) {
   }
@@ -46,11 +46,13 @@ export class GameplayComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((game) => {
+      this.game = game;
       this.players = game.players.map((id: any) => (id.id));
-      this.list = game.players.map((inc_id: any) => ({inc_id: inc_id.incrementalId}));
+      this.list = game.players;
+      console.log(this.list);
       this.gameId = game._id;
       this.arch = 1 + this.players.indexOf((game.rounds[game.currentRound - 1].currentBallHolder));
-      this.timekeeper = this.players.indexOf(game.timeKeeper)
+      this.timekeeper = this.players.indexOf(game.timeKeeper);
       this.currentRound = game.currentRound;
       this.dataSource = new MatTableDataSource(game.rounds);
       this.div = 360 / this.list.length;
