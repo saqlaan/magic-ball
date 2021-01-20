@@ -341,7 +341,7 @@ async function addReady(req, res) {
         let updatedGame = await gameCtrl.addReady(game._id, game.rounds[game.currentRound - 1]._id,
           {
             batchFlow: req.body.batchFlow,
-            ballsArrangement: req.body.ballsArrangement,
+            ballsArrangement: null,
             greenPlayers: greenList,
             redPlayers: redList,
             currentBallHolder: currentBallHolder
