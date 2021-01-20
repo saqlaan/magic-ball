@@ -78,24 +78,18 @@ async function login(req, res) {
     if (user) {
       bcrypt.compare(req.body.password, user.password, async function (err, result) {
           if (result) {
-            const payLoad = {email: user.email, firstName: user.firstName, lastName: user.lastName, id: user._id};
-            const token = jwt.sign(payLoad, process.env.JWT_SECRET);
-            let update = await userCtrl.updateToken(user._id, token);
-            update = update.toObject();
-            delete update.password;
-            res.json(update);
-            // if (!user.token) {
-            //   const payLoad = {email: user.email, firstName: user.firstName, lastName: user.lastName, id: user._id};
-            //   const token = jwt.sign(payLoad, process.env.JWT_SECRET);
-            //   let update = await userCtrl.updateToken(user._id, token);
-            //   update = update.toObject();
-            //   delete update.password;
-            //   res.json(update);
-            // } else {
-            //   res.status(400).json({
-            //     message: 'you are  already loggedIn',
-            //   })
-            // }
+            if (!user.token) {
+              const payLoad = {email: user.email, firstName: user.firstName, lastName: user.lastName, id: user._id};
+              const token = jwt.sign(payLoad, process.env.JWT_SECRET);
+              let update = await userCtrl.updateToken(user._id, token);
+              update = update.toObject();
+              delete update.password;
+              res.json(update);
+            } else {
+              res.status(400).json({
+                message: 'you are  already loggedIn',
+              })
+            }
           } else {
             res.status(400).json({
               message: 'passsword not correct',

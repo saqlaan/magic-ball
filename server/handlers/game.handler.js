@@ -422,14 +422,13 @@ function getPlayerNextBallMovement(game, playerId) {
   let players = game.players.map(player => player.id);
   let movedList = game.rounds[game.currentRound - 1].moved;
 
-  if(game.rounds[game.currentRound - 1].currentBallHolder != undefined){
-    if(currentBallHolder.toString() === game.archWizard.toString()){
+  if(game.rounds[game.currentRound - 1].currentBallHolder){
+    if(!movedList.includes(game.rounds[game.currentRound - 1].currentBallHolder.toString())){
+      movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
+    }
+    if((currentBallHolder.toString() === game.archWizard.toString()) && (movedList.length === game.players.length)){
       movedList = [];
       ballsMade +=game.rounds[game.currentRound - 1].batchFlow;
-    }else {
-      if(!movedList.includes(game.rounds[game.currentRound - 1].currentBallHolder.toString())){
-        movedList.push(game.rounds[game.currentRound - 1].currentBallHolder);
-      }
     }
   }
   currentBallHolderIndex = players.indexOf((currentBallHolder))
@@ -455,8 +454,8 @@ async function startRound(req, res) {
     let round = {
       status: "plan",
       ballsEstimate: 0,
-      batchFlow: 1,
-      BallsArrangement: null,
+      batchFlow: 0,
+      ballsArrangement: null,
       ballsMade: 0,
       ballStatus: 0,
       wastedBall: 0,
