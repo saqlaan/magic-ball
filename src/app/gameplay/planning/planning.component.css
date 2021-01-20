@@ -1,0 +1,275 @@
+.circle {
+  width: 200px;
+  height: 200px;
+  background: red;
+  border-radius: 50%;
+  position: relative;
+}
+
+.circle .circle-icon {
+  width: 20px;
+  height: 20px;
+  background: yellow;
+  position: absolute;
+}
+
+#parentdiv {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background-color: transparent;
+  border-radius: 150px;
+  margin: 60px;
+}
+
+​
+.div2 {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: #b0b0b0;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.div2.selected {
+  background: #706f6f;
+}
+
+.div2 .number {
+  padding: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: lightgrey;
+  border-radius: 50%;
+}
+
+.div2 .fire-icon {
+  width: 24px;
+}
+
+.timer {
+  position: absolute;
+  top: -30px;
+}
+
+.counting-balls {
+  background: #8fd150;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 .5px 0 .5px;
+}
+
+.counting-balls-wrapper {
+  position: absolute;
+  top: -20px;
+}
+
+​
+  /*Page*/
+.title {
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+
+.title .t1 {
+  font-size: 60px;
+}
+
+.timer-btn {
+  cursor: pointer;
+  margin-left: 10px;
+  position: relative;
+  top: -6px;
+  font-size: 32px;
+}
+
+.timer-btn mat-icon {
+  font-size: 32px;
+}
+
+.estimate {
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+
+.team {
+  text-align: center;
+  font-family: Calibri;
+  font-size: 40px;
+  font-weight: bolder;
+  margin: 0;
+}
+
+.main-section {
+  position: relative;
+}
+
+.timer-side {
+  position: absolute;
+  left: 0;
+}
+
+.magic {
+  margin-left: 20px;
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 40px;
+}
+
+table {
+  width: 100%;
+}
+
+mat-icon {
+  font-size: 20 pxpx
+}
+
+.circle {
+  width: 200px;
+  height: 200px;
+  background: red;
+  border-radius: 50%;
+  position: relative;
+}
+
+.circle .circle-icon {
+  width: 20px;
+  height: 20px;
+  background: yellow;
+  position: absolute;
+}
+
+#parentdiv {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background-color: transparent;
+  border-radius: 150px;
+  margin: 60px;
+}
+
+​
+.div2 {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: #b0b0b0;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.div2.selected {
+  background: #706f6f;
+}
+
+.div2 .number {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.div2 .fire-icon {
+  width: 24px;
+}
+
+.timer {
+  position: absolute;
+  top: -30px;
+}
+
+.counting-balls {
+  background: #8fd150;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 .5px 0 .5px;
+}
+
+.counting-balls-wrapper {
+  position: absolute;
+  top: -20px;
+}
+
+​
+  /*Page*/
+.title {
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+
+.title .t1 {
+  font-size: 60px;
+}
+
+.timer-btn {
+  cursor: pointer;
+  margin-left: 10px;
+  position: relative;
+  top: -6px;
+  font-size: 32px;
+}
+
+.timer-btn mat-icon {
+  font-size: 32px;
+}
+
+.estimate {
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 50px;
+}
+
+.team {
+  background-color: lightgrey;
+  text-align: center;
+  font-family: Calibri;
+  font-size: 30px;
+  font-weight: bolder;
+  margin: auto;
+  padding: 20px;
+  border-radius: 20px 20px 30px;
+}
+
+.main-section {
+  position: relative;
+}
+
+.timer-side {
+  position: absolute;
+  left: 0;
+}
+
+.magic {
+  margin-left: 20px;
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  font-size: 40px;
+}
+
+table {
+  width: 100%;
+}
+
+mat-icon {
+  font-size: 20px
+}
+
+.row {
+  margin-right: 50%;
+
+}
+.last {
+  margin-top: 5%;
+}
+
+.planning {
+  border-radius: 15px 50px 30px;
+}
+
+.player {
+  margin-left: 10%;
+}

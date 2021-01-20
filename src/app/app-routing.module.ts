@@ -24,6 +24,13 @@ import {FinalresultComponent} from '@app/host/finalresult/finalresult.component'
 import {GameplayComponent} from '@app/host/gameplay/gameplay.component';
 import {RoundresultComponent} from '@app/host/roundresult/roundresult.component';
 import {loggedInGuard} from '@app/shared/guards/loggedin.guard';
+import {EstimateComponent} from '@app/gameplay/estimate/estimate.component';
+import {ResultroundComponent} from '@app/gameplay/resultround/resultround.component';
+import {PlaygameComponent} from '@app/gameplay/playgame/playgame.component';
+import {PlanningComponent} from '@app/gameplay/planning/planning.component';
+import {GoodroundComponent} from '@app/gameplay/goodround/goodround.component';
+import {MainComponent} from '@app/main/main.component';
+import {ReadyaddComponent} from '@app/gameplay/readyadd/readyadd.component';
 
 const routes: Routes = [
   {
@@ -127,7 +134,28 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: UpdatepasswordComponent
   },
-
+  {
+    path: 'estimate',
+    component: EstimateComponent
+  },{
+    path: 'ready',
+    component: ReadyaddComponent
+  },{
+    path: 'resultround',
+    component: ResultroundComponent
+  },{
+    path: 'playgame',
+    component: PlaygameComponent
+  },{
+    path: 'planning',
+    component: PlanningComponent
+  },{
+    path: 'goodround',
+    component: GoodroundComponent
+  },{
+    path: 'main',
+    component: MainComponent
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,45 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <app-header [tittle]="'planning'"></app-header>
+  <div class="main-section" fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="30" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >
+      <p class="team" >your<br> Neighbor is<br> fixed!</p>
+    </div>
+    <div fxLayout="column" fxFlex="40" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center" class="player">
+      <div id="parentdiv" #parentDiv>
+        <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 "
+             [ngClass]="{'selected': isPlayerSelected(item)}"
+             *ngFor="let item of list; let i = index"
+             style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+          <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
+            <div fxLayout="row">
+              <div class="counting-balls"></div>
+              <div class="counting-balls"></div>
+              <div class="counting-balls"></div>
+            </div>
+          </div>
+          <div *ngIf="timekeeper === i+1" class="timer">
+            <mat-icon>timer</mat-icon>
+          </div>
+          <mat-icon *ngIf="icons && arch !== i+1">person</mat-icon>
+          <span *ngIf="!icons && arch !== i+1" class="number"><mat-icon>person</mat-icon></span>
+          <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/add.svg">
+        </div>
+      </div>
+      <div>
+        <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions
+        </button>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="30" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <p class="team">This is Your!!!<br> wizarding <br> circle aka<br>your system</p>
+    </div>
+  </div>
+  <div class="main-section" fxLayout="row" fxFlex="100" class="last">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <p class="team">The Person<br> next to you<br> is your<br>neighbor.</p>
+    </div>
+  </div>
+
+</div>
+
+
