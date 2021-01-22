@@ -49,8 +49,6 @@ export class GameplayComponent implements AfterViewInit {
       this.game = game;
       this.players = game.players.map((id: any) => (id.id));
       this.list = game.players;
-      console.log(this.list);
-      this.gameId = game._id;
       this.arch = 1 + this.players.indexOf((game.rounds[game.currentRound - 1].currentBallHolder));
       this.timekeeper = this.players.indexOf(game.timeKeeper);
       this.currentRound = game.currentRound;
@@ -103,7 +101,7 @@ export class GameplayComponent implements AfterViewInit {
 
 
   endRound() {
-    this.gameService.endRound(this.gameId).subscribe((game) => {
+    this.gameService.endRound(this.game._id).subscribe((game) => {
       this.router.navigate(['roundresult']);
     });
   }

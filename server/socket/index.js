@@ -32,6 +32,7 @@ const socket = {
       data = JSON.parse(data.data);
       switch (data.method) {
         case 'init':
+          console.log('yes')
           socket.init(client, data);
           break;
         case 'startGame':
@@ -53,6 +54,9 @@ const socket = {
     console.log('First connected');
   },
   init: (client, data) => {
+    console.log(client);
+    console.log(data);
+
     let userData = data.data;
     socket.clients[userData.userId] = {
       client: {

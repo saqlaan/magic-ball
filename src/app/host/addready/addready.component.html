@@ -7,7 +7,7 @@
     <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
       <h1 class="estimate">Ready?</h1>
       <div fxLayout="column" fxFlex="50" fxFlex.sm="10" fxFlex.xs="10" fxLayoutAlign="center center">
-        <p class="para">Current Round<b>:{{currentRound}}/{{totalRounds}}</b></p>
+        <p class="para">Current Round<b>:{{game.currentRound}}/{{game.noOfRounds}}</b></p>
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
   </form>
   <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
     <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">
-      <button [disabled]="currentRound !==1 && selectedBalls != balls" (click)="addReady()" class="next" mat-raised-button>Start Play</button>
+      <button [disabled]="game.currentRound !==1 && selectedBalls != balls" (click)="addReady()" class="next" mat-raised-button>Start Play</button>
 
     </div>
   </div>

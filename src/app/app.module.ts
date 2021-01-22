@@ -44,8 +44,11 @@ import { PlanningComponent } from './gameplay/planning/planning.component';
 import { ResultroundComponent } from './gameplay/resultround/resultround.component';
 import { PlaygameComponent } from './gameplay/playgame/playgame.component';
 import { GoodroundComponent } from './gameplay/goodround/goodround.component';
-import { MainComponent } from './main/main.component';
+import { MainComponent } from './gameplay/main/main.component';
 import { ReadyaddComponent } from './gameplay/readyadd/readyadd.component';
+import { GameresultComponent } from './gameplay/gameresult/gameresult.component';
+import { WaitingComponent } from './gameplay/waiting/waiting.component';
+import { GamenotfoundComponent } from './gameplay/gamenotfound/gamenotfound.component';
 
 
 
@@ -71,7 +74,7 @@ import { ReadyaddComponent } from './gameplay/readyadd/readyadd.component';
     ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent,
     UpdatepasswordComponent, DialogboxComponent, AddplanComponent, AddestimateComponent,
     AddreadyComponent, FinalresultComponent, GameplayComponent, RoundresultComponent,
-    EstimateComponent, PlanningComponent, ResultroundComponent, PlaygameComponent, GoodroundComponent, MainComponent, ReadyaddComponent],
+    EstimateComponent, PlanningComponent, ResultroundComponent, PlaygameComponent, GoodroundComponent, MainComponent, ReadyaddComponent, GameresultComponent, WaitingComponent, GamenotfoundComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

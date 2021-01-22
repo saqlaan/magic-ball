@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {GameService} from '@app/shared/services';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-resultround',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultroundComponent implements OnInit {
 
-  constructor() { }
+  @Input () game!: any;
+
+  roundComplete: boolean = false;
+  roundScore:any;
+  constructor(private gameService: GameService, private  router: Router) {
+  }
 
   ngOnInit(): void {
+      this.roundScore = this.game.rounds[this.game.currentRound - 1].ballsMade;
   }
 
 }

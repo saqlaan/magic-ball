@@ -29,7 +29,7 @@ import {ResultroundComponent} from '@app/gameplay/resultround/resultround.compon
 import {PlaygameComponent} from '@app/gameplay/playgame/playgame.component';
 import {PlanningComponent} from '@app/gameplay/planning/planning.component';
 import {GoodroundComponent} from '@app/gameplay/goodround/goodround.component';
-import {MainComponent} from '@app/main/main.component';
+import {MainComponent} from '@app/gameplay/main/main.component';
 import {ReadyaddComponent} from '@app/gameplay/readyadd/readyadd.component';
 
 const routes: Routes = [
@@ -133,27 +133,8 @@ const routes: Routes = [
     path: 'updatepassword',
     canActivate: [AuthGuard],
     component: UpdatepasswordComponent
-  },
-  {
-    path: 'estimate',
-    component: EstimateComponent
   },{
-    path: 'ready',
-    component: ReadyaddComponent
-  },{
-    path: 'resultround',
-    component: ResultroundComponent
-  },{
-    path: 'playgame',
-    component: PlaygameComponent
-  },{
-    path: 'planning',
-    component: PlanningComponent
-  },{
-    path: 'goodround',
-    component: GoodroundComponent
-  },{
-    path: 'main',
+    path: 'game/:gameCode',
     component: MainComponent
   },
 ];

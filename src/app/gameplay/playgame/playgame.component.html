@@ -1,5 +1,5 @@
 <div class="container" fxLayout="column" fxFlex="100">
-  <app-header [tittle]="'round'+currentRound"></app-header>
+  <app-header [tittle]="'round'+game1.currentRound"></app-header>
   <div class="main-section" fxLayout="row" fxFlex="100">
     <div fxLayout="column" fxFlex="30" fxFlex.sm="98" fxFlex.md="90" style="padding-left:1% " >
       <div class="main-section" fxLayout="row" fxFlex="100">
@@ -47,10 +47,12 @@
           </div>
         </div>
         <div id="parentdiv" #parentDiv>
-          <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 "
-               [ngClass]="{'selected': isPlayerSelected(item)}"
-               *ngFor="let item of list; let i = index"
-               style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+          <div  fxFlex="100" fxLayoutAlign="center center" class="div2"
+                *ngFor="let item of game.players; let i = index"
+                style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+            <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id">
+              <mat-icon>sports_soccer</mat-icon>
+            </div>
             <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
               <div fxLayout="row">
                 <div class="counting-balls"></div>
@@ -58,17 +60,18 @@
                 <div class="counting-balls"></div>
               </div>
             </div>
-            <div *ngIf="timekeeper === i+1" class="timer">
+            <div *ngIf="timeKeeper === i+1" class="timer">
               <mat-icon>timer</mat-icon>
             </div>
-            <mat-icon *ngIf="icons && arch !== i+1">person</mat-icon>
-            <span *ngIf="!icons && arch !== i+1" class="number"><mat-icon>person</mat-icon></span>
-            <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/add.svg">
+            <div>
+              <div *ngIf="game.archWizard != item.id">{{item.incrementalId}}</div>
+              <div *ngIf="game.archWizard == item.id">
+                <img class="fire-icon" src="assets/icons/fire.png">
+              </div>
+            </div>
+
+            <!--            <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/add.svg">-->
           </div>
-        </div>
-        <div>
-          <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions
-          </button>
         </div>
       </div>
     </div>

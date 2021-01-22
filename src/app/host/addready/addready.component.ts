@@ -18,15 +18,13 @@ export class AddreadyComponent implements OnInit {
     [-1, 1, 1, 1, -1],
     [-1, -1, -1, -1, -1]
   ];
+  game :any  = {};
   copyList: any;
   gameCode!: string;
   selectedBalls: number = 0;
   batchCompleted!: boolean;
-  totalRounds: any;
   whiteBallStatus: any;
-  currentRound: any;
   balls: any;
-  gameId: any;
   show: boolean;
   readyForm = new FormGroup({
     batchNumber: new FormControl('', [Validators.required]),
@@ -43,12 +41,10 @@ export class AddreadyComponent implements OnInit {
     this.batchCompleted = true;
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((Game) => {
-      this.currentRound = Game.currentRound;
-      if (this.currentRound == 1) {
+      this.game = Game;
+      if (this.game.currentRound == 1) {
         this.show = false;
       }
-      this.totalRounds = Game.noOfRounds;
-      this.gameId = Game._id;
     });
   }
 
@@ -61,12 +57,12 @@ export class AddreadyComponent implements OnInit {
   }
 
   addReady() {
-    if (this.currentRound == 1) {
-      this.gameService.addReady(this.gameId, [null], '').subscribe((Game) => {
+    if (this.game.currentRound == 1) {
+      this.gameService.addReady(this.game._id, [null], '').subscribe((Game) => {
         this.router.navigate(['/gameplay']);
       });
     } else {
-      this.gameService.addReady(this.gameId, this.ballsArrangement, this.readyForm.value.batchNumber).subscribe((Game) => {
+      this.gameService.addReady(this.game._id, this.ballsArrangement, this.readyForm.value.batchNumber).subscribe((Game) => {
         this.router.navigate(['/gameplay']);
       });
     }
