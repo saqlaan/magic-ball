@@ -5,7 +5,7 @@
       <h1 class="magic">Fire Ball</h1>
     </div>
     <div fxLayout="column" fxFlex="50" fxFlex.md="50" fxLayoutAlign="center center">
-      <h1 class="estimate">Round {{currentRound}}</h1>
+      <h1 class="estimate" *ngIf="game">Round {{game.currentRound}}</h1>
     </div>
     <div fxLayout="column" fxFlex="30" fxFlex.md="30" fxLayoutAlign="center center">
       <h1><mat-icon>visibility</mat-icon>Statistics</h1>
@@ -65,7 +65,7 @@
             <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id">
               <img class="ball-icon" src="assets/icons/ball.png">
             </div>
-            <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
+            <div class="counting-balls-wrapper" *ngIf="game.scoreKeeper && game.scoreKeeper == item.id">
               <div fxLayout="row">
                 <div class="counting-balls"></div>
                 <div class="counting-balls"></div>
@@ -80,10 +80,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions
-          </button>
         </div>
       </div>
     </div>
