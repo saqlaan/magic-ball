@@ -7,7 +7,7 @@
     <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
       <h1 class="estimate">Add Plan</h1>
       <div fxLayout="column" fxFlex="50" fxFlex.sm="10" fxFlex.xs="10" fxLayoutAlign="center center">
-<!--        <p class="para">Current Round<b>:{{currentRound}}/{{totalRounds}}</b></p>-->
+        <p *ngIf="game" class="para">Current Round<b>:{{game.currentRound}}/{{game.noOfRounds}}</b></p>
       </div>
     </div>
   </div>
@@ -23,16 +23,12 @@
       <mat-icon>visibility</mat-icon>
     </div>
   </div>
-  <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
-    <div class="boundary">
-      <div class="player" *ngFor="let item of list;" cdkDragBoundary=".boundary" cdkDrag>
+  <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" *ngIf="game">
+    <div #boundry class="boundary">
+      <div [cdkDragFreeDragPosition]="item.position"  (cdkDragEnded)="dragHandler($event,i)"  class="player" *ngFor="let item of game.players;let i = index" cdkDragBoundary=".boundary" cdkDrag>
         <div class="name">{{item.user.firstName +' '+ item.user.lastName}}</div>
         <div class="number">{{item.incrementalId}}</div>
       </div>
-    </div>
-    <div>
-      <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions
-      </button>
     </div>
   </div>
   <!--Next Button-->

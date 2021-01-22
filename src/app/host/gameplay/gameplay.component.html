@@ -57,11 +57,9 @@
 <!--            <mat-icon>pause</mat-icon>-->
 <!--          </div>-->
 <!--        </div>-->
-        <div id="parentdiv" #parentDiv>
-          <div  fxFlex="100" fxLayoutAlign="center center" class="div2"
-               *ngFor="let item of list; let i = index"
-               style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
-            <div class="name">
+        <div #boundry class="boundary" *ngIf="game">
+          <div draggable="false" [cdkDragFreeDragPosition]="item.position" class="player" *ngFor="let item of game.rounds[game.currentRound - 1].arrangement;let i = index" cdkDragBoundary=".boundary" cdkDrag>
+            <div class="name" *ngIf="item.user">
               {{item.user.firstName +' '+ item.user.lastName}}
             </div>
             <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id">
@@ -74,17 +72,13 @@
                 <div class="counting-balls"></div>
               </div>
             </div>
-            <div *ngIf="timekeeper === i+1" class="timer">
-              <mat-icon>timer</mat-icon>
-            </div>
+            <div class="name" *ngIf="item.user">{{item.user.firstName +' '+ item.user.lastName}}</div>
             <div>
               <div *ngIf="game.archWizard != item.id">{{item.incrementalId}}</div>
               <div *ngIf="game.archWizard == item.id">
                 <img class="fire-icon" src="assets/icons/fire.png">
               </div>
             </div>
-
-<!--            <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/add.svg">-->
           </div>
         </div>
         <div>

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {Delegate} = require('../models/delegate.model');
 const {User} = require('./user.model')
 const ballMovement = require('./ballMovementModel')
-
+const Position = require('./position.model')
 const RoundSchema = new mongoose.Schema({
     status: {
       type: String,
@@ -51,7 +51,8 @@ const RoundSchema = new mongoose.Schema({
       id:{
         type: mongoose.Schema.ObjectId, ref: 'User'
       },
-      incrementalId: Number
+      incrementalId: Number,
+      position: Position
     }],
   greenPlayers: [{
     type: String,
