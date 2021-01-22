@@ -28,8 +28,10 @@ const socket = {
   games: {},
   connect: (client) => {
     client.onmessage = (data) => {
-      console.log(data.data);
       data = JSON.parse(data.data);
+      console.log("<<<<<");
+      console.log("data: ",data);
+      console.log("-----");
       switch (data.method) {
         case 'init':
           console.log('yes')
@@ -47,6 +49,9 @@ const socket = {
           client.send(JSON.stringify({
             method: 'ok',
           }));
+          break;
+        default:
+          console.log('No method found');
       }
     };
     client.isAlive = true;
@@ -57,7 +62,8 @@ const socket = {
     let userData = data.data;
     socket.clients[userData.userId] = {
       client: {
-        client: client
+        client: client,
+        createdAt: (new Date()).toUTCString()
       },
     };
     let payload = {
@@ -66,7 +72,7 @@ const socket = {
         userId: userData.userId
       }
     };
-    client.send(JSON.stringify(payload));
+    socket.send(client, payload, userData.userId);
   },
   // Alert everyone in the game that new user has added including host
   // playerAdded: (client, userId, name) => {
@@ -143,12 +149,9 @@ const socket = {
   },
 
   sendMessage: (users, {method,data}) => {
-    console.log("---------message from sent---------");
-    console.log('users>>',users);
-    console.log('message>>',JSON.stringify({method,data}));
     users.forEach(element => {
       if (socket.clients[element] !== undefined) {
-        socket.clients[element].client.client.send(JSON.stringify({method,data}));
+        socket.send(socket.clients[element].client.client,{method,data}, element)
       }
     });
   },
@@ -158,6 +161,13 @@ const socket = {
         delete socket.clients[element]
       }
     });
+  },
+  send: (client, message, userId) => {
+    console.log(">>>>>");
+    console.log("userId: ", userId);
+    console.log("data: ", message);
+    console.log("-----");
+    client.send(JSON.stringify(message));
   }
 }
 module.exports = SocketSingleton.getInstance().socket

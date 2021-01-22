@@ -6,6 +6,7 @@ const {customAlphabet} = require('nanoid');
 const nanoid = customAlphabet('1234567890abcdef', 4);
 const {User} = require('../models/user.model')
 const Round = require('../models/round.model')
+const Position = require('../models/position.model');
 const GameSchema = new mongoose.Schema({
   groupName: {
     type: String,
@@ -48,7 +49,8 @@ const GameSchema = new mongoose.Schema({
     _id: false,
     id: {type: Schema.ObjectId},
     user: {type: Schema.ObjectId, ref: 'User'},
-    incrementalId: {type: String}
+    incrementalId: {type: String},
+    position:Position
   }],
   viewers: [{
     type: String,
