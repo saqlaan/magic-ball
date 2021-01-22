@@ -14,7 +14,7 @@ export class GameService {
   private hasBall: boolean;
   private playerSubject = new Subject<any>();
   private userSubject = new Subject<any>();
-  private gameSubject = new Subject<any>();
+  public gameSubject = new Subject<any>();
   private playersList: any = [];
   private usersList: any = [];
   private ballSubject = new Subject<any>();
@@ -61,6 +61,42 @@ export class GameService {
     this.getGame(gameCode);
 
   }
+  public estimateAdded(userId: any) {
+    const gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
+
+  }
+  public readyAdded(userId: any) {
+    const gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
+
+  }
+  public planAdded(userId: any) {
+    const gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
+
+  }
+  public planStarted(userId: any) {
+    const gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
+
+  }
+  public gameEnded(userId: any) {
+    const gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
+
+  }
+  public roundStarted(userId: any) {
+    const gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
+
+  }
+  public roundEnded(userId: any) {
+    const gameCode = localStorage.getItem('gameCode') as string;
+    this.getGame(gameCode);
+
+  }
+
 
   public ballMoved() {
     const gameCode = localStorage.getItem('gameCode') as string;
@@ -218,6 +254,15 @@ export class GameService {
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/end-game', {
       gameId,
+    });
+  }
+  public addViewer(
+    viewerId: any,
+    gameCode:any,
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/add-viewer', {
+      viewerId,
+      gameCode
     });
   }
 }

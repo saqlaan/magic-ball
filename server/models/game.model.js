@@ -52,6 +52,9 @@ const GameSchema = new mongoose.Schema({
     incrementalId: {type: String},
     position:Position
   }],
+  viewers: [{
+    type: String,
+  }],
   ballsPerRound: {
     type: Number,
     required: false,

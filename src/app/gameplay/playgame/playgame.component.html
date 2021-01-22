@@ -1,0 +1,108 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <app-header [tittle]="'round'+game1.currentRound"></app-header>
+  <div class="main-section" fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="30" fxFlex.sm="98" fxFlex.md="90" style="padding-left:1% " >
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column" >
+          <p><mat-icon style="font-size: 20px">visibility</mat-icon>The Rules</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column" >
+          <p style="margin: 0px"><mat-icon style="font-size: 20px">arrow_right</mat-icon>Process starts and ends<br>with ArchWizard</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column">
+          <p><mat-icon >lens</mat-icon>The ArchWizard Selection is <br><u>permanent</u></p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row" fxFlex="100">
+        <div fxLayout="column">
+          <p><mat-icon >arrow_right</mat-icon>Each Wizard must touch<br>the ball for it to become a<br>magic ball</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row">
+        <div fxLayout="column">
+          <p><mat-icon>error</mat-icon>Ball may not flow to the<br>neighbor in<br>the wizarding circle!</p>
+        </div>
+      </div>
+      <div class="main-section" fxLayout="row">
+        <div fxLayout="column">
+          <p><mat-icon>error</mat-icon>Ball position must be<br>on the 2 lines</p>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="50" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center" >
+      <div fxLayout="column" fxFlex="50" fxLayoutAlign="center center">
+        <div  fxLayout="row" class="row">
+          <div fxLayout="column" fxFlex="40" fxLayoutAlign="center center">
+            <mat-icon >visibility</mat-icon>
+          </div>
+          <div fxLayout="column" fxFlex="60" fxLayoutAlign="center center">
+            <mat-icon>alarm</mat-icon>
+          </div>
+          <div fxLayout="column" fxFlex="20" fxLayoutAlign="center center">
+            <mat-icon>pause</mat-icon>
+          </div>
+        </div>
+        <div id="parentdiv" #parentDiv>
+          <div  fxFlex="100" fxLayoutAlign="center center" class="div2"
+                *ngFor="let item of game.players; let i = index"
+                style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+            <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id">
+              <mat-icon>sports_soccer</mat-icon>
+            </div>
+            <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
+              <div fxLayout="row">
+                <div class="counting-balls"></div>
+                <div class="counting-balls"></div>
+                <div class="counting-balls"></div>
+              </div>
+            </div>
+            <div *ngIf="game.timeKeeper === item.id" class="timer">
+              <mat-icon>timer</mat-icon>
+            </div>
+            <div>
+              <div *ngIf="game.archWizard != item.id">{{item.incrementalId}}</div>
+              <div *ngIf="game.archWizard == item.id">
+                <img class="fire-icon" src="assets/icons/fire.png">
+              </div>
+            </div>
+
+            <!--            <img *ngIf="arch === i+1" class="fire-icon" src="assets/icons/add.svg">-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="30" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="">
+      <div fxLayout="column" fxFlex="30" fxFlex.md="30" fxLayoutAlign="center center">
+        <h1><mat-icon>visibility</mat-icon>Statistics</h1>
+      </div>
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+
+        <ng-container matColumnDef="currentRound">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Round.</th>
+          <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="ballsEstimate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Estimate</th>
+          <td mat-cell *matCellDef="let element"> {{element.ballsEstimate}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="ballsMade">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Actual</th>
+          <td mat-cell *matCellDef="let element"> {{element.ballsMade}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+

@@ -1,0 +1,17 @@
+<div class="container" fxLayout="column" fxFlex="100">
+ <app-header [tittle]="'round results'"></app-header>
+  <div fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <p class="team">Congratulations!!!<br><br> Share your<br> results!</p>
+    </div>
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <p class="score">{{roundScore}}!</p>
+      <div fxLayout="row" fxFlex="100">
+        <p class="team">Magic Balls!</p>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <button class="next" mat-raised-button>Metrics</button>
+    </div>
+  </div>
+</div>

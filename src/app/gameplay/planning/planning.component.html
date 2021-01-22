@@ -1,0 +1,30 @@
+<div class="container" fxLayout="column" fxFlex="100">
+  <app-header [tittle]="'planning'"></app-header>
+  <div class="main-section" fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="30" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >
+      <p class="team" >your<br> Neighbor is<br> fixed!</p>
+    </div>
+    <div fxLayout="column" fxFlex="40" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center" class="player">
+      <div id="parentdiv" #parentDiv>
+        <div  fxFlex="100" fxLayoutAlign="center center" class="div2 "
+             *ngFor="let item of list; let i = index"
+             style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+          <span  class="number"><mat-icon>person</mat-icon></span>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="30" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <p class="team">This is Your!!!<br> wizarding <br> circle aka<br>your system</p>
+    </div>
+  </div>
+  <div class="main-section" fxLayout="row" fxFlex="100" class="last">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      <p class="team">The Person<br> next to you<br> is your<br>neighbor.</p>
+    </div>
+  </div>
+
+</div>
+
+

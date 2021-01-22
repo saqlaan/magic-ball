@@ -7,7 +7,7 @@
     <div fxLayout="column" fxFlex="60" fxFlex.md="20" fxLayoutAlign="center center">
       <h1 class="estimate">Estimate?</h1>
       <div fxLayout="column" fxFlex="50" fxFlex.sm="10" fxFlex.xs="10" fxLayoutAlign="center center">
-        <p class="para">Current Round<b>:{{currentRound}}/{{totalRounds}}</b></p>
+        <p class="para">Current Round<b>:{{gameData.currentRound}}/{{gameData.noOfRounds}}</b></p>
       </div>
     </div>
   </div>
@@ -36,7 +36,7 @@
             <mat-form-field appearance="fill">
               <mat-label>Time Keeper</mat-label>
               <mat-select formControlName="timeKeeper">
-                <mat-option *ngFor="let player of result; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
+                <mat-option *ngFor="let player of players; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -44,7 +44,7 @@
             <mat-form-field appearance="fill">
               <mat-label>Score Keeper</mat-label>
               <mat-select formControlName="scoreKeeper">
-                <mat-option *ngFor="let player of result; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
+                <mat-option *ngFor="let player of players; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -54,7 +54,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Fire By</mat-label>
           <mat-select  formControlName="archWizard">
-            <mat-option *ngFor="let player of result; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
+            <mat-option *ngFor="let player of players; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

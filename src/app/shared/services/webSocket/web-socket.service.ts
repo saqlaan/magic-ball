@@ -7,18 +7,25 @@ import {environment} from '../../../../environments/environment';
 })
 export class WebSocketService {
   ws: WebSocket = new WebSocket(environment.SOCKET_URL);
+  queue: any = [];
+
   private send = (obj: any) => {
     this.ws.send(JSON.stringify(obj));
   };
 
   constructor(private gameService: GameService) {
     this.ws.onopen = () => {
-      console.log('Connection opened!');
-      let user = localStorage.getItem('user');
+      if (this.queue.length > 0) {
+        this.queue.forEach((method: any) => {
+          this.send(method);
+        });
+        this.queue = [];
+      }
+      let user: any = localStorage.getItem('user');
       if (user) {
-        user = JSON.parse(<string>localStorage.getItem('user'));
-        if (user) {
-          this.init(user['userId']);
+        user = JSON.parse(user);
+        if (user.userId) {
+          this.init(user.userId);
         }
       }
       // console.log(JSON.parse(localStorage.getItem('user') || ""));
@@ -50,6 +57,28 @@ export class WebSocketService {
         case 'playerAdded':
           this.gameService.playerAdded(data);
           break;
+        case 'estimateAdded':
+          this.gameService.estimateAdded(data);
+          break;
+        case 'readyAdded':
+          this.gameService.readyAdded(data);
+          break;
+        case 'planAdded':
+          this.gameService.planAdded(data);
+          break;
+        case 'roundEnded':
+          this.gameService.roundEnded(data);
+          break;
+        case 'planStarted':
+          this.gameService.planStarted(data);
+          break;
+          case 'gameEnded':
+          this.gameService.gameEnded(data);
+          break;
+        case 'roundStarted':
+          this.gameService.roundStarted(data);
+          break;
+
         case 'gameStarted':
           this.gameService.updateBallPosition(data.payload.userId);
           if (data.payload.userId === localStorage.getItem('id')) {
@@ -61,13 +90,21 @@ export class WebSocketService {
   }
 
   init(userId: any) {
-    this.send({
+    let method = {
       method: 'init',
       data: {
         userId: userId
       }
-    });
+    };
+    console.log('state', this.ws.readyState);
+    if (this.ws.readyState === 1) {
+      this.send(method);
+    } else {
+      this.queue.push(method);
+    }
+
   }
+
   moveBall(gameCode: any) {
     this.send({
       method: 'moveBall',

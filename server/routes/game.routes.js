@@ -18,6 +18,7 @@ router.post('/add-plan', asyncHandler(GameHandler.addPlan));
 router.post('/add-ready', asyncHandler(GameHandler.addReady));
 router.post('/move-ball', asyncHandler(GameHandler.moveBall));
 router.post('/end-game', asyncHandler(GameHandler.gameEnd));
+router.post('/add-viewer', asyncHandler(GameHandler.gameViewers));
 
 
 module.exports = router;

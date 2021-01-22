@@ -9,17 +9,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./addestimate.component.css']
 })
 export class AddestimateComponent implements OnInit {
-  game: any = {};
+  estimate: any = {};
+  gameData: any = {};
   gameCode: any;
-  totalRounds: any;
-  currentRound: any;
-  result: any;
-  gameId: any;
-  archWizard: any;
+  players: any;
   show!: boolean;
-  show1 = true;
-  batchNumber: any;
-  estimatedBalls: any;
   estimateForm = new FormGroup({
     estimatedBalls: new FormControl('', [Validators.required]),
     archWizard: new FormControl('', [Validators.required]),
@@ -31,13 +25,10 @@ export class AddestimateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((Game) => {
-      this.currentRound = Game.currentRound;
-      this.totalRounds = Game.noOfRounds;
-      this.gameId = Game._id;
-      if (this.currentRound == 1) {
+      this.gameData = Game;
+      if (this.gameData.currentRound == 1) {
         this.estimateForm.patchValue({
           scoreKeeper: 1,
           timeKeeper: 1
@@ -49,22 +40,22 @@ export class AddestimateComponent implements OnInit {
         });
         this.show = false;
       }
-      this.result = Game.players.map((x: any) => (x.id));
+      this.players = this.gameData.players.map((x: any) => (x.id));
 
     });
   }
 
   addEstimate() {
 
-    if (this.currentRound == 1) {
-      this.game.archWizard = this.result[this.estimateForm.value.archWizard - 1];
-    }else{
-      this.game.scoreKeeper = this.result[this.estimateForm.value.scoreKeeper - 1];
-      this.game.timeKeeper = this.result[this.estimateForm.value.timeKeeper - 1];
+    if (this.gameData.currentRound == 1) {
+      this.estimate.archWizard = this.players[this.estimateForm.value.archWizard - 1];
+    } else {
+      this.estimate.scoreKeeper = this.players[this.estimateForm.value.scoreKeeper - 1];
+      this.estimate.timeKeeper = this.players[this.estimateForm.value.timeKeeper - 1];
     }
-    this.game.balls = this.estimateForm.value.estimatedBalls;
-    this.game.gameId = this.gameId;
-    this.gameService.addEstimate(this.game).subscribe((Game) => {
+    this.estimate.ballsEstimate = this.estimateForm.value.estimatedBalls;
+    this.estimate.gameId = this.gameData._id;
+    this.gameService.addEstimate(this.estimate).subscribe((Game) => {
       this.router.navigate(['/addready']);
     });
   }

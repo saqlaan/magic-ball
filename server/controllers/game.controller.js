@@ -66,7 +66,8 @@ async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
     {
       $set: {
         'rounds.$.arrangement': arrangement,
-        'rounds.$.stepEndingTime': roundsTime
+        'rounds.$.stepEndingTime': roundsTime,
+        'rounds.$.status': 'estimate'
       }
     }, {
       new: true
@@ -87,6 +88,18 @@ async function updateStepEndingTime(gameId, roundsId, roundsTime) {
   );
 
 }
+async function addViewers(viewerId, gameId) {
+  console.log(gameId);
+  return Game.findOneAndUpdate(
+    {gameCode: gameId},
+    {
+      $push: {viewers: viewerId}
+    }, {
+      new: true
+    }
+  );
+
+}
 
 async function updateArch(gameId, archWizard, round, roundsId,timeKeeper,scoreKeeper) {
   return Game.findOneAndUpdate(
@@ -96,7 +109,9 @@ async function updateArch(gameId, archWizard, round, roundsId,timeKeeper,scoreKe
       timeKeeper: timeKeeper,
       scoreKeeper: scoreKeeper,
       $set: {
-        'rounds.$.ballsEstimate': round.ballsEstimate
+        'rounds.$.ballsEstimate': round.ballsEstimate,
+        'rounds.$.status': round.status,
+        'rounds.$.stepEndingTime': round.stepEndingTime,
       }
     }, {
       new: true
@@ -104,7 +119,7 @@ async function updateArch(gameId, archWizard, round, roundsId,timeKeeper,scoreKe
   );
 }
 
-async function addReady(gameId, roundId, {batchFlow, ballsArrangement, greenPlayers, redPlayers, currentBallHolder}) {
+async function addReady(gameId, roundId, {batchFlow, ballsArrangement, greenPlayers, redPlayers, currentBallHolder,status}) {
   return Game.findOneAndUpdate(
     {_id: gameId, 'rounds._id': roundId},
     {
@@ -116,7 +131,7 @@ async function addReady(gameId, roundId, {batchFlow, ballsArrangement, greenPlay
         'rounds.$.currentBallHolder': currentBallHolder,
         'rounds.$.ballsMade': 0,
         'rounds.$.wastedBalls': 0,
-        'rounds.$.status': 'playing',
+        'rounds.$.status': status,
       }
     }, {
       new: true
@@ -147,5 +162,5 @@ async  function ballMovement(gameId, {roundId,redList, greenList, currentBallHol
 
 module.exports = {
   insert, addUserInGame, findGameByCode, findGameById, updateGameStart,
-  updatePlan, updateArch, addReady,addRound,updateStepEndingTime,ballMovement,endRound,endGame
+  updatePlan, updateArch, addReady,addRound,updateStepEndingTime,ballMovement,endRound,endGame,addViewers
 }

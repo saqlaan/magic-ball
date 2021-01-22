@@ -34,6 +34,7 @@ const socket = {
       console.log("-----");
       switch (data.method) {
         case 'init':
+          console.log('yes')
           socket.init(client, data);
           break;
         case 'startGame':
