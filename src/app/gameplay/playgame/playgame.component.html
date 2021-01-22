@@ -60,7 +60,7 @@
                 <div class="counting-balls"></div>
               </div>
             </div>
-            <div *ngIf="timeKeeper === i+1" class="timer">
+            <div *ngIf="game.timeKeeper === item.id" class="timer">
               <mat-icon>timer</mat-icon>
             </div>
             <div>

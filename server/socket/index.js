@@ -54,9 +54,6 @@ const socket = {
     console.log('First connected');
   },
   init: (client, data) => {
-    console.log(client);
-    console.log(data);
-
     let userData = data.data;
     socket.clients[userData.userId] = {
       client: {

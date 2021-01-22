@@ -255,11 +255,12 @@ export class GameService {
     return this.http.post<Game>('/api/game/end-game', {
       gameId,
     });
-  } public addViewer(
+  }
+  public addViewer(
     viewerId: any,
     gameCode:any,
   ): Observable<Game> {
-    return this.http.post<Game>('/api/game/game-view', {
+    return this.http.post<Game>('/api/game/add-viewer', {
       viewerId,
       gameCode
     });
