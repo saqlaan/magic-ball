@@ -1,64 +1,19 @@
-const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const userCtrl = require('../controllers/user.controller');
-const gameCtrl = require("../controllers/game.controller");
-const escapeStringRegexp = require('escape-string-regexp');
-
-
+const {hashPassword} = require('../Utils/index');
+const bcrypt = require("bcrypt");
+const {messages} = require("../Utils/constants");
 async function signup(req, res) {
-
-  let errors = [];
-  if (req.body.firstName === undefined || req.body.firstName === '') {
-    errors.push("firstName is required");
+  let email = await userCtrl.findByEmail(req.body.email);
+  if(email){
+    res.json({message: messages.EMAIL_EXIST});
   }
-  if (req.body.lastName === undefined || req.body.lastName === '') {
-    errors.push("lastName is required");
+  req.body.password = await hashPassword(req.body.password)
+  let user = await userCtrl.insert(req.body);
+  if(!user){
+    res.status(401).json({message: messages.REGISTRATION_FAILED});
   }
-  if (req.body.email === undefined || req.body.email === '') {
-    errors.push("email is required");
-  }
-  if (req.body.country === undefined || req.body.country === '') {
-    errors.push("country is required");
-  }
-  if (req.body.city === undefined || req.body.city === '') {
-    errors.push("city is required");
-  }
-  if (req.body.occupation === undefined || req.body.occupation === '') {
-    errors.push("occupation is required");
-  }
-  if (req.body.password === undefined || req.body.password === '') {
-    errors.push("password is required");
-  }
-  if (req.body.type === undefined || req.body.type === '') {
-    errors.push("type is required");
-  }
-  if (errors.length === 0) {
-    let email = await userCtrl.findByEmail(req.body.email);
-    if (!email) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      req.body.password = hashedPassword;
-
-      let user = await userCtrl.insert(req.body);
-      if (user) {
-        res.json({
-          message: "you are registered"
-        });
-      } else {
-        res.status(400).json({
-          message: "not registered successfully"
-        });
-      }
-    } else {
-      res.json({
-        message: "email is already exist"
-      });
-    }
-  } else {
-    res.status(400).json({
-      errors
-    })
-  }
+  res.json({message: messages.REGISTRATION_SUCCESS});
 }
 
 async function login(req, res) {
