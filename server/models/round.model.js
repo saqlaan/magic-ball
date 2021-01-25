@@ -48,15 +48,12 @@ const RoundSchema = new mongoose.Schema({
     },
     ballMovement: {},
     arrangement: [{
+      _id: false,
       id:{
         type: mongoose.Schema.ObjectId, ref: 'User'
       },
       incrementalId: Number,
       position: Position,
-      user:{
-        firstName: {type: String},
-        lastName: {type: String}
-      }
     }],
   greenPlayers: [{
     type: String,

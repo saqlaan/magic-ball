@@ -26,7 +26,7 @@
   <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" *ngIf="game">
     <div #boundry class="boundary">
       <div [cdkDragFreeDragPosition]="item.position"  (cdkDragEnded)="dragHandler($event,i)"  class="player" *ngFor="let item of game.players;let i = index" cdkDragBoundary=".boundary" cdkDrag>
-        <div class="name">{{item.user.firstName +' '+ item.user.lastName}}</div>
+        <div class="name" *ngIf="item.user">{{item.user.firstName +' '+ item.user.lastName}}</div>
         <div class="number">{{item.incrementalId}}</div>
       </div>
     </div>
