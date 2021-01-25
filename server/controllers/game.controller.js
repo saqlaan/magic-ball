@@ -27,6 +27,7 @@ async function updateGameStart(id, rounds) {
   }, {new: true});
 }
 async function addRound(id, rounds, currentRound) {
+  console.log(currentRound)
   return Game.findOneAndUpdate({_id: id}, {
     "currentRound": currentRound,
     $push: {rounds: rounds}
@@ -61,6 +62,7 @@ async function endGame(gameId,{completed}) {
 
 
 async function updatePlan(arrangement, gameId, roundsId, roundsTime) {
+  console.log(arrangement)
   return Game.findOneAndUpdate(
     {_id: gameId, 'rounds._id': roundsId},
     {
