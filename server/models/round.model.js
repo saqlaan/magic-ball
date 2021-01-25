@@ -52,7 +52,11 @@ const RoundSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId, ref: 'User'
       },
       incrementalId: Number,
-      position: Position
+      position: Position,
+      user:{
+        firstName: {type: String},
+        lastName: {type: String}
+      }
     }],
   greenPlayers: [{
     type: String,
