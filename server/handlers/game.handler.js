@@ -327,11 +327,15 @@ async function addReady(req, res) {
           greenPlayers: greenList,
           redPlayers: redList,
           currentBallHolder: currentBallHolder,
-          status: 'playing'
+          status: 'playing',
         });
       if (updatedGame) {
-+        socket.sendMessage([...game.players.map(player => player.id), game.hostId,...updatedGame.viewers], {method: 'readyAdded', data: null});
+        socket.sendMessage([...game.players.map(player => player.id), game.hostId,...updatedGame.viewers], {method: 'readyAdded', data: null});
         socket.sendMessage([updatedGame.hostId], {method: 'ballMoved', data: null});
+        socket.sendMessage([currentBallHolder], {
+          method: 'ballReceived',
+          data: null
+        });
         res.send(updatedGame);
       } else {
         res.status(400).send({
@@ -339,7 +343,7 @@ async function addReady(req, res) {
         })
       }
     } else {
-      if (req.body.ballsArrangement === undefined || req.body.ballsArrangement === '') {
+      if (req.body.ballsWasted === undefined) {
         errors.push("Balls arrangement is required");
       }
       if (req.body.batchFlow === undefined || req.body.batchFlow === '') {
@@ -355,7 +359,8 @@ async function addReady(req, res) {
             greenPlayers: greenList,
             redPlayers: redList,
             currentBallHolder: currentBallHolder,
-            status: 'playing'
+            status: 'playing',
+            wastedBalls: req.body.ballsWasted
           });
         if (updatedGame) {
           socket.sendMessage([...updatedGame.players.map(player => player.id), updatedGame.hostId,...updatedGame.viewers], {
@@ -439,7 +444,7 @@ function getPlayerNextBallMovement(game, playerId) {
     }
     if ((currentBallHolder.toString() === game.archWizard.toString()) && (movedList.length === game.players.length)) {
       movedList = [];
-      ballsMade += game.rounds[game.currentRound - 1].batchFlow;
+      ballsMade += (game.rounds[game.currentRound - 1].batchFlow - game.rounds[game.currentRound - 1].wastedBalls);
     }
   }
   currentBallHolderIndex = players.indexOf((currentBallHolder))

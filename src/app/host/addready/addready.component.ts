@@ -58,11 +58,11 @@ export class AddreadyComponent implements OnInit {
 
   addReady() {
     if (this.game.currentRound == 1) {
-      this.gameService.addReady(this.game._id, [null], '').subscribe((Game) => {
+      this.gameService.addReady(this.game._id, 1, 0).subscribe((Game) => {
         this.router.navigate(['/gameplay']);
       });
     } else {
-      this.gameService.addReady(this.game._id, this.ballsArrangement, this.readyForm.value.batchNumber).subscribe((Game) => {
+      this.gameService.addReady(this.game._id, this.readyForm.value.batchNumber, this.getWastedBalls()).subscribe((Game) => {
         this.router.navigate(['/gameplay']);
       });
     }
@@ -92,6 +92,20 @@ export class AddreadyComponent implements OnInit {
       temp[j] = 1;
       this.ballsArrangement[i] = temp;
     }
+  }
+
+  getWastedBalls() {
+    let wastedBalls = 0;
+    for (let i = 0; i < this.ballsArrangement.length; i++) {
+      for (let j = 0; j < this.ballsArrangement[i].length; j++ ) {
+        if (this.ballsArrangement[i][j] == 0) {
+          if (i === 0 || i === this.ballsArrangement.length - 1 || j === 0 || j === this.ballsArrangement.length - 1) {
+            wastedBalls++;
+          }
+        }
+      }
+    }
+    return wastedBalls;
   }
 
 }

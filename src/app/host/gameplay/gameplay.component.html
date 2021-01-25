@@ -58,7 +58,7 @@
 <!--          </div>-->
 <!--        </div>-->
         <div #boundry class="boundary" *ngIf="game">
-          <div draggable="false" [cdkDragFreeDragPosition]="item.position" class="player" *ngFor="let item of game.rounds[game.currentRound - 1].arrangement;let i = index" cdkDragBoundary=".boundary" cdkDrag>
+          <div [cdkDragDisabled]="true" [cdkDragFreeDragPosition]="item.position" class="player" *ngFor="let item of game.rounds[game.currentRound - 1].arrangement;let i = index" cdkDragBoundary=".boundary" cdkDrag>
             <div class="name" *ngIf="item.user">
               {{item.user.firstName +' '+ item.user.lastName}}
             </div>

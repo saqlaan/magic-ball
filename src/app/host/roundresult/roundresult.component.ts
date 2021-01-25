@@ -32,8 +32,10 @@ export class RoundresultComponent implements OnInit {
       this.router.navigate(['addplan']);
     });
   }
-  finalResult(){
-    this.router.navigate(['finalresult']);
+  finalResult() {
+    this.gameService.endGame(this.gameId).subscribe((game) => {
+      this.router.navigate(['finalresult']);
+    });
   }
 
 }
