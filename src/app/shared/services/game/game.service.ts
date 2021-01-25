@@ -224,12 +224,12 @@ export class GameService {
 
   public addReady(
     gameId: any,
-    ballsArrangement: any[],
     batchFlow: any,
+    ballsWasted: any,
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/add-ready', {
       gameId,
-      ballsArrangement,
+      ballsWasted,
       batchFlow
     });
   }

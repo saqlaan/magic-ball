@@ -17,8 +17,6 @@ export class AddestimateComponent implements OnInit {
   estimateForm = new FormGroup({
     estimatedBalls: new FormControl('', [Validators.required]),
     archWizard: new FormControl('', [Validators.required]),
-    scoreKeeper: new FormControl('', [Validators.required]),
-    timeKeeper: new FormControl('', [Validators.required]),
   });
 
   constructor(private gameService: GameService, private ws: WebSocketService, private  router: Router) {
@@ -53,6 +51,8 @@ export class AddestimateComponent implements OnInit {
       this.estimate.scoreKeeper = this.players[this.estimateForm.value.scoreKeeper - 1];
       this.estimate.timeKeeper = this.players[this.estimateForm.value.timeKeeper - 1];
     }
+    this.estimate['timeKeeper'] = this.gameData.players[0].id;
+    this.estimate['scoreKeeper'] = this.gameData.players[1].id;
     this.estimate.ballsEstimate = this.estimateForm.value.estimatedBalls;
     this.estimate.gameId = this.gameData._id;
     this.gameService.addEstimate(this.estimate).subscribe((Game) => {
