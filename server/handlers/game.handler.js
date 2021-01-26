@@ -126,7 +126,7 @@ async function joinGame(req, res) {
           if (game) {
             let result = game.players.map(x => (x.id));
             result.pop(req.body.playerId)
-            socket.sendMessage([...result, game.hostId,...game.viewers], {method: 'playerAdded', data: null});
+            socket.actions.addPlayer([...result, game.hostId,...game.viewers])
             return res.json(game);
           } else {
             res.status(404).json({
@@ -175,7 +175,7 @@ async function startGame(req, res) {
       let startGame = await gameCtrl.updateGameStart(game._id, round);
       if (startGame) {
         let result = startGame.players.map(x => (x.id));
-        socket.sendMessage([...result, startGame.hostId,...startGame.viewers], {method: 'planStarted', data: null});
+        socket.actions.startPlan([...result, startGame.hostId,...startGame.viewers]);
         res.json(startGame);
       } else {
         res.status(404).json({
@@ -224,7 +224,7 @@ async function addEstimate(req, res) {
       let updateGame = await gameCtrl.updateArch(req.body.gameId, req.body.archWizard, round, roundsId, game.timeKeeper, game.scoreKeeper);
       if (updateGame) {
         let result = updateGame.players.map(x => (x.id));
-        socket.sendMessage([...result, updateGame.hostId,...updateGame.viewers], {method: 'estimateAdded', data: null});
+        socket.actions.addEstimate([...result, updateGame.hostId,...updateGame.viewers])
         res.json(updateGame);
       } else {
         res.status(404).json({
@@ -254,7 +254,7 @@ async function addEstimate(req, res) {
         let updateGame = await gameCtrl.updateArch(req.body.gameId, game.archWizard, round, roundsId, req.body.timeKeeper, req.body.scoreKeeper);
         if (updateGame) {
           let result = updateGame.players.map(x => (x.id));
-          socket.sendMessage([...result, updateGame.hostId,...updateGame.viewers], {method: 'estimateAdded', data: null});
+          socket.actions.addEstimate([...result, updateGame.hostId,...updateGame.viewers]);
           res.json(updateGame);
         } else {
           res.status(404).json({
@@ -294,7 +294,7 @@ async function addPlan(req, res) {
       }
       if (updatedGame) {
         let result = updatedGame.players.map(x => (x.id));
-        socket.sendMessage([...result, updatedGame.hostId,...updatedGame.viewers], {method: 'planAdded', data: null});
+        socket.actions.addPlan([...result, updatedGame.hostId,...updatedGame.viewers]);
         res.json(updatedGame);
       } else {
         res.status(404).json(
@@ -330,8 +330,8 @@ async function addReady(req, res) {
           status: 'playing'
         });
       if (updatedGame) {
-+        socket.sendMessage([...game.players.map(player => player.id), game.hostId,...updatedGame.viewers], {method: 'readyAdded', data: null});
-        socket.sendMessage([updatedGame.hostId], {method: 'ballMoved', data: null});
+        socket.actions.addReady([...game.players.map(player => player.id), game.hostId,...updatedGame.viewers]);
+        socket.actions.moveBall([updatedGame.hostId]);
         res.send(updatedGame);
       } else {
         res.status(400).send({
@@ -358,11 +358,8 @@ async function addReady(req, res) {
             status: 'playing'
           });
         if (updatedGame) {
-          socket.sendMessage([...updatedGame.players.map(player => player.id), updatedGame.hostId,...updatedGame.viewers], {
-            method: 'readyAdded',
-            data: null
-          });
-          socket.sendMessage([updatedGame.hostId], {method: 'ballMoved', data: null});
+          socket.actions.addReady([...updatedGame.players.map(player => player.id), updatedGame.hostId,...updatedGame.viewers]);
+          socket.actions.moveBall([updatedGame.hostId]);
           res.send(updatedGame);
         } else {
           res.status(400).json({
@@ -399,14 +396,8 @@ async function moveBall(req, res) {
         currentBallHolder, movedList, redList, greenList, ballsMade, ballsWasted, status
       })
       if (updatedGame) {
-        socket.sendMessage([currentBallHolder], {
-          method: 'ballReceived',
-          data: null
-        });
-        socket.sendMessage([updatedGame.hostId,...updatedGame.viewers], {
-          method: 'ballMoved',
-          data: null
-        });
+        socket.actions.receivedBall([currentBallHolder]);
+        socket.actions.moveBall([updatedGame.hostId,...updatedGame.viewers]);
         res.json(updatedGame);
       } else {
         res.status(404).json({
@@ -477,7 +468,7 @@ async function startRound(req, res) {
       let startGame = await gameCtrl.addRound(game._id, round, game.currentRound + 1);
       if (startGame) {
         let result = startGame.players.map(x => (x.id));
-        socket.sendMessage([...result, startGame.hostId,...startGame.viewers], {method: 'roundStarted', data: null});
+        socket.actions.startRound([...result, startGame.hostId,...startGame.viewers])
         res.json(startGame);
       } else {
         res.status(404).json({
@@ -510,7 +501,7 @@ async function endRound(req, res) {
       });
       if (endRound) {
         let result = endRound.players.map(x => (x.id));
-        socket.sendMessage([...result, endRound.hostId,...endRound.viewers], {method: 'roundEnded', data: null});
+        socket.actions.endRound([...result, endRound.hostId,...endRound.viewers]);
         res.json(endRound);
       } else {
         res.status(404).json({
@@ -539,8 +530,8 @@ async function gameEnd(req, res) {
       let gameEnd = await gameCtrl.endGame(game._id, {completed: true});
       if (gameEnd) {
         let result = gameEnd.players.map(x => (x.id));
-        socket.sendMessage([...result, gameEnd.hostId,...gameEnd.viewers], {method: 'gameEnded', data: null});
-        socket.removeUsers([...result]);
+        socket.actions.endGame([...result, gameEnd.hostId,...gameEnd.viewers]);
+        socket.actions.removeUsers([...result]);
         res.json(gameEnd);
       } else {
         res.status(404).json({
