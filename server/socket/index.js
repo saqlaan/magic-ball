@@ -2,13 +2,7 @@ class SocketSingleton {
   constructor() {
     this.a = 1;
     this.socket = socket;
-    /* if(SocketSingleton._instance) {
-      this.a = 1;
-      SocketSingleton._instance = this;
-    }
-    return SocketSingleton._instance; */
   }
-
   static getInstance() {
     if (this._instance === undefined) {
       this._instance = new SocketSingleton();
@@ -16,39 +10,17 @@ class SocketSingleton {
     return this._instance;
   }
 }
-
 function heartbeat() {
   this.isAlive = true;
 }
-
 const socket = {
-
-  // clients: [],
   clients: {},
-  games: {},
   connect: (client) => {
     client.onmessage = (data) => {
       data = JSON.parse(data.data);
-      console.log("<<<<<");
-      console.log("data: ",data);
-      console.log("-----");
       switch (data.method) {
         case 'init':
-          console.log('yes')
           socket.init(client, data);
-          break;
-        case 'startGame':
-          //  send the message to all the clients that game has started
-          //  send gameStarted event to host and ballReceived to the player
-          socket.startGame(data.data.gameCode);
-          break;
-        case 'moveBall':
-          socket.moveBall(data.data.gameCode, client);
-          break;
-        case 'connect':
-          client.send(JSON.stringify({
-            method: 'ok',
-          }));
           break;
         default:
           console.log('No method found');
@@ -58,116 +30,86 @@ const socket = {
     client.on('pong', heartbeat);
     console.log('First connected');
   },
-  init: (client, data) => {
-    let userData = data.data;
-    socket.clients[userData.userId] = {
-      client: {
-        client: client,
-        createdAt: (new Date()).toUTCString()
-      },
+  init: (client, {data}) => {
+    socket.clients[data.userId] = {
+        client, createdAt: (new Date()).toUTCString()
     };
-    let payload = {
-      method: 'userAdded',
-      payload: {
-        userId: userData.userId
-      }
-    };
-    socket.send(client, payload, userData.userId);
+    console.log(data);
+    socket.actions.addUser([data.userId], null)
   },
-  // Alert everyone in the game that new user has added including host
-  // playerAdded: (client, userId, name) => {
-  //   console.log('player added', userId);
-  //   const data = {
-  //     method: 'playerAdded',
-  //     payload: {
-  //       name: name,
-  //       userId: userId
-  //     }
-  //   };
-  //   client.send(JSON.stringify(data));
-  // },
-  startGame: (gameCode) => {
-    if (socket.games[gameCode].players.length !== 0) {
-      socket.games[gameCode] = {...socket.games[gameCode], ['ballIndex']: 0}
-      const data = {
-        method: 'gameStarted',
-        payload: {
-          userId: socket.games[gameCode].players[0].userId
-        }
-      };
-      const hostClient = socket.getHostByGameCode(gameCode);
-      const playersClients = socket.getPlayersByCode(gameCode);
-      [hostClient, ...playersClients].forEach(client => {
-        client.send(JSON.stringify(data))
-      })
+  send: (id, payload) => {
+    const client = socket.getClient(id);
+    if(client && client.isAlive) {
+      client.send(JSON.stringify(payload));
+    } else {
+      console.log(id + ' not exist or not live');
     }
   },
-  moveBall: (gameCode, client) => {
-    if (socket.games[gameCode] !== undefined) {
-      const game = socket.games[gameCode];
-      let ballIndex = 0
-      if (game.ballIndex === game.players.length - 1) {
-        socket.games[gameCode].ballIndex = 0;
-        ballIndex = 0;
+  sendMany: (ids =[], payload) => {
+    ids.forEach(id => {
+      const client = socket.getClient(id);
+      if(client && client.isAlive) {
+        client.send(JSON.stringify(payload));
       } else {
-        socket.games[gameCode].ballIndex = game.ballIndex + 1
-        ballIndex = game.ballIndex + 1
+        console.log(id + ' not exist or not live');
       }
-      // Alert the player who moved
-      client.send(JSON.stringify({
-        method: 'ballMoved',
-      }));
-      // Alert the player who received
-      socket.games[gameCode].players[socket.games[gameCode].ballIndex].client.send(JSON.stringify({
-        method: 'ballReceived',
-      }));
-      // Alert the host
-      socket.games[gameCode].host.client.send(JSON.stringify({
-        method: 'ballPositionUpdated',
-        payload: {
-          userId: socket.games[gameCode].players[socket.games[gameCode].ballIndex].userId
-        }
-      }))
-    }
-  },
-  getHostByGameCode: (gameCode) => {
-    if (socket.games[gameCode]) {
-      return socket.games[gameCode].host.client;
-    }
-    return null;
-  },
-  getPlayersByCode: (gameCode) => {
-    if (socket.games[gameCode]) {
-      return socket.games[gameCode].players.map(player => player.client);
-    }
-    return null;
-  },
-  testSend: () => {
-    Object.keys(socket.clients).forEach((key) => {
-      socket.clients[key].client.client.send("hello");
     })
   },
-
-  sendMessage: (users, {method,data}) => {
-    users.forEach(element => {
-      if (socket.clients[element] !== undefined) {
-        socket.send(socket.clients[element].client.client,{method,data}, element)
-      }
-    });
+  getClient: (id) => {
+    return socket.clients[id]? socket.clients[id].client : null;
   },
-  removeUsers: (users=[]) => {
-    users.forEach(element => {
-      if (socket.clients[element] !== undefined) {
-        delete socket.clients[element]
-      }
-    });
-  },
-  send: (client, message, userId) => {
-    console.log(">>>>>");
-    console.log("userId: ", userId);
-    console.log("data: ", message);
-    console.log("-----");
-    client.send(JSON.stringify(message));
+  actions: {
+    addUser: (users, data) => {
+      const payload = {method: 'userAdded', data};
+      socket.sendMany(users, payload);
+    },
+    addPlayer: (users = []) => {
+      const payload = {method: 'playerAdded', data: null};
+      socket.sendMany(users, payload);
+    },
+    startPlan: (users = []) => {
+      const payload = {method: 'planStarted', data: null};
+      socket.sendMany(users, payload);
+    },
+    addPlan: (users = []) => {
+      const payload = {method: 'planAdded', data: null};
+      socket.sendMany(users, payload);
+    },
+    addEstimate: (users = []) => {
+      const payload = {method: 'estimateAdded', data: null};
+      socket.sendMany(users, payload);
+    },
+    addReady: (users = []) => {
+      const payload = {method: 'readyAdded', data: null};
+      socket.sendMany(users, payload);
+    },
+    moveBall: (users = []) => {
+      const payload = {method: 'ballMoved', data: null};
+      socket.sendMany(users, payload);
+    },
+    receivedBall: (users = []) => {
+      const payload = {method: 'ballReceived', data: null};
+      socket.sendMany(users, payload);
+    },
+    startRound: (users = [], ) => {
+      const payload = {method: 'roundStarted', data: null};
+      socket.sendMany(users, payload);
+    },
+    endRound: (users = []) => {
+      const payload = {method: 'roundEnded', data: null};
+      socket.sendMany(users, payload);
+    },
+    endGame: (users = []) => {
+      const payload = {method: 'gameEnded', data: null};
+      socket.sendMany(users, payload);
+    },
+    removeUsers: (users = []) => {
+      users.forEach(id => {
+        if (socket.clients[id]) {
+          delete socket.clients[id]
+        }
+      });
+    }
   }
 }
 module.exports = SocketSingleton.getInstance().socket
