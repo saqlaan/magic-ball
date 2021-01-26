@@ -6,13 +6,13 @@ const UserScheme = require('../validations/user.scheme')
 const {tokenAuthentication, validation} = require('../middleware/index.middleware');
 
 router.post('/signup',[validation(UserScheme.signup)], asyncHandler(UserHandler.signup));
-router.post('/login', asyncHandler(UserHandler.login));
-router.post('/logout', asyncHandler(UserHandler.logout));
-router.post('/forgot-password', asyncHandler(UserHandler.forgotPassword));
-router.post('/reset-password', asyncHandler(UserHandler.resetPassword));
-router.post('/get-profile', asyncHandler(UserHandler.getProfile));
-router.post('/guest-login', asyncHandler(UserHandler.guestLogin));
-router.put('/update-profile', [tokenAuthentication], asyncHandler(UserHandler.updateProfile));
-router.put('/update-password', [tokenAuthentication], asyncHandler(UserHandler.updatePassword));
-router.post('/search-player',[tokenAuthentication],asyncHandler(UserHandler.searchPlayer) );
+router.post('/login',[validation(UserScheme.login)], asyncHandler(UserHandler.login));
+router.post('/logout',[validation(UserScheme.logout)], asyncHandler(UserHandler.logout));
+router.post('/forgot-password',[validation(UserScheme.forgotPassword)], asyncHandler(UserHandler.forgotPassword));
+router.post('/reset-password',[validation(UserScheme.resetPassword)], asyncHandler(UserHandler.resetPassword));
+router.post('/get-profile',[validation(UserScheme.getProfile)],asyncHandler(UserHandler.getProfile));
+router.post('/guest-login',[validation(UserScheme.guestLogin)], asyncHandler(UserHandler.guestLogin));
+router.put('/update-profile', [tokenAuthentication, validation(UserScheme.updateProfile)], asyncHandler(UserHandler.updateProfile));
+router.put('/update-password', [tokenAuthentication, validation(UserScheme.updatePassword)], asyncHandler(UserHandler.updatePassword));
+router.post('/search-player',[tokenAuthentication, validation(UserScheme.searchPlayer)],asyncHandler(UserHandler.searchPlayer) );
 module.exports = router;

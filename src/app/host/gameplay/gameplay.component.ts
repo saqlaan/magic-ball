@@ -31,7 +31,7 @@ export class GameplayComponent implements AfterViewInit {
   }
 
   endRound() {
-    this.gameService.endRound(this.game.id).subscribe((game) => {
+    this.gameService.endRound(this.game._id).subscribe((game) => {
       this.router.navigate(['roundresult']);
     });
   }
