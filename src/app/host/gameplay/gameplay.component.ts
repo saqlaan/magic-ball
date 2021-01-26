@@ -18,6 +18,19 @@ export class GameplayComponent implements AfterViewInit {
   dataSource: any;
   game: any;
 
+  currentTime: any;
+  time: any;
+  list: any[] = [];
+  myTime: any;
+  div: any = 0;
+  minutes: any;
+  radius: any = 0;
+  icons: any = false;
+  totalOffset: any = 0;
+  show: boolean = false;
+  timekeeper: any = 5;
+  swapped: any[] = [];
+
   constructor(private gameService: GameService, private  router: Router, private ws: WebSocketService) {
   }
 
@@ -25,8 +38,16 @@ export class GameplayComponent implements AfterViewInit {
     const gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(gameCode).subscribe((game) => {
       this.game = game;
+      if(this.game.currentRound == 1){
+        this.show = true;
+      }
       this.dataSource = new MatTableDataSource(game.rounds);
       this.dataSource.sort = this.sort;
+      this.div = 360 / this.game.players.length;
+      this.radius = 100;
+      const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
+      const offsetToChildCenter = 20;
+      this.totalOffset = offsetToParentCenter - offsetToChildCenter;
     });
   }
 
@@ -35,4 +56,15 @@ export class GameplayComponent implements AfterViewInit {
       this.router.navigate(['roundresult']);
     });
   }
+  getChildTopValue(index: any) {
+    const y = (Math.cos((this.div * index) * (Math.PI / 180)) * this.radius);
+    return (y + this.totalOffset).toString() + 'px';
+  }
+
+  getChildLeftValue(index: any) {
+    const x = (Math.sin((this.div * index) * (Math.PI / 180)) * this.radius);
+    return (x + this.totalOffset).toString() + 'px';
+  }
+
+
 }
