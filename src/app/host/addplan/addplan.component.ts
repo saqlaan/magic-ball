@@ -24,7 +24,6 @@ export class AddplanComponent implements AfterViewInit {
   totalOffset: any = 0;
   show: boolean = false;
   arch: any = 4;
-  countingResponsible: any = 3;
   timekeeper: any = 5;
   swapped: any[] = [];
 

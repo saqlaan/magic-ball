@@ -17,6 +17,7 @@ export class AddestimateComponent implements OnInit {
   estimateForm = new FormGroup({
     estimatedBalls: new FormControl('', [Validators.required]),
     archWizard: new FormControl('', [Validators.required]),
+
   });
 
   constructor(private gameService: GameService, private ws: WebSocketService, private  router: Router) {

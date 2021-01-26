@@ -64,21 +64,38 @@
         </div>
       </div>
     </div>
-      <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" *ngIf="show && game">
-        <div id="parentdiv" #parentDiv>
-          <div  fxFlex="100" fxLayoutAlign="center center" class="div2 "
-               *ngFor="let item of game.players; let i = index"
-               style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
-            <div *ngIf="game.timeKeeper === i+1" class="timer"><mat-icon>timer</mat-icon></div>
-            <mat-icon *ngIf="icons && game.archWizard !== item.id">person</mat-icon>
-            <span *ngIf="!icons && game.archWizard !== item.id" class="number">{{item.incrementalId}}</span>
-            <img *ngIf="game.archWizard === item.id" class="fire-icon" src="assets/icons/fire.svg">
+    <div fxLayout="column" fxFlex="50" fxLayoutAlign="center center" *ngIf="show && game">
+      <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
+      <div id="parentdiv" #parentDiv class="player">
+        <div fxFlex="100" fxLayoutAlign="center center" class="div2 "
+             *ngFor="let item of game.rounds[game.currentRound - 1].arrangement; let i = index"
+             style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+          <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id" class="ball-icon">
+            <img class="img-ball" src="assets/icons/ball.png" >
+            <div class="ball-icon">{{game.rounds[game.currentRound - 1].batchFlow}}<span>Bb</span></div>
+          </div>
+          <div class="counting-balls-wrapper" *ngIf="game.timeKeeper && game.scoreKeeper == item.id">
+            <div fxLayout="row">
+              <div class="counting-balls"></div>
+              <div class="counting-balls"></div>
+              <div class="counting-balls"></div>
+            </div>
+          </div>
+          <div class="name" *ngIf="item.user">{{item.user.firstName + ' ' + item.user.lastName}}</div>
+          <div>
+            <div *ngIf="game.archWizard != item.id">{{item.incrementalId}}</div>
+            <div *ngIf="game.archWizard == item.id">
+              <img class="fire-icon" src="assets/icons/fire.png">
+            </div>
           </div>
         </div>
       </div>
-    <div fxLayout="column" fxFlex="50" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center" *ngIf="game && !show">
+    </div>
+    </div>
+    <div fxLayout="column" fxFlex="50" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center"
+         *ngIf="game && !show">
       <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
-        <div #boundry class="boundary" >
+        <div #boundry class="boundary">
           <div [cdkDragDisabled]="true" [cdkDragFreeDragPosition]="item.position" class="player"
                *ngFor="let item of game.rounds[game.currentRound - 1].arrangement;let i = index"
                cdkDragBoundary=".boundary" cdkDrag>

@@ -30,26 +30,26 @@
           <input formControlName="estimatedBalls" matInput type="number" class="mat-form" min="1" max="30">
         </mat-form-field>
       </div>
-      <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center" *ngIf="!show">
-        <div fxLayout="row" fxFlex="100">
-          <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">
-            <mat-form-field appearance="fill">
-              <mat-label>Time Keeper</mat-label>
-              <mat-select formControlName="timeKeeper">
-                <mat-option *ngFor="let player of players; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">
-            <mat-form-field appearance="fill">
-              <mat-label>Score Keeper</mat-label>
-              <mat-select formControlName="scoreKeeper">
-                <mat-option *ngFor="let player of players; let index = index" value="{{index+1}}">{{index+1}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
+<!--      <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center" *ngIf="!show">-->
+<!--        <div fxLayout="row" fxFlex="100">-->
+<!--          <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">-->
+<!--            <mat-form-field appearance="fill">-->
+<!--              <mat-label>Time Keeper</mat-label>-->
+<!--              <mat-select formControlName="timeKeeper">-->
+<!--                <mat-option *ngFor="let player of players; let index = index" value="{{index+1}}">{{index+1}}</mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center">-->
+<!--            <mat-form-field appearance="fill">-->
+<!--              <mat-label>Score Keeper</mat-label>-->
+<!--              <mat-select formControlName="scoreKeeper">-->
+<!--                <mat-option *ngFor="let player of players; let index = index" value="{{index+1}}">{{index+1}}</mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
       <div fxFlex="70" fxFlex.xs="50" fxFlex.md="10" fxFlex.sm="20" fxLayoutAlign="center center" *ngIf="show">
         <mat-form-field appearance="fill">
           <mat-label>Fire By</mat-label>

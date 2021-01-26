@@ -18,9 +18,9 @@ export class GameplayComponent implements AfterViewInit {
   dataSource: any;
   game: any;
 
+  batchNumber: any
   currentTime: any;
   time: any;
-  list: any[] = [];
   myTime: any;
   div: any = 0;
   minutes: any;
@@ -28,7 +28,6 @@ export class GameplayComponent implements AfterViewInit {
   icons: any = false;
   totalOffset: any = 0;
   show: boolean = false;
-  timekeeper: any = 5;
   swapped: any[] = [];
 
   constructor(private gameService: GameService, private  router: Router, private ws: WebSocketService) {
@@ -41,6 +40,7 @@ export class GameplayComponent implements AfterViewInit {
       if(this.game.currentRound == 1){
         this.show = true;
       }
+      console.log(game.rounds[game.currentRound - 1].batchFlow)
       this.dataSource = new MatTableDataSource(game.rounds);
       this.dataSource.sort = this.sort;
       this.div = 360 / this.game.players.length;
