@@ -24,7 +24,8 @@ export class PlaygameComponent implements OnInit {
   radius: any = 0;
   totalOffset: any = 0;
   icons: any = false;
-  timeKeeper:any ;
+  timeKeeper: any;
+  show: boolean = false;
 
   countingResponsible: any = 3;
 
@@ -34,6 +35,9 @@ export class PlaygameComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.getGame(this.game1.gameCode).subscribe((game) => {
+      if (game.currentRound == 1) {
+        this.show = true;
+      }
       this.game = game;
       this.timeKeeper = this.game.players.indexOf(game.timeKeeper);
       this.dataSource = new MatTableDataSource(game.rounds);
