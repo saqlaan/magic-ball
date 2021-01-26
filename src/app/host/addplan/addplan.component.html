@@ -23,10 +23,33 @@
       <mat-icon>visibility</mat-icon>
     </div>
   </div>
-  <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" *ngIf="game">
+  <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" *ngIf="show && game">
+    <div id="parentdiv" #parentDiv>
+      <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center" class="div2 " [ngClass]="{'selected': isPlayerSelected(item)}"
+           *ngFor="let item of game.players; let i = index"
+           style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
+        <div class="counting-balls-wrapper" *ngIf="countingResponsible === i+1">
+          <div fxLayout="row">
+            <div class="counting-balls"></div>
+            <div class="counting-balls"></div>
+            <div class="counting-balls"></div>
+          </div>
+        </div>
+        <div *ngIf="game.timeKeeper === i+1" class="timer"><mat-icon>timer</mat-icon></div>
+        <mat-icon *ngIf="icons && game.archWizard !== item.id">person</mat-icon>
+        <span *ngIf="!icons && game.archWizard !== item.id" class="number">{{item.incrementalId}}</span>
+        <img *ngIf="game.archWizard === item.id" class="fire-icon" src="assets/icons/fire.png">
+      </div>
+    </div>
+    <div>
+      <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions</button>
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" *ngIf="!show && game">
     <div #boundry class="boundary">
-      <div [cdkDragFreeDragPosition]="item.position"  (cdkDragEnded)="dragHandler($event,i)"  class="player" *ngFor="let item of game.players;let i = index" cdkDragBoundary=".boundary" cdkDrag>
-        <div class="name" *ngIf="item.user">{{item.user.firstName +' '+ item.user.lastName}}</div>
+      <div [cdkDragFreeDragPosition]="item.position" (cdkDragEnded)="dragHandler($event,i)" class="player"
+           *ngFor="let item of game.players;let i = index" cdkDragBoundary=".boundary" cdkDrag>
+        <div class="name" *ngIf="item.user">{{item.user.firstName + ' ' + item.user.lastName}}</div>
         <div class="number">{{item.incrementalId}}</div>
       </div>
     </div>
