@@ -119,13 +119,14 @@ async function updateArch(gameId, archWizard, round, roundsId,timeKeeper,scoreKe
   );
 }
 
-async function addReady(gameId, roundId, {batchFlow, ballsArrangement, greenPlayers, redPlayers, currentBallHolder,status,wastedBalls}) {
+async function addReady(gameId, roundId, {batchFlow,unAcceptable, ballsArrangement, greenPlayers, redPlayers, currentBallHolder,status,wastedBalls}) {
   return Game.findOneAndUpdate(
     {_id: gameId, 'rounds._id': roundId},
     {
       $set: {
         'rounds.$.ballsArrangement': ballsArrangement,
         'rounds.$.batchFlow': batchFlow,
+        'rounds.$.unAcceptable': unAcceptable,
         'rounds.$.greenPlayers': greenPlayers,
         'rounds.$.redPlayers': redPlayers,
         'rounds.$.currentBallHolder': currentBallHolder,

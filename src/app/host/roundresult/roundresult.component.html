@@ -1,4 +1,29 @@
-<div class="container" fxLayout="column" fxFlex="100">
+<div class="container" fxLayout="column" fxFlex="100" *ngIf="game && game.rounds[game.currentRound - 1].unAcceptable == true"  class="body">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div fxLayout="column" fxFlex="98" fxFlex.md="20" fxLayoutAlign="center center">
+      <h1 class="boom">Boom!</h1>
+    </div>
+  </div>
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <div fxLayout="column" fxFlex="98" fxFlex.md="20" fxLayoutAlign="center center">
+      <p class="unacceptable-ball">Click below to<br>start next<br>round.
+    </div>
+  </div>
+  <div *ngIf="!roundComplete" class="main-section button-margin" fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="startRound()" mat-raised-button color="primary">Start Next Round</button>
+    </div>
+  </div>
+  <div *ngIf="roundComplete" class="main-section button-margin" fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="finalResult()" mat-raised-button color="primary">Final Result</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="container" fxLayout="column" fxFlex="100" *ngIf="game && game.rounds[game.currentRound - 1].unAcceptable !== true ">
   <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <div fxLayout="column" fxFlex="20" fxFlex.md="40">

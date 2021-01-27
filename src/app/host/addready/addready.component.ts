@@ -25,6 +25,7 @@ export class AddreadyComponent implements OnInit {
   batchCompleted!: boolean;
   whiteBallStatus: any;
   balls: any;
+  unacceptable: boolean = false;
   show: boolean;
   readyForm = new FormGroup({
     batchNumber: new FormControl('', [Validators.required]),
@@ -55,14 +56,16 @@ export class AddreadyComponent implements OnInit {
     this.batchCompleted = false;
     this.readyForm.value.batchNumber = val;
   }
-
+  unAcceptable(){
+        this.unacceptable = !this.unacceptable;
+  }
   addReady() {
     if (this.game.currentRound == 1) {
-      this.gameService.addReady(this.game._id, 1, 0).subscribe((Game) => {
+      this.gameService.addReady(this.game._id, 1, 0, false).subscribe((Game) => {
         this.router.navigate(['/gameplay']);
       });
     } else {
-      this.gameService.addReady(this.game._id, this.readyForm.value.batchNumber, this.getWastedBalls()).subscribe((Game) => {
+      this.gameService.addReady(this.game._id, this.readyForm.value.batchNumber, this.getWastedBalls(), this.unacceptable).subscribe((Game) => {
         this.router.navigate(['/gameplay']);
       });
     }

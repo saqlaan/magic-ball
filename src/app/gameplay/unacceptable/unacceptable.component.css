@@ -10,19 +10,6 @@
   font-weight: bolder;
   font-size: 50px;
 }
-.boom {
-  font-family: 'Permanent Marker', cursive;
-  font-weight: bolder;
-  color: red;
-  font-size: 50px;
-}
-.unacceptable-ball {
-  text-align: center;
-  font-family: Calibri;
-  font-size: 37px;
-  font-weight: bolder;
-  margin: 0;
-}
 
 .para {
   font-size: 50px;
@@ -36,12 +23,6 @@
   font-size: 40px;
   font-weight: bolder;
 }
-.score {
-  text-align: center;
-  font-family: Calibri;
-  font-size: 100px;
-  font-weight: bolder;
-}
 
 .Estimate {
   font-size: 30px;
@@ -49,7 +30,7 @@
 }
 
 .next{
-  background-color: grey;
+  background-color: #8fd14f;
   color: white;
   margin-top: 50px;
   height: 50px;
@@ -76,7 +57,6 @@
 }
 
 .mat-form {
-  background-color: grey;
   width: 50%;
   height: 38px;
   color: white;
@@ -85,11 +65,36 @@
   border: 2px solid;
   font-size: 20px;
 }
-.button-margin{
-  margin-top: 20px;
+.boom {
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  color: red;
+  font-size: 50px;
+}
+.ball-config{
+  text-align: center;
+  font-family: Calibri;
+  font-size: 37px;
+  color: red;
+  font-weight: bolder;
+  margin: 0;
 }
 .body{
   margin-top: -1%;
   height: 100vh;
   background: yellow;
+}
+.equal{
+  position: absolute;
+  margin-left: 1%;
+  width: 10%;
+}
+.team {
+  text-align: center;
+  font-family: Calibri;
+  font-size: 40px;
+  font-weight: bolder;
+}
+.job{
+  margin-left: 29%;
 }

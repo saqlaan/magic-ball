@@ -226,11 +226,13 @@ export class GameService {
     gameId: any,
     batchFlow: any,
     ballsWasted: any,
+    unAcceptable: any
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/add-ready', {
       gameId,
       ballsWasted,
-      batchFlow
+      batchFlow,
+      unAcceptable
     });
   }
 

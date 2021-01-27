@@ -1,9 +1,21 @@
-<app-planning *ngIf="status == 'plan'"></app-planning>
-<app-estimate *ngIf="status == 'estimate'"></app-estimate>
-<app-goodround *ngIf="status == 'goodround'"></app-goodround>
-<app-playgame [game1]= game *ngIf="status == 'playing'"></app-playgame>
-<app-readyadd *ngIf="status == 'ready'"></app-readyadd>
-<app-gameresult [gameCode] = gameCode *ngIf="status == 'gameEnd'"></app-gameresult>
-<app-waiting [game] = game *ngIf="status == 'waiting'"></app-waiting>
-<app-resultround [game] =game *ngIf="status == 'end'"></app-resultround>
-<app-gamenotfound *ngIf="status== 'notFound'"></app-gamenotfound>
+<app-unacceptable
+  *ngIf="game && game.rounds.length !== 0 && game.rounds[game.currentRound - 1].unAcceptable == true && game.rounds[game.currentRound - 1].status !== 'end'
+&& game.rounds[game.currentRound - 1].status !== 'gameEnd' "></app-unacceptable>
+<app-planning
+  *ngIf="status == 'plan' && game && game.rounds.length !== 0 && game.rounds[game.currentRound - 1].unAcceptable == null "></app-planning>
+<app-estimate
+  *ngIf="status == 'estimate' && game && game.rounds.length !== 0 && game.rounds[game.currentRound - 1].unAcceptable == null "></app-estimate>
+<app-readyadd
+  *ngIf="status == 'ready' && game && game.rounds.length !== 0 && game.rounds[game.currentRound - 1].unAcceptable == null "></app-readyadd>
+<app-goodround
+  *ngIf="status == 'goodround' && game && game.rounds !== 0 && game.rounds[game.currentRound - 1].unAcceptable == false"></app-goodround>
+<app-playgame [game1]=game
+              *ngIf="status == 'playing' && game && game.rounds.length !== 0 && game.rounds[game.currentRound - 1].unAcceptable == false"></app-playgame>
+<app-gameresult [gameCode]=gameCode
+                *ngIf="status == 'gameEnd' && game && game.rounds.length !== 0 && unacceptable == true"></app-gameresult>
+<app-waiting [game]=game
+             *ngIf="status == 'waiting' && game && game.rounds.length == 0"></app-waiting>
+<app-resultround [game]=game
+                 *ngIf="status =='end' && game && game.rounds.length !== 0 && unacceptable == true"></app-resultround>
+<app-gamenotfound
+  *ngIf="status== 'notFound'"></app-gamenotfound>

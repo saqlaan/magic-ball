@@ -19,6 +19,7 @@
   position: absolute;
   margin-left: 1%;
   width: 50%;
+  margin-top: 2%
 }
 .column{
   position: relative;
@@ -37,4 +38,17 @@
 .row{
   margin-bottom: 2%;
 }
-
+.ball-wrapper{
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ball-wrapper .ball{
+  width: 100px;
+  object-fit: contain;
+}
+.ball-wrapper .equal{
+  width: 200px;
+}
