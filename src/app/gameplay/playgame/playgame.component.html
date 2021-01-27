@@ -56,8 +56,9 @@
           <div fxFlex="100" fxLayoutAlign="center center"
                *ngFor="let item of game.rounds[game.currentRound - 1].arrangement; let i = index"
                style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}" class="player">
-            <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id">
-              <img class="ball-icon" src="assets/icons/ball.png">
+            <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id" class="ball-icon">
+              <img class="img-ball" src="assets/icons/ball.png" >
+              <div class="ball-icon">{{game.rounds[game.currentRound - 1].batchFlow}}<span>Bb</span></div>
             </div>
 
             <div class="counting-balls-wrapper" *ngIf="game.timeKeeper && game.scoreKeeper == item.id">
