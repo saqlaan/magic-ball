@@ -49,23 +49,26 @@ import { ReadyaddComponent } from './gameplay/readyadd/readyadd.component';
 import { GameresultComponent } from './gameplay/gameresult/gameresult.component';
 import { WaitingComponent } from './gameplay/waiting/waiting.component';
 import { GamenotfoundComponent } from './gameplay/gamenotfound/gamenotfound.component';
+ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { UnacceptableComponent } from './gameplay/unacceptable/unacceptable.component';
 
 
 
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    HttpClientModule,
-    SharedModule,
-    AppRoutingModule,
-    MatProgressSpinnerModule,
-    FlexLayoutModule,
-    MatCheckboxModule,
-    ToastrModule.forRoot(),
-    MatTableModule,
-    DragDropModule,
-    MatAutocompleteModule
-  ],
+    imports: [
+        BrowserAnimationsModule,
+        HttpClientModule,
+        SharedModule,
+        AppRoutingModule,
+        MatProgressSpinnerModule,
+        FlexLayoutModule,
+        MatCheckboxModule,
+        ToastrModule.forRoot(),
+        MatTableModule,
+        DragDropModule,
+        MatAutocompleteModule,
+        MatSlideToggleModule
+    ],
   declarations: [AppComponent,
     HeaderComponent,
     HomeComponent, SearchgameComponent, PlayerdashboardComponent,
@@ -74,7 +77,7 @@ import { GamenotfoundComponent } from './gameplay/gamenotfound/gamenotfound.comp
     ResetpasswordComponent, MessageComponent, GamesettingsComponent, WaitingplayersComponent,
     UpdatepasswordComponent, DialogboxComponent, AddplanComponent, AddestimateComponent,
     AddreadyComponent, FinalresultComponent, GameplayComponent, RoundresultComponent,
-    EstimateComponent, PlanningComponent, ResultroundComponent, PlaygameComponent, GoodroundComponent, MainComponent, ReadyaddComponent, GameresultComponent, WaitingComponent, GamenotfoundComponent],
+    EstimateComponent, PlanningComponent, ResultroundComponent, PlaygameComponent, GoodroundComponent, MainComponent, ReadyaddComponent, GameresultComponent, WaitingComponent, GamenotfoundComponent, UnacceptableComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

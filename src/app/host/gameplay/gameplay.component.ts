@@ -29,6 +29,7 @@ export class GameplayComponent implements AfterViewInit {
   totalOffset: any = 0;
   show: boolean = false;
   swapped: any[] = [];
+  unAcceptable: boolean = false;
 
   constructor(private gameService: GameService, private  router: Router, private ws: WebSocketService) {
   }
@@ -36,11 +37,14 @@ export class GameplayComponent implements AfterViewInit {
   ngAfterViewInit() {
     const gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(gameCode).subscribe((game) => {
+      console.log(game.rounds[game.currentRound - 1].unAcceptable);
+      if(game.rounds[game.currentRound - 1].unAcceptable == true){
+          this.unAcceptable = true;
+      }
       this.game = game;
       if(this.game.currentRound == 1){
         this.show = true;
       }
-      console.log(game.rounds[game.currentRound - 1].batchFlow)
       this.dataSource = new MatTableDataSource(game.rounds);
       this.dataSource.sort = this.sort;
       this.div = 360 / this.game.players.length;
