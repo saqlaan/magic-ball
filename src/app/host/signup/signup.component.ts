@@ -30,7 +30,8 @@ export class SignupComponent implements OnInit {
     country: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     occupation: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.minLength(6)])
+    password: new FormControl('', [Validators.minLength(6)]),
+    confirmPassword: new FormControl('', [Validators.required, this.passwordMatcher.bind(this)])
   });
 
   constructor(private router: Router, private userService: UserService, private ws: WebSocketService, private toast: ToastrService) {
@@ -68,4 +69,14 @@ export class SignupComponent implements OnInit {
       }
     });
   }
+  private passwordMatcher(control: FormControl): { [p: string]: boolean } | null {
+    if (
+      this.userForm &&
+      (control.value !== this.userForm.controls.password.value)
+    ) {
+      return { passwordNotMatch: true };
+    }
+    return null;
+  }
+
 }

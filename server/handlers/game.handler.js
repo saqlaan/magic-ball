@@ -344,14 +344,14 @@ async function addReady(req, res) {
       }
     } else {
       if (req.body.ballsWasted === undefined) {
-        errors.push("Balls arrangement is required");
+        errors.push("Wasted balls is required");
       }
       if (req.body.batchFlow === undefined || req.body.batchFlow === '') {
         errors.push("Batch number is required");
       }
       if (errors.length === 0) {
         const {greenList, redList, currentBallHolder} = getPlayerNextBallMovement(game, game.archWizard);
-
+        console.log("ballls", req.body.ballsWasted)
         let updatedGame = await gameCtrl.addReady(game._id, game.rounds[game.currentRound - 1]._id,
           {
             batchFlow: req.body.batchFlow,

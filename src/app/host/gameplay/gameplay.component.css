@@ -45,6 +45,9 @@
 .player .fire-icon {
   width: 20px;
 }
+.div2 .fire-icon {
+  width: 24px;
+}
 .timer {
   position: absolute;
   top: -30px;
@@ -110,6 +113,9 @@ table {
 }
 mat-icon{
   font-size: 20px;
+}
+.img-ball{
+  width: 30px;
 }
 .ball-icon{
   width: 30px;

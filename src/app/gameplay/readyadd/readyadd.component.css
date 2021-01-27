@@ -9,8 +9,23 @@
   border-radius: 20px 20px 30px;
 }
 .mat{
-  font-size: 56px;
+  font-size: 100px;
   color: green;
+  margin-bottom: 10%;
+  margin-right: 8%;
+  position: absolute;
+}
+.equal{
+  position: absolute;
+  margin-left: 1%;
+  width: 50%;
+}
+.column{
+  position: relative;
+}
+.maximize{
+  font-size: 48px;
+  color: black;
 }
 .icon{
   font-size: 40px;
@@ -22,3 +37,4 @@
 .row{
   margin-bottom: 2%;
 }
+
