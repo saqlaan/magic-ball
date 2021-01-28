@@ -14,7 +14,6 @@ export class MainComponent implements OnInit {
   game: any;
   status: any;
   viewerId: any;
-  unacceptable: boolean = false;
 
   constructor(private gameService: GameService, private route: ActivatedRoute, private ws: WebSocketService) {
   }
@@ -27,15 +26,10 @@ export class MainComponent implements OnInit {
     this.gameService.addViewer(this.viewerId, this.gameCode).subscribe((game) => {
       this.gameService.getGame(this.gameCode).subscribe((game) => {
         this.game = game;
-        console.log(game.rounds);
         if (game.completed) {
           this.status = 'gameEnd';
         } else if (game.rounds.length === 0) {
-          this.unacceptable = true;
           this.status = 'waiting';
-        }else if(game.rounds[game.currentRound - 1].status == 'end'){
-          this.status = 'end';
-          this.unacceptable = true;
         } else {
           this.status = game.rounds[game.currentRound - 1].status;
         }
