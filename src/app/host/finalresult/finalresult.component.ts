@@ -18,10 +18,6 @@ export class FinalresultComponent implements OnInit {
     });
   }
   dashboard() {
-    this.gameService.updateRoundConfiguration(this.game._id, {
-      completed: true
-    }).subscribe(game => {
-      this.router.navigate(['/hostdashboard']);
-    });
+    this.router.navigate(['/hostdashboard']);
   }
 }

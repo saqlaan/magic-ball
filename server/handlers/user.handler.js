@@ -28,9 +28,6 @@ const UserHandler = {
     if (!result) {
       return res.status(404).json({message: messages.PASSWORD_NOT_CORRECT});
     }
-    if (user.token) {
-      return res.status(401).json({message: messages.LOGIN_FAILED});
-    }
     const {email, firstName, lastName, id} = user
     const token = jwt.sign({email, firstName, lastName, id}, process.env.JWT_SECRET);
     let update = await UserService.update(id, {token});

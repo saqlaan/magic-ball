@@ -35,7 +35,9 @@ export class RoundresultComponent implements OnInit {
     });
   }
   finalResult() {
-    this.gameService.endGame(this.gameId).subscribe((game) => {
+    this.gameService.updateRoundConfiguration(this.game._id, {
+      completed: true
+    }).subscribe(game => {
       this.router.navigate(['finalresult']);
     });
   }

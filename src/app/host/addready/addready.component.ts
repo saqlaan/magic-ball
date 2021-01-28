@@ -62,8 +62,10 @@ export class AddreadyComponent implements OnInit {
   addReady() {
     const roundData = {
       status: 'playing',
+      unAcceptable: this.unacceptable,
       currentBallHolder: this.game.archWizard,
       moved: [],
+      wastedBalls: this.getWastedBalls(),
       ...this.getRedGreenPlayers(),
     };
     if (this.game.currentRound > 1) {
@@ -73,7 +75,7 @@ export class AddreadyComponent implements OnInit {
     this.gameService.updateRoundConfiguration(this.game._id, {
       round: {
         roundId: this.game.rounds[this.game.currentRound - 1]._id,
-        roundData: roundData
+        roundData: roundData,
       }
     }).subscribe(game => {
       this.router.navigate(['/gameplay']);

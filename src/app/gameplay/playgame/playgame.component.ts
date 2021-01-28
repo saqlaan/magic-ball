@@ -10,7 +10,6 @@ import {Router} from '@angular/router';
   styleUrls: ['./playgame.component.css']
 })
 export class PlaygameComponent implements OnInit {
-  @ViewChild('parentDiv') divView: any;
   @ViewChild(MatSort)
   sort!: MatSort;
   @Input() game1!: any;
@@ -22,7 +21,6 @@ export class PlaygameComponent implements OnInit {
   div: any = 0;
   minutes: any;
   radius: any = 0;
-  totalOffset: any = 0;
   icons: any = false;
   timeKeeper: any;
   show: boolean = false;
@@ -43,21 +41,19 @@ export class PlaygameComponent implements OnInit {
       this.dataSource = new MatTableDataSource(game.rounds);
       this.div = 360 / this.game.players.length;
       this.radius = 100;
-      // const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
-      // const offsetToChildCenter = 20;
-      // this.totalOffset = offsetToParentCenter - offsetToChildCenter;
+      this.dataSource.sort = this.sort;
     });
-    this.dataSource.sort = this.sort;
+
   }
 
   getChildTopValue(index: any) {
     const y = (Math.cos((this.div * index) * (Math.PI / 180)) * this.radius);
-    return (y + this.totalOffset).toString() + 'px';
+    return (y).toString() + 'px';
   }
 
   getChildLeftValue(index: any) {
     const x = (Math.sin((this.div * index) * (Math.PI / 180)) * this.radius);
-    return (x + this.totalOffset).toString() + 'px';
+    return (x).toString() + 'px';
   }
 
 
