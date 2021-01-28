@@ -8,20 +8,16 @@ import {Router} from '@angular/router';
   styleUrls: ['./finalresult.component.css']
 })
 export class FinalresultComponent implements OnInit {
-  gameCode: any;
-  gameId: any;
-  totalScore:any;
+  game: any;
   constructor(private gameService: GameService, private  router: Router) { }
 
   ngOnInit(): void {
-    this.gameCode = localStorage.getItem('gameCode') as string;
-    this.gameService.getGame(this.gameCode).subscribe((game) => {
-      this.totalScore = game.totalScore;
-      this.gameId = game._id;
-
+    const gameCode = localStorage.getItem('gameCode') as string;
+    this.gameService.getGame(gameCode).subscribe((game) => {
+      this.game = game;
     });
   }
-  dashboard(){
+  dashboard() {
     this.router.navigate(['/hostdashboard']);
   }
 }

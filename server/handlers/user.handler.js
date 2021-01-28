@@ -1,400 +1,136 @@
-const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const userCtrl = require('../controllers/user.controller');
-const gameCtrl = require("../controllers/game.controller");
-const escapeStringRegexp = require('escape-string-regexp');
+const UserService = require('../services/user.service');
+const MailService = require("../services/mail.service");
+const {hashPassword} = require('../Utils/index');
+const bcrypt = require("bcrypt");
+const {messages} = require("../Utils/constants");
 
 
-async function signup(req, res) {
-
-  let errors = [];
-  if (req.body.firstName === undefined || req.body.firstName === '') {
-    errors.push("firstName is required");
-  }
-  if (req.body.lastName === undefined || req.body.lastName === '') {
-    errors.push("lastName is required");
-  }
-  if (req.body.email === undefined || req.body.email === '') {
-    errors.push("email is required");
-  }
-  if (req.body.country === undefined || req.body.country === '') {
-    errors.push("country is required");
-  }
-  if (req.body.city === undefined || req.body.city === '') {
-    errors.push("city is required");
-  }
-  if (req.body.occupation === undefined || req.body.occupation === '') {
-    errors.push("occupation is required");
-  }
-  if (req.body.password === undefined || req.body.password === '') {
-    errors.push("password is required");
-  }
-  if (req.body.type === undefined || req.body.type === '') {
-    errors.push("type is required");
-  }
-  if (errors.length === 0) {
-    let email = await userCtrl.findByEmail(req.body.email);
-    if (!email) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      req.body.password = hashedPassword;
-
-      let user = await userCtrl.insert(req.body);
-      if (user) {
-        res.json({
-          message: "you are registered"
-        });
-      } else {
-        res.status(400).json({
-          message: "not registered successfully"
-        });
-      }
-    } else {
-      res.json({
-        message: "email is already exist"
-      });
+const UserHandler = {
+  signup: async (req, res) => {
+    let email = await UserService.findByFields({email: req.body.email});
+    if (email) {
+      return res.json({message: messages.EMAIL_EXIST});
     }
-  } else {
-    res.status(400).json({
-      errors
-    })
-  }
-}
-
-async function login(req, res) {
-  let errors = [];
-
-  if (req.body.email === undefined || req.body.email === '') {
-    errors.push("email is required");
-  }
-
-  if (req.body.password === undefined || req.body.password === '') {
-    errors.push("password is required");
-  }
-
-
-  if (errors.length === 0) {
-    let user = await userCtrl.findByEmail(req.body.email);
-    if (user) {
-      bcrypt.compare(req.body.password, user.password, async function (err, result) {
-          if (result) {
-            if (!user.token) {
-              const payLoad = {email: user.email, firstName: user.firstName, lastName: user.lastName, id: user._id};
-              const token = jwt.sign(payLoad, process.env.JWT_SECRET);
-              let update = await userCtrl.updateToken(user._id, token);
-              update = update.toObject();
-              delete update.password;
-              res.json(update);
-            } else {
-              res.status(400).json({
-                message: 'you are  already loggedIn',
-              })
-            }
-          } else {
-            res.status(400).json({
-              message: 'passsword not correct',
-            })
-          }
-        }
-      )
-    } else {
-      res.status(404).json({
-        message: "email not exist"
-      })
+    req.body.password = await hashPassword(req.body.password);
+    let user = await UserService.create(req.body)
+    if (!user) {
+      return res.status(401).json({message: messages.REGISTRATION_FAILED});
     }
-  } else {
-    res.status(404).json(errors);
-  }
-}
-
-
-async function updateProfile(req, res) {
-
-  let errors = [];
-
-  if (req.body.firstName === undefined || req.body.firstName === '') {
-    errors.push("firstName is required");
-  }
-  if (req.body.lastName === undefined || req.body.lastName === '') {
-    errors.push("lastName is required");
-  }
-  if (req.body.country === undefined || req.body.country === '') {
-    errors.push("country is required");
-  }
-
-  if (req.body.city === undefined || req.body.city === '') {
-    errors.push("city is required");
-  }
-
-  if (req.body.occupation === undefined || req.body.occupation === '') {
-    errors.push("occupation is required");
-  }
-
-  if (errors.length === 0) {
-
-    let user = await userCtrl.updateUser(req.body, req.user.id);
-    if (user) {
-      res.json({
-        message: 'Profile Updated Successfully'
-      });
-    } else {
-      res.status(404).json({
-        message: ' User not found'
-      })
+    return res.json({message: messages.REGISTRATION_SUCCESS});
+  },
+  login: async (req, res) => {
+    let user = await UserService.findByFields({email: req.body.email});
+    if (!user) {
+      return res.status(401).json({message: messages.USER_NOT_EXIST});
     }
-  } else {
-    res.status(404).json({
-      errors
-    })
-  }
-}
-
-async function forgotPassword(req, res) {
-  let errors = [];
-  if (req.body.email === undefined || req.body.email === '') {
-    errors.push("email is required");
-  }
-
-  if (errors.length === 0) {
-    let user = await userCtrl.findByEmail(req.body.email);
-    if (user) {
-      const payLoad = {email: user.email, id: user._id};
-      const secret = process.env.JWT_SECRET;
-      const resetToken = jwt.sign(payLoad, secret);
-      let update = await userCtrl.resetPasswordToken(user._id, resetToken);
-
-      let link = "http://" + req.headers.host + "/hostresetpassword/";
-      let nodemailer = require('nodemailer');
-      let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'usamaijazksr@gmail.com',
-          pass: 'usama.0900'
-        }
-      });
-
-      let mailOptions = {
-        from: 'usamaijazksr@gmail.com',
-        to: user.email,
-        subject: 'Reset your Password',
-        text: 'That was easy!',
-        html: link
-      };
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
-
-      res.json({
-        resetToken: update.resetPasswordToken
-      });
-    } else {
-      res.status(404).json({
-        message: "user not found",
-
-      })
+    let result = await bcrypt.compareSync(req.body.password, user.password);
+    if (!result) {
+      return res.status(404).json({message: messages.PASSWORD_NOT_CORRECT});
     }
-  } else {
+    const {email, firstName, lastName, id} = user
+    const token = jwt.sign({email, firstName, lastName, id}, process.env.JWT_SECRET);
+    let update = await UserService.update(id, {token});
+    if (!update) {
+      return res.status(401).json({message: messages.UPDATE_FAILED});
+    }
+    update = update.toObject();
+    delete update.password;
+    res.json(update);
+  },
+  updateProfile: async (req, res) => {
+    let user = await UserService.update(req.body.id, req.body);
+    if (!user) {
+      res.status(401).json({message: messages.UPDATE_FAILED});
+    }
+    res.json({message: messages.UPDATE_SUCCESS});
+  },
+  forgotPassword: async (req, res) => {
+    let user = await UserService.findByFields({email: req.body.email});
+    if (!user) {
+      res.status(401).json({message: messages.USER_NOT_EXIST});
+    }
+    const payLoad = {email: user.email, id: user._id};
+    const secret = process.env.JWT_SECRET;
+    const resetToken = jwt.sign(payLoad, secret);
+    let update = await UserService.update(user._id, {
+      resetPasswordToken: resetToken
+    });
+    let mailOptions = {
+      from: 'usamaijazksr@gmail.com',
+      to: user.email,
+      subject: 'Reset your Password',
+      text: 'That was easy!',
+      html: 'http://' + req.headers.host + '/hostresetpassword/'
+    };
+    MailService().send(mailOptions);
     res.json({
-      errors
-    })
-  }
-}
-
-async function resetPassword(req, res) {
-  console.log(req.body)
-  let errors = [];
-  if (req.body.password === undefined || req.body.password === '') {
-    errors.push("password is required");
-  }
-  if (req.body.resetPasswordToken === undefined || req.body.resetPasswordToken === '') {
-    errors.push("resetPasswordToken is required");
-  }
-
-
-  if (errors.length === 0) {
-    let user = await userCtrl.resetPassword(req.body.resetPasswordToken, req.body.password);
-    if (user) {
-      res.json({
-        message: "Password is updated",
-      })
-    } else {
-      res.json({
-        message: "password not updated",
-      })
+      resetToken: update.resetPasswordToken
+    });
+  },
+  resetPassword: async (req, res) => {
+    req.body.password = await hashPassword(req.body.password);
+    let user = await UserService.updateWithFilter({
+      resetPasswordToken: req.body.resetPasswordToken
+    }, {password: req.body.password});
+    if (!user) {
+      return res.status(401).json({message: messages.PASSWORD_UPDATE_FAILED});
     }
-  } else {
-    res.json({
-      errors
-    })
-  }
-}
-
-async function getProfile(req, res) {
-  let errors = [];
-  if (req.body.userId === undefined || req.body.userId === '') {
-    errors.push("UserId is required");
-  }
-  if (errors.length === 0) {
-    let user = await userCtrl.findById(req.body.userId);
-    if (user) {
-      res.status(200).json({
-        "firstName": user.firstName,
-        "lastName": user.lastName,
-        "country": user.country,
-        "city": user.city,
-        "occupation": user.occupation
-      })
-    } else {
-      res.status(404).json({
-        message: "user not Found",
-      })
+    res.json({message: messages.PASSWORD_UPDATE_SUCCESS});
+  },
+  getProfile: async (req, res) => {
+    let user = await UserService.findById(req.body.userId, [
+      'firstName', 'lastName', 'country', 'city', 'occupation'
+    ]);
+    if (!user) {
+      return res.status(401).json({message: messages.USER_NOT_EXIST});
     }
-  } else {
-    res.status(404).json({
-      errors
-    })
-  }
-}
-
-async function guestLogin(req, res) {
-  let errors = [];
-
-  if (req.body.email === undefined || req.body.email === '') {
-    errors.push("email is required");
-  }
-  if (req.body.organization === undefined || req.body.organization === '') {
-    errors.push("organization is required");
-  }
-
-  if (errors.length === 0) {
-    let user = await userCtrl.insert(req.body);
-    if (user) {
-      res.status(200).json(user);
-    } else {
-      res.status(404).json({
-        message: "user not inserted",
-      })
+    res.json(user);
+  },
+  guestLogin: async (req, res) => {
+    let user = await UserService.create(req.body);
+    if (!user) {
+      return res.status(401).json({message: messages.LOGIN_FAILED});
     }
-  } else {
-    res.status(404).json(errors);
-  }
-
-}
-
-
-async function updatePassword(req, res) {
-
-  let errors = [];
-
-  if (req.body.oldPassword === undefined || req.body.oldPassword === '') {
-    errors.push("oldPassword is required");
-  }
-
-  if (req.body.newPassword === undefined || req.body.newPassword === '') {
-    errors.push("newPassword is required");
-  }
-
-  if (errors.length === 0) {
-
-    let user = await userCtrl.findById(req.user.id);
-
-    if (user) {
-      bcrypt.compare(req.body.oldPassword, user.password, async function (err, result) {
-        if (result) {
-          let user = await userCtrl.updatePassword(req.body.newPassword, req.user.id);
-          if (user) {
-            res.json({
-              message: 'Password Updated Successfully'
-            });
-          } else {
-            res.status(404).json({
-              message: ' Password is not Updated Successfully'
-            })
-          }
-        } else {
-          res.status(400).json({
-            message: 'currentPasssword is not correct',
-          })
-        }
-      })
-    } else {
-      res.status(404).json({
-        message: 'user not found'
-      })
+    res.json(user);
+  },
+  updatePassword: async (req, res) => {
+    let user = await UserService.findById(req.user.id);
+    if (!user) {
+      return res.status(401).json({message: messages.USER_NOT_EXIST});
     }
-  } else {
-    res.status(404).json({
-      errors
-    })
-
-
-  }
-}
-
-async function searchPlayer(req, res) {
-  let errors = [];
-
-  if (req.body.playerName === undefined || req.body.playerName === '') {
-    errors.push("playerName is required");
-  }
-
-  if (errors.length === 0) {
-    let player = await userCtrl.searchPlayer(req.body.playerName);
-    if (player) {
-      res.json(player);
-    } else {
-      res.status(404).json({
-        message: 'player not found'
-      })
+    let result = await bcrypt.compareSync(req.body.oldPassword, user.password);
+    if (!result) {
+      return res.status(401).json({message: messages.CURRENT_PASSWORD_FAILED});
     }
-  } else {
-    res.status(404).json(errors);
-  }
-}
-
-async function logout(req, res) {
-  let errors = [];
-
-  if (req.body.userId === undefined || req.body.userId === '') {
-    errors.push("userId is required");
-  }
-  if (errors.length === 0) {
-    let user = await userCtrl.findById(req.body.userId);
-    if (user) {
-      let updateUser = await userCtrl.removeToken(req.body.userId);
-      if (updateUser) {
-        res.json({
-          message: "you are loggedout succesfully"
-        })
-      } else {
-        res.status(404).json({
-          message: "user not logged out"
-        })
-      }
-    } else {
-      res.status(404).json({
-        message: "user not found"
-      })
+    req.body.newPassword = await hashPassword(req.body.newPassword);
+    let update = await UserService.update(req.user.id, {
+      password: req.body.newPassword
+    });
+    if (!update) {
+      return res.status(401).json({message: messages.PASSWORD_UPDATE_FAILED});
     }
-  } else {
-    res.status(404).json(errors);
+    res.json({message: messages.PASSWORD_UPDATE_SUCCESS});
+  },
+  searchPlayer: async (req, res) => {
+    let player = await UserService.findPlayers(req.body.playerName);
+    if (player.length == 0) {
+      return res.status(401).json({message: messages.SEARCH_PLAYER_FAILED});
+    }
+    res.json(player);
+  },
+  logout: async (req, res) => {
+    let user = await UserService.findById(req.body.userId);
+    if (!user) {
+      return res.status(401).json({message: messages.USER_NOT_EXIST});
+    }
+    let updateUser = await UserService.update(req.body.userId, {token: ''});
+    if (!updateUser) {
+      return res.status(401).json({message: messages.LOGOUT_FAILED});
+    }
+    res.json({message: messages.LOGOUT_SUCCESS});
   }
 }
 
 
-module.exports = {
-  signup,
-  login,
-  logout,
-  updateProfile,
-  forgotPassword,
-  resetPassword,
-  getProfile,
-  guestLogin,
-  updatePassword,
-  searchPlayer
-}
+module.exports = UserHandler;

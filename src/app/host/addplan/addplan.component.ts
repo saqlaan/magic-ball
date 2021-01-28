@@ -30,7 +30,6 @@ export class AddplanComponent implements AfterViewInit {
 
   constructor(private gameService: GameService, private ws: WebSocketService, private  router: Router) {
   }
-
   ngAfterViewInit() {
     const gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(gameCode).subscribe((game) => {
@@ -49,9 +48,17 @@ export class AddplanComponent implements AfterViewInit {
     });
 
   }
-
-  addplan() {
-    this.gameService.addPlan(this.game._id, this.list).subscribe((Game) => {
+  addPlan() {
+    this.gameService.updateRoundConfiguration(this.game._id, {
+      round: {
+        roundId: this.game.rounds[this.game.currentRound - 1]._id,
+        roundData: {
+          arrangement: this.list,
+          status: 'estimate'
+        }
+      }
+    }).subscribe(game => {
+      console.log(game);
       this.router.navigate(['/addestimate']);
     });
   }
@@ -75,32 +82,6 @@ export class AddplanComponent implements AfterViewInit {
   getChildLeftValue(index: any) {
     const x = (Math.sin((this.div * index) * (Math.PI / 180)) * this.radius);
     return (x + this.totalOffset).toString() + 'px';
-  }
-  onSelectPlayer(item: any) {
-    if (this.swapped.length !== 2) {
-      const index = this.swapped.findIndex((i) => i === item);
-      if (index === -1)  {
-        this.swapped.push(item);
-      } else {
-        this.swapped = this.swapped.filter(i => i !== item);
-      }
-    }
-    console.log(this.swapped);
-  }
-  isPlayerSelected(item: any) {
-    return (this.swapped.findIndex(player => player === item) > -1);
-  }
-  swapPositions() {
-    if(this.swapped.length === 2) {
-      const indexA = this.list.findIndex(item => item === this.swapped[0]);
-      const indexB = this.list.findIndex(item => item === this.swapped[1]);
-      let temp = this.list[indexA];
-      this.list[indexA] = this.list[indexB];
-      this.list[indexB] = temp;
-      console.log(this.list);
-      this.swapped = [];
-    }
-    return null;
   }
 
 }

@@ -25,7 +25,7 @@
 <div class="main-section" fxLayout="row" class="player-arrangement">
   <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" *ngIf="show && game">
     <div id="parentdiv" #parentDiv class="div">
-      <div (click)="onSelectPlayer(item)" fxFlex="100" fxLayoutAlign="center center"  [ngClass]="{'selected': isPlayerSelected(item)}"
+      <div  fxFlex="100" fxLayoutAlign="center center"
            *ngFor="let item of game.players; let i = index"
            style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}" class="player">
         <span *ngIf="!icons" class="number">{{item.incrementalId}}</span>
@@ -47,11 +47,6 @@
 </div>
 <div fxLayout="row" fxLayoutAlign="center center" class="m-t-40">
   <div>
-    <button *ngIf="swapped.length === 2" (click)="swapPositions()" mat-raised-button color="accent">Swap positions</button>
-  </div>
-</div>
-<div fxLayout="row" fxLayoutAlign="center center" class="m-t-40">
-  <div>
-    <button (click)="addplan()" mat-raised-button color="primary">Add plan</button>
+    <button (click)="addPlan()" mat-raised-button color="primary">Add plan</button>
   </div>
 </div>
