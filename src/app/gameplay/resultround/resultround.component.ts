@@ -17,6 +17,9 @@ export class ResultroundComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.gameService.getGame(this.game.gameCode).subscribe((game) => {
+      this.game = game;
+    });
       this.roundScore = this.game.rounds[this.game.currentRound - 1].ballsMade;
   }
 

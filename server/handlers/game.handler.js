@@ -329,6 +329,7 @@ async function addReady(req, res) {
           redPlayers: redList,
           currentBallHolder: currentBallHolder,
           status: 'playing',
+          wastedBalls: 0
         });
       if (updatedGame) {
         socket.sendMessage([...game.players.map(player => player.id), game.hostId,...updatedGame.viewers], {method: 'readyAdded', data: null});
