@@ -23,7 +23,7 @@
 
 </div>
 
-<div class="container" fxLayout="column" fxFlex="100" *ngIf="game && game.rounds[game.currentRound - 1].unAcceptable !== true ">
+<div class="container" fxLayout="column" fxFlex="100" *ngIf="game && game.rounds[game.currentRound - 1].unAcceptable == false ">
   <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <div fxLayout="column" fxFlex="20" fxFlex.md="40">
