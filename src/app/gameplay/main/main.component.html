@@ -1,9 +1,12 @@
+<app-unacceptable
+  *ngIf="game && game.rounds.length !==0 && game.rounds[game.currentRound - 1].unAcceptable == true && status !== 'end'&& status !== 'gameEnd' "></app-unacceptable>
 <app-planning *ngIf="status == 'plan'"></app-planning>
 <app-estimate *ngIf="status == 'estimate'"></app-estimate>
-<app-goodround *ngIf="status == 'goodround'"></app-goodround>
-<app-playgame [game1]= game *ngIf="status == 'playing'"></app-playgame>
 <app-readyadd *ngIf="status == 'ready'"></app-readyadd>
-<app-gameresult [gameCode] = gameCode *ngIf="status == 'gameEnd'"></app-gameresult>
-<app-waiting [game] = game *ngIf="status == 'waiting'"></app-waiting>
-<app-resultround [game] =game *ngIf="status == 'end'"></app-resultround>
+<app-goodround *ngIf="status == 'goodround'"></app-goodround>
+<app-playgame [game1]=game
+              *ngIf="status == 'playing' && game && game.rounds.length !==0 && game.rounds[game.currentRound - 1].unAcceptable == false"></app-playgame>
+<app-gameresult [gameCode]=gameCode *ngIf="status == 'gameEnd'"></app-gameresult>
+<app-waiting [game]=game *ngIf="status == 'waiting'"></app-waiting>
+<app-resultround [game]=game *ngIf="status =='end'"></app-resultround>
 <app-gamenotfound *ngIf="status== 'notFound'"></app-gamenotfound>

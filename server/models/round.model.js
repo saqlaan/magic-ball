@@ -70,6 +70,9 @@ const RoundSchema = new mongoose.Schema({
   currentBallHolder: {
       type:String,
       required:false
+  },
+  unAcceptable: {
+      type:Boolean,
   }
 
   })

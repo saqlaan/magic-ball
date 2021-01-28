@@ -323,11 +323,13 @@ async function addReady(req, res) {
       let updatedGame = await gameCtrl.addReady(game._id, game.rounds[game.currentRound - 1]._id,
         {
           batchFlow: 1,
+          unAcceptable: false,
           ballsArrangement: null,
           greenPlayers: greenList,
           redPlayers: redList,
           currentBallHolder: currentBallHolder,
           status: 'playing',
+          wastedBalls: 0
         });
       if (updatedGame) {
         socket.sendMessage([...game.players.map(player => player.id), game.hostId,...updatedGame.viewers], {method: 'readyAdded', data: null});
@@ -349,12 +351,16 @@ async function addReady(req, res) {
       if (req.body.batchFlow === undefined || req.body.batchFlow === '') {
         errors.push("Batch number is required");
       }
+      if (req.body.unAcceptable === undefined || req.body.unAcceptable === '') {
+        errors.push("unAcceptable is required");
+      }
       if (errors.length === 0) {
         const {greenList, redList, currentBallHolder} = getPlayerNextBallMovement(game, game.archWizard);
         console.log("ballls", req.body.ballsWasted)
         let updatedGame = await gameCtrl.addReady(game._id, game.rounds[game.currentRound - 1]._id,
           {
             batchFlow: req.body.batchFlow,
+            unAcceptable: req.body.unAcceptable,
             ballsArrangement: null,
             greenPlayers: greenList,
             redPlayers: redList,

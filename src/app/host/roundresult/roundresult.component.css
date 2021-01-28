@@ -10,6 +10,19 @@
   font-weight: bolder;
   font-size: 50px;
 }
+.boom {
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bolder;
+  color: red;
+  font-size: 50px;
+}
+.unacceptable-ball {
+  text-align: center;
+  font-family: Calibri;
+  font-size: 37px;
+  font-weight: bolder;
+  margin: 0;
+}
 
 .para {
   font-size: 50px;
@@ -74,4 +87,13 @@
 }
 .button-margin{
   margin-top: 20px;
+}
+.body{
+  margin-top: -1%;
+  height: 100vh;
+  background: yellow;
+}
+.icon{
+  font-size: 40px;
+  color: red;
 }

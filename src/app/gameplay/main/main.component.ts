@@ -34,8 +34,8 @@ export class MainComponent implements OnInit {
           this.status = game.rounds[game.currentRound - 1].status;
         }
       });
-    },error => {
-      this.status="notFound"
+    }, error => {
+      this.status = 'notFound';
     });
 
   }

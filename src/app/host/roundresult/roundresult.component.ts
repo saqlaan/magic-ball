@@ -13,6 +13,7 @@ export class RoundresultComponent implements OnInit {
   roundComplete: boolean = false;
   gameCode: any;
   roundScore:any;
+  game :any  = {}
   gameId: any;
   constructor(private gameService: GameService, private  router: Router) {
   }
@@ -20,6 +21,7 @@ export class RoundresultComponent implements OnInit {
   ngOnInit(): void {
     this.gameCode = localStorage.getItem('gameCode') as string;
     this.gameService.getGame(this.gameCode).subscribe((game) => {
+      this.game = game;
       this.gameId = game._id;
       if(game.noOfRounds === game.rounds.length){
         this.roundComplete = true;

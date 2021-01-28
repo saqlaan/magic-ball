@@ -1,4 +1,86 @@
-<div class="container" fxLayout="column" fxFlex="100">
+<div class="container" fxLayout="column" fxFlex="100" *ngIf="game && game.rounds[game.currentRound - 1].unAcceptable"  class="body">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div fxLayout="column" fxFlex="98" fxFlex.md="20" fxLayoutAlign="center center">
+      <h1 class="boom">Boom!</h1>
+    </div>
+  </div>
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <div fxLayout="column" fxFlex="98" fxFlex.md="20" fxLayoutAlign="center center">
+      <p class="unacceptable-ball">Click below to<br>start next<br>round.
+    </div>
+  </div>
+  <div *ngIf="!roundComplete" class="main-section button-margin" fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="startRound()" mat-raised-button color="primary">Start Next Round</button>
+    </div>
+  </div>
+  <div *ngIf="roundComplete" class="main-section button-margin" fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="finalResult()" mat-raised-button color="primary">Final Result</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="container" fxLayout="column" fxFlex="100"  *ngIf="game && (!game.rounds[game.currentRound - 1].unAcceptable &&
+ game.rounds[game.currentRound - 1].wastedBalls > 0 )" class="body">
+  <app-header  [tittle]="'reveal'"></app-header>
+  <div  class="main-section row" fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="100" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center start" >
+      <mat-icon class="icon" >error</mat-icon>
+    </div>
+  </div>
+  <div class="main-section" fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="20" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >
+      <p class="team ">Ball position must<br> be on 2 lines</p>
+    </div>
+    <div class="column" fxLayout="column" fxFlex="57" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+      ` <p class="team ">Expected</p>
+    </div>
+    <div fxLayout="column" fxFlex="20" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >
+      <p class="team" >Actual</p>`
+    </div>
+  </div>
+  <div class="main-section" fxLayout="row" fxFlex="100">
+    <div class="column" fxLayout="column" fxFlex="100" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center start">
+      `<img class="equal" src="assets/icons/equal.png">
+    </div>
+    <div fxLayout="column" fxFlex="100" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center end" >
+      <p class="team">{{game.rounds[game.currentRound -1].ballsEstimate}}<span>-</span></p>`
+    </div>
+    <div fxLayout="column" fxFlex="100" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center start" >
+      <p class="team">{{game.rounds[game.currentRound -1].wastedBalls}}</p>`
+    </div>
+    <div fxLayout="column" fxFlex="100" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center" >
+      <p class="team">{{game.rounds[game.currentRound -1].ballsMade}}</p>`
+    </div>
+  </div>
+  <div class="main-section" fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="100" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center start" >
+      <p class="team">your ball config</p>`
+    </div>
+  </div>
+  <div *ngIf="!roundComplete" class="main-section button-margin" fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="startRound()"  mat-raised-button color="primary">Start Next Round</button>
+    </div>
+  </div>
+  <div *ngIf="roundComplete"class="main-section button-margin" fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="90" fxLayoutAlign="center center">
+      <button (click)="finalResult()"  mat-raised-button color="primary">Final Result</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container" fxLayout="column" fxFlex="100" *ngIf="game && (!game.rounds[game.currentRound - 1].unAcceptable &&
+ game.rounds[game.currentRound - 1].wastedBalls == 0 )">
   <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <div fxLayout="column" fxFlex="20" fxFlex.md="40">

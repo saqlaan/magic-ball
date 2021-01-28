@@ -1,4 +1,4 @@
-<div class="container" fxLayout="column" fxFlex="100">
+<div class="container" fxLayout="column" fxFlex="100" *ngIf="game && (game.rounds[game.currentRound - 1].unAcceptable || game.rounds[game.currentRound - 1].wastedBalls == 0 )">
  <app-header [tittle]="'round results'"></app-header>
   <div fxLayout="row" fxFlex="100">
     <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
@@ -14,4 +14,36 @@
       <button class="next" mat-raised-button>Metrics</button>
     </div>
   </div>
+</div>
+<div class="container" fxLayout="column" fxFlex="100" class="body" *ngIf="game && (!game.rounds[game.currentRound - 1].unAcceptable && game.rounds[game.currentRound - 1].wastedBalls > 0)">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <div fxLayout="column" fxFlex="100" fxFlex.md="20" fxLayoutAlign="center center">
+      <h1 class="estimate">questionable results?</h1>
+    </div>
+  </div>
+  <div fxLayout="row" fxFlex="100">
+    <div fxLayout="row" fxFlex="100">
+      <div fxLayout="column" fxFlex="98" fxFlex.md="20" fxLayoutAlign="center center">
+        <img class="equal" src="assets/icons/question.png">
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="100" style="background: white">
+      <div fxLayout="column" fxFlex="98" fxFlex.md="20" fxLayoutAlign="center center">
+        <p class="team">Did you notice<br>the question<br> mark each time
+          <br>you performed<br> the travel<br> gesture?</p>
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="100">
+      <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
+        <img class="equal" src="assets/icons/question.png">
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxFlex="50" fxFlex.xs="70" fxLayoutAlign="center end">
+    <div fxLayout="column" fxFlex="9" fxFlex.xs="20" fxLayoutAlign="center center">
+      <button class="next" mat-raised-button>Next Round</button>
+    </div>
+  </div>
+
 </div>
