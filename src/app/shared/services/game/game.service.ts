@@ -258,11 +258,20 @@ export class GameService {
   }
   public addViewer(
     viewerId: any,
-    gameCode:any,
   ): Observable<Game> {
     return this.http.post<Game>('/api/game/add-viewer', {
-      viewerId,
-      gameCode
+      viewerId
     });
   }
+
+  public updateRoundConfiguration(
+    gameId: string,
+    gameData: object
+  ): Observable<Game> {
+    return this.http.post<Game>('/api/game/update-round-configuration', {
+      gameId,
+      gameData
+    });
+  }
+
 }

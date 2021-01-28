@@ -1,8 +1,14 @@
 const Joi = require('joi');
 const GameScheme = {
   gameSettings: Joi.object().keys({
-    firstName: Joi.string().required(),
-
+    groupName: Joi.string().required(),
+    maxPlayers: Joi.number().min(4).required(),
+    noOfRounds: Joi.number().min(1).required(),
+    timePerSecond: Joi.number().min(1).required(),
+    save_metrics: Joi.boolean().required(),
+    access_toolbox: Joi.boolean().required(),
+    ballsPerRound: Joi.number().min(1).required(),
+    players: Joi.array()
   }),
   joinGame: Joi.object().keys({
     playerId: Joi.string().required(),
@@ -25,6 +31,7 @@ const GameScheme = {
   }),
   addEstimate: Joi.object().keys({
     gameId: Joi.string().required(),
+    ballsEstimate: Joi.number().min(1).required()
   }),
   addReady: Joi.object().keys({
     gameId: Joi.string().required(),
@@ -40,6 +47,10 @@ const GameScheme = {
   moveBall: Joi.object().keys({
     gameId: Joi.string().required(),
     playerId: Joi.string().required(),
+  }),
+  updateGameSettings: Joi.object().keys({
+    gameId: Joi.string().required(),
+    gameData: Joi.object().required()
   }),
 }
 

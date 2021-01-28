@@ -5,6 +5,9 @@ async function hashPassword(password){
   return await bcrypt.hash(password, salt);
 }
 
+function addMinutesToCurrentTime(minutes){
+  return new Date().getTime() + (60000 * minutes);
+}
 function filterListWithList(list1 = [], list2 = []) {
   return list1.filter(function (item) {
     return this.toString().indexOf(item) < 0
@@ -31,5 +34,6 @@ function isNeighbour(list = [], player1, player2) {
 module.exports = {
   filterListWithList,
   isNeighbour,
-  hashPassword
+  hashPassword,
+  addMinutesToCurrentTime
 }

@@ -34,7 +34,6 @@ const socket = {
     socket.clients[data.userId] = {
         client, createdAt: (new Date()).toUTCString()
     };
-    console.log(data);
     socket.actions.addUser([data.userId], null)
   },
   send: (id, payload) => {
@@ -47,12 +46,7 @@ const socket = {
   },
   sendMany: (ids =[], payload) => {
     ids.forEach(id => {
-      const client = socket.getClient(id);
-      if(client && client.isAlive) {
-        client.send(JSON.stringify(payload));
-      } else {
-        console.log(id + ' not exist or not live');
-      }
+      socket.send(id, payload)
     })
   },
   getClient: (id) => {
@@ -87,7 +81,7 @@ const socket = {
       const payload = {method: 'ballMoved', data: null};
       socket.sendMany(users, payload);
     },
-    receivedBall: (users = []) => {
+    receiveBall: (users = []) => {
       const payload = {method: 'ballReceived', data: null};
       socket.sendMany(users, payload);
     },

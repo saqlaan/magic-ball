@@ -57,15 +57,24 @@ export class AddreadyComponent implements OnInit {
   }
 
   addReady() {
-    if (this.game.currentRound == 1) {
-      this.gameService.addReady(this.game._id, [null], '').subscribe((Game) => {
-        this.router.navigate(['/gameplay']);
-      });
-    } else {
-      this.gameService.addReady(this.game._id, this.ballsArrangement, this.readyForm.value.batchNumber).subscribe((Game) => {
-        this.router.navigate(['/gameplay']);
-      });
+    const roundData = {
+      status: 'playing',
+      currentBallHolder: this.game.archWizard,
+      moved: [],
+      ...this.getRedGreenPlayers(),
+    };
+    if (this.game.currentRound > 1) {
+      roundData['ballsArrangement'] = this.ballsArrangement;
+      roundData['batchFlow'] = this.readyForm.value.batchNumber;
     }
+    this.gameService.updateRoundConfiguration(this.game._id, {
+      round: {
+        roundId: this.game.rounds[this.game.currentRound - 1]._id,
+        roundData: roundData
+      }
+    }).subscribe(game => {
+      this.router.navigate(['/gameplay']);
+    });
   }
 
   onBallChange(i: any, j: any) {
@@ -94,4 +103,19 @@ export class AddreadyComponent implements OnInit {
     }
   }
 
+  getRedGreenPlayers () {
+    const players = this.game.players.map((player: any) => player.id);
+    const redPlayers: any[] = [];
+    let greenPlayers: any[];
+    const archIndex = players.findIndex((player: any) => player == this.game.archWizard);
+    if (archIndex === 0) {
+      redPlayers.push(players[1], players[players.length - 1]);
+    } else if (archIndex === players.length - 1) {
+      redPlayers.push(players[0], players[players.length - 2]);
+    } else {
+      redPlayers.push(players[archIndex + 1], players[archIndex - 1]);
+    }
+    greenPlayers = players.filter((item: any) => !redPlayers.includes(item));
+    return {redPlayers, greenPlayers};
+  }
 }

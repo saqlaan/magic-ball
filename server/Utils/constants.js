@@ -17,7 +17,7 @@ const messages = {
   GAME_NOT_EXIST: 'Error! Game not exist',
   PLAYER_ALREADY_EXIST: 'Error! Player is already added',
   PLAYER_SIZE_ERROR: 'Error! Players are full',
-  PLAYER_Add_ERROR: 'Error! Player is not added successfully',
+  PLAYER_ADD_ERROR: 'Error! Player is not added successfully',
   GAME_START_ERROR: 'Error! Game is not started',
   ROUND_END_ERROR: 'Error! Game is not started',
   GAME_END_ERROR: 'Error! Game is not started' ,

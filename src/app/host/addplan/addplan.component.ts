@@ -29,8 +29,17 @@ export class AddplanComponent implements AfterViewInit {
     });
 
   }
-  addplan() {
-    this.gameService.addPlan(this.game._id, this.list).subscribe((Game) => {
+  addPlan() {
+    this.gameService.updateRoundConfiguration(this.game._id, {
+      round: {
+        roundId: this.game.rounds[this.game.currentRound - 1]._id,
+        roundData: {
+          arrangement: this.list,
+          status: 'estimate'
+        }
+      }
+    }).subscribe(game => {
+      console.log(game);
       this.router.navigate(['/addestimate']);
     });
   }
@@ -46,3 +55,4 @@ export class AddplanComponent implements AfterViewInit {
     };
   }
 }
+

@@ -46,16 +46,23 @@ export class AddestimateComponent implements OnInit {
   }
 
   addEstimate() {
-
+    const gameData = {
+      round: {
+        roundId: this.gameData.rounds[this.gameData.currentRound - 1]._id,
+        roundData: {
+          status: 'ready',
+          ballsEstimate: this.estimateForm.value.estimatedBalls
+        }
+      }
+    };
     if (this.gameData.currentRound == 1) {
-      this.estimate.archWizard = this.players[this.estimateForm.value.archWizard - 1];
+      gameData['archWizard'] = this.players[this.estimateForm.value.archWizard - 1];
     } else {
-      this.estimate.scoreKeeper = this.players[this.estimateForm.value.scoreKeeper - 1];
-      this.estimate.timeKeeper = this.players[this.estimateForm.value.timeKeeper - 1];
+      gameData['scoreKeeper'] = this.players[this.estimateForm.value.scoreKeeper - 1];
+      gameData['timeKeeper'] = this.players[this.estimateForm.value.timeKeeper - 1];
     }
-    this.estimate.ballsEstimate = this.estimateForm.value.estimatedBalls;
-    this.estimate.gameId = this.gameData._id;
-    this.gameService.addEstimate(this.estimate).subscribe((Game) => {
+    this.gameService.updateRoundConfiguration(this.gameData._id, gameData).subscribe(game => {
+      console.log(game);
       this.router.navigate(['/addready']);
     });
   }

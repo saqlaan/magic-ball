@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const User = require('../models/user.model');
-const escapeStringRegexp = require('escape-string-regexp');
 
 
 async function insert(user) {
@@ -55,7 +54,6 @@ async function updatePassword(newPassword, id) {
 
 
 async function resetPassword(token, password) {
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     password = hashedPassword;
