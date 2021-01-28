@@ -1,0 +1,36 @@
+.container{
+  background-color: white;
+}
+.magic{
+  margin-left: 20px;
+}
+.box{
+  box-shadow: none;
+}
+
+.log{
+  color: white;
+  background-color: #4be44b;
+  margin-top: 40px;
+  margin-right:10px;
+  margin-bottom: 20px;
+  width:80px;
+  font-size: large;
+}
+.help{
+  background-color: white;
+  color: black;
+  margin-top: 40px;
+  margin-lef:50px;
+  margin-bottom: 20px;
+  border: 1px solid;
+  height: 50px;
+  width: 120px;
+  font-size: medium;
+}
+.friend{
+  font-size: large;
+  font-weight: bold;
+  height: 100px;
+  margin-bottom: 60px;
+}
