@@ -52,7 +52,7 @@ export class SignupComponent implements OnInit {
     this.user.password = this.userForm.value.password;
     this.user.type = 'host';
     this.userService.addUser(this.user).subscribe((message) => {
-      if (message.message == 'you are registered') {
+      if (message.message == 'You are registered') {
         this.toast.success('you are registered successfully', 'Sign Up', {
           titleClass: 'center',
           messageClass: 'center'

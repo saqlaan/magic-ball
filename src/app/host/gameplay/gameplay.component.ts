@@ -56,7 +56,16 @@ export class GameplayComponent implements AfterViewInit {
   }
 
   endRound() {
-    this.gameService.endRound(this.game._id).subscribe((game) => {
+    const gameData = {
+      totalScore: this.game.rounds[this.game.currentRound - 1].ballsMade + this.game.totalScore,
+      round: {
+        roundId: this.game.rounds[this.game.currentRound - 1]._id,
+        roundData: {
+          status: 'end',
+        }
+      }
+    };
+    this.gameService.updateRoundConfiguration(this.game._id, gameData).subscribe((game: any) => {
       this.router.navigate(['roundresult']);
     });
   }

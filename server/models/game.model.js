@@ -76,8 +76,10 @@ const GameSchema = new mongoose.Schema({
   },
   currentRound: {
     type: Number,
-    required: false
-  }, completed: {
+    required: false,
+    default: 0,
+  },
+  completed: {
     type: Boolean,
     required: false,
     default: false,

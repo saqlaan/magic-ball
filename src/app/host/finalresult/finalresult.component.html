@@ -27,7 +27,7 @@
       </div>
     </div>
     <div fxLayout="column" fxFlex="98" fxFlex.sm="98" fxFlex.md="98" fxLayoutAlign="center center">
-      <p class="score">{{totalScore}}!</p>
+      <p class="score" *ngIf="game">{{game.totalScore}}!</p>
       <div fxLayout="row" fxFlex="100" >
         <p class="team">Magic Balls!</p>
       </div>

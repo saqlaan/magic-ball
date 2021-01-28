@@ -7,15 +7,18 @@ const RoundSchema = new mongoose.Schema({
     status: {
       type: String,
       enum: ['plan', 'estimate', 'ready', 'planning', 'end', 'playing', 'halt'],
-      required: false
+      required: false,
+      default: 'plan'
     },
     ballsEstimate: {
       type: Number,
       required: true,
+      default: 0
     },
     batchFlow: {
       type: Number,
       required: true,
+      default: 1
     },
     ballsArrangement: [[{
       type: Number,
@@ -24,27 +27,27 @@ const RoundSchema = new mongoose.Schema({
     ballsMade: {
       type: Number,
       required: true,
+      default: 0
     },
     stepEndingTime: {
-      type: Number,
-      required: true,
-    },
-    ballStatus: {
       type: Number,
       required: true,
     },
     wastedBalls: {
       type: Number,
       required: true,
+      default: 0
     },
     ballsTouched: {
       type: Boolean,
       required: true,
+      default: false
     },
     currentArea: {
       type: Number,
       enum: [1, 2, 3],
       required: true,
+      default: 3
     },
     ballMovement: {},
     arrangement: [{
@@ -74,7 +77,6 @@ const RoundSchema = new mongoose.Schema({
   unAcceptable: {
       type:Boolean,
   }
-
   })
 ;
 

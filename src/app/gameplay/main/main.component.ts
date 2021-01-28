@@ -23,7 +23,7 @@ export class MainComponent implements OnInit {
     this.viewerId = this.gameCode + '.' + Date.now();
     this.ws.init(this.viewerId);
     localStorage.setItem('gameCode', this.gameCode);
-    this.gameService.addViewer(this.viewerId, this.gameCode).subscribe((game) => {
+    this.gameService.addViewer(this.viewerId).subscribe((game) => {
       this.gameService.getGame(this.gameCode).subscribe((game) => {
         this.game = game;
         if (game.completed) {
