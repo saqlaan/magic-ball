@@ -39,9 +39,9 @@ const UserHandler = {
     res.json(update);
   },
   updateProfile: async (req, res) => {
-    let user = await UserService.update(req.body.id, req.body);
+    let user = await UserService.update(req.user.id, req.body);
     if (!user) {
-      res.status(401).json({message: messages.UPDATE_FAILED});
+      return res.status(401).json({message: user});
     }
     res.json({message: messages.UPDATE_SUCCESS});
   },

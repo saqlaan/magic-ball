@@ -119,7 +119,7 @@ const GameHandler = {
         break;
       case 'ready':
         socket.actions.addReady(users);
-        setTimeout(()=> socket.actions.receiveBall([updatedGame.archWizard]), 500);
+        // setTimeout(()=> socket.actions.receiveBall([updatedGame.archWizard]), 500);
         break;
       case 'playing':
         socket.actions.endRound(users);
@@ -145,7 +145,7 @@ const GameHandler = {
       }
       if ((currentBallHolder.toString() === game.archWizard.toString()) && (moved.length === game.players.length)) {
         moved = [];
-        ballsMade += game.rounds[game.currentRound - 1].batchFlow;
+        ballsMade += game.rounds[game.currentRound - 1].batchFlow - wastedBalls;
       }
     }
     currentBallHolderIndex = players.indexOf((currentBallHolder))
