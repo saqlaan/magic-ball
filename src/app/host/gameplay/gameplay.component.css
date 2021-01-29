@@ -136,7 +136,7 @@ mat-icon{
   top: -15px;
   font-size: 12px
 }
-.div2:hover .name {
+.div2:hover > .name {
   display: block;
 }
 .div2:hover .counting-balls-wrapper, .div2:hover .timer{
@@ -185,7 +185,7 @@ mat-icon{
   top: -15px;
   font-size: 12px
 }
-.player:hover .name {
+.player:hover > .name {
   display: block;
 }
 

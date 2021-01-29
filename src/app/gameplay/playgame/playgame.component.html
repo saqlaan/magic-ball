@@ -54,7 +54,7 @@
       <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
         <div id="parentdiv" class="div">
           <div fxFlex="100" fxLayoutAlign="center center"
-               *ngFor="let item of game.rounds[game.currentRound - 1].arrangement; let i = index"
+               *ngFor="let item of game.players; let i = index"
                style="position: absolute; bottom: {{getChildTopValue(i)}}; left:{{getChildLeftValue(i)}}" class="player">
             <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id" class="ball-icon">
               <img class="img-ball" src="assets/icons/ball.png" >
@@ -94,8 +94,11 @@
         </div>
         <div #boundry class="boundary" >
           <div [cdkDragDisabled]="true" [cdkDragFreeDragPosition]="item.position" class="player"
-               *ngFor="let item of game.rounds[game.currentRound - 1].arrangement;let i = index"
+               *ngFor="let item of game.players;let i = index"
                cdkDragBoundary=".boundary" cdkDrag>
+            <div class="name" *ngIf="item.user">
+              {{item.user.firstName + ' ' + item.user.lastName}}
+            </div>
             <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id">
               <img class="ball-icon" src="assets/icons/ball.png">
             </div>

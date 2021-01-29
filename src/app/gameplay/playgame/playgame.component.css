@@ -276,7 +276,7 @@ mat-icon{
   top: -15px;
   font-size: 12px
 }
-.player:hover .name {
+.player:hover > .name {
   display: block;
 }
 .player .fire-icon {
