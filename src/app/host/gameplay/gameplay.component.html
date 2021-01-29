@@ -4,17 +4,21 @@
     <div fxLayout="column" fxFlex="20" fxFlex.md="20">
       <h1 class="magic">Fire Ball</h1>
     </div>
-    <div fxLayout="column" fxFlex="50" fxFlex.md="50" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="50" fxFlex.md="50" fxLayoutAlign="center center" *ngIf="game && game && game.rounds[this.game.currentRound - 1].wastedBalls > 0">
+      <h1 class="estimate" *ngIf="game">Round {{game.currentRound}}</h1>
+      <span class="estimate">?</span>
+    </div>
+    <div fxLayout="column" fxFlex="50" fxFlex.md="50" fxLayoutAlign="center center" *ngIf="game && game && game.rounds[this.game.currentRound - 1].wastedBalls == 0">
       <h1 class="estimate" *ngIf="game">Round {{game.currentRound}}</h1>
     </div>
     <div fxLayout="column" fxFlex="30" fxFlex.md="30" fxLayoutAlign="center center">
       <h1>
-        <mat-icon>visibility</mat-icon>
+        <mat-icon (click)="visible()" class="pointer">visibility</mat-icon>
         Statistics
       </h1>
     </div>
   </div>
-  <div class="main-section" fxLayout="row" fxFlex="100" *ngIf="this.game && this.game.rounds[this.game.currentRound - 1].unAcceptable">
+  <div class="main-section" fxLayout="row" fxFlex="100" *ngIf="game && game.rounds[this.game.currentRound - 1].unAcceptable">
     <div fxLayout="column" fxFlex="90" fxFlex.md="50" fxLayoutAlign="center center">
       <p class="unacceptable-ball">Unacceptable ball<br>config<br><br>Round wil be<br>restarted after
         <br>Arch-wizard<br>completes first<br>gesture<br>
@@ -22,16 +26,32 @@
       </p>
     </div>
   </div>
-  <div class="main-section" fxLayout="row" fxFlex="100" *ngIf="this.game && !this.game.rounds[this.game.currentRound - 1].unAcceptable">
+  <div fxLayout="row" class="menu" fxFlex="100" fxLayoutAlign="space between"  *ngIf="game && !game.rounds[this.game.currentRound - 1].unAcceptable">
+    <div fxLayout="column" fxFlex="90" fxFlex.md="50" fxLayoutAlign="center center">
+      <div class="main-section" fxLayout="row" fxFlex="14">
+        <div fxLayout="column">
+          <mat-icon style="font-size: 20px" >visibility</mat-icon>
+        </div>
+          <div fxLayout="column">
+            <mat-icon style="font-size: 20px" >timer</mat-icon>
+          </div>
+          <div fxLayout="column">
+            <mat-icon style="font-size: 20px" >pause_circle</mat-icon>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="main-section" fxLayout="row" fxFlex="100" *ngIf="game && !game.rounds[this.game.currentRound - 1].unAcceptable">
     <div fxLayout="column" fxFlex="20" fxFlex.sm="98" fxFlex.md="90" style="padding-left:1% ">
-      <div class="main-section" fxLayout="row" fxFlex="100">
+      <div class="main-section" fxLayout="row" fxFlex="14">
         <div fxLayout="column">
           <p>
-            <mat-icon style="font-size: 20px">visibility</mat-icon>
+            <mat-icon style="font-size: 20px" (click)="visibleRules()" class="pointer">visibility</mat-icon>
             The Rules
           </p>
         </div>
       </div>
+      <div fxLayout="column" fxFlex="20" fxFlex.sm="98" fxFlex.md="90"  [ngStyle]="{color: visibleRule ? 'transparent': 'black' }">
       <div class="main-section" fxLayout="row" fxFlex="100">
         <div fxLayout="column">
           <p style="margin: 0px">
@@ -71,14 +91,16 @@
           </p>
         </div>
       </div>
+      </div>
     </div>
-    <div fxLayout="column" fxFlex="50" fxLayoutAlign="center center" *ngIf="this.game.currentRound == 1">
-      <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="50" fxLayoutAlign="center center" *ngIf="game.currentRound == 1">
+      <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" >
       <div id="parentdiv"  class="player">
         <div fxFlex="100" fxLayoutAlign="center center" class="div2 "
+             [ngStyle]="{'background-color': game.rounds[game.currentRound - 1].moved.indexOf((item.id)) !== -1 && messageSuccess ? 'lightgreen' : 'transparent'}"
              *ngFor="let item of game.rounds[game.currentRound - 1].arrangement; let i = index"
-             style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}">
-          <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id" class="ball-icon">
+             style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}" >
+          <div *ngIf="game.rounds[game.currentRound - 1].currentBallHolder == item.id "   class="ball-icon">
             <img class="img-ball" src="assets/icons/ball.png" >
             <div class="ball-icon">{{game.rounds[game.currentRound - 1].batchFlow}}<span>Bb</span></div>
           </div>
@@ -91,8 +113,8 @@
           </div>
           <div class="name" *ngIf="item.user">{{item.user.firstName + ' ' + item.user.lastName}}</div>
           <div>
-            <div *ngIf="game.archWizard != item.id">{{item.incrementalId}}</div>
-            <div *ngIf="game.archWizard == item.id">
+            <div *ngIf="game.archWizard != item.id "  >{{item.incrementalId}}</div>
+            <div *ngIf="game.archWizard == item.id ">
               <img class="fire-icon" src="assets/icons/fire.png">
             </div>
           </div>
@@ -102,9 +124,10 @@
     </div>
     <div fxLayout="column" fxFlex="50" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="center center"
          *ngIf="this.game.currentRound > 1">
-      <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
+      <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center" >
         <div #boundry class="boundary">
           <div [cdkDragDisabled]="true" [cdkDragFreeDragPosition]="item.position" class="player"
+               [ngStyle]="{'background-color': game.rounds[game.currentRound - 1].moved.indexOf((item.id)) !== -1 && messageSuccess ? 'lightgreen' : 'transparent'}"
                *ngFor="let item of game.rounds[game.currentRound - 1].arrangement;let i = index"
                cdkDragBoundary=".boundary" cdkDrag>
             <div class="name" *ngIf="item.user">
@@ -131,7 +154,7 @@
         </div>
       </div>
     </div>
-    <div fxLayout="column" fxFlex="30" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="">
+    <div fxLayout="column" fxFlex="30" fxFlex.sm="100" fxFlex.md="100" fxLayoutAlign="" *ngIf="!visibleStatus">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
 
