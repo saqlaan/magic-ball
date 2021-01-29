@@ -7,7 +7,7 @@ const UserScheme = {
     country: Joi.string().required(),
     city: Joi.string().required(),
     occupation: Joi.string().required(),
-    password: Joi.string().required(),
+    password: Joi.string().min(6).required(),
     type: Joi.string().required()
   }),
   login: Joi.object().keys({
@@ -39,8 +39,8 @@ const UserScheme = {
     organization: Joi.string().required(),
   }),
   updatePassword: Joi.object().keys({
-    oldPassword: Joi.string().required(),
-    newPassword: Joi.string().required(),
+    oldPassword: Joi.string().min(6).required(),
+    newPassword: Joi.string().min(6).required(),
   }),
   searchPlayer: Joi.object().keys({
     playerName: Joi.string().required(),
