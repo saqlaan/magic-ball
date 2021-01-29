@@ -28,6 +28,7 @@
       <div  fxFlex="100" fxLayoutAlign="center center"
            *ngFor="let item of game.players; let i = index"
            style="position: absolute; bottom: {{getChildTopValue(i)}}; left: {{getChildLeftValue(i)}}" class="player">
+        <div class="name" *ngIf="item.user">{{item.user.firstName + ' ' + item.user.lastName}}</div>
         <span *ngIf="!icons" class="number">{{item.incrementalId}}</span>
       </div>
     </div>

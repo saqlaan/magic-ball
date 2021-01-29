@@ -42,46 +42,47 @@ export class AddplanComponent implements AfterViewInit {
       this.currentTime = this.time - Date.now();
       this.div = 360 / this.list.length;
       this.radius = 100;
-      const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
-      const offsetToChildCenter = 20;
-      this.totalOffset = offsetToParentCenter - offsetToChildCenter;
     });
 
   }
   addPlan() {
-    this.gameService.updateRoundConfiguration(this.game._id, {
+    const gameData = {
       round: {
         roundId: this.game.rounds[this.game.currentRound - 1]._id,
         roundData: {
-          arrangement: this.list,
           status: 'estimate'
         }
       }
+    };
+    if (this.game.currentRound > 1) {
+      gameData['players'] = this.game.players;
+    }
+    this.gameService.updateRoundConfiguration(this.game._id, {
+      ...gameData
     }).subscribe(game => {
-      console.log(game);
       this.router.navigate(['/addestimate']);
     });
   }
 
   dragHandler(event: any, index: any) {
     const {x, y} = event.distance;
-    this.list[index] = {
-      ...this.list[index],
+    this.game.players[index] = {
+      ...this.game.players[index],
       position: {
-        x: this.list[index].position.x + x,
-        y: this.list[index].position.y + y,
+        x: this.game.players[index].position.x + x,
+        y: this.game.players[index].position.y + y,
       }
     };
   }
 
   getChildTopValue(index: any) {
     const y = (Math.cos((this.div * index) * (Math.PI / 180)) * this.radius);
-    return (y + this.totalOffset).toString() + 'px';
+    return (y).toString() + 'px';
   }
 
   getChildLeftValue(index: any) {
     const x = (Math.sin((this.div * index) * (Math.PI / 180)) * this.radius);
-    return (x + this.totalOffset).toString() + 'px';
+    return (x).toString() + 'px';
   }
 
 }

@@ -29,19 +29,16 @@ export class PlanningComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const offsetToParentCenter = this.divView.nativeElement.offsetWidth / 2;
-    const offsetToChildCenter = 20;
-    this.totalOffset = offsetToParentCenter - offsetToChildCenter;
   }
 
   getChildTopValue(index: any) {
     const y = (Math.cos((this.div * index) * (Math.PI / 180)) * this.radius);
-    return (y + this.totalOffset).toString() + 'px';
+    return (y).toString() + 'px';
   }
 
   getChildLeftValue(index: any) {
     const x = (Math.sin((this.div * index) * (Math.PI / 180)) * this.radius);
-    return (x + this.totalOffset).toString() + 'px';
+    return (x).toString() + 'px';
   }
 
 

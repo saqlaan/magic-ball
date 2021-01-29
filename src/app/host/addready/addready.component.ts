@@ -27,6 +27,7 @@ export class AddreadyComponent implements OnInit {
   balls: any;
   unacceptable: boolean = false;
   show: boolean;
+  Array: any = Array;
   readyForm = new FormGroup({
     batchNumber: new FormControl('', [Validators.required]),
   });
@@ -69,7 +70,7 @@ export class AddreadyComponent implements OnInit {
       ...this.getRedGreenPlayers(),
     };
     if (this.game.currentRound > 1) {
-      roundData['ballsArrangement'] = this.ballsArrangement;
+      // roundData['ballsArrangement'] = this.ballsArrangement;
       roundData['batchFlow'] = this.readyForm.value.batchNumber;
     }
     this.gameService.updateRoundConfiguration(this.game._id, {
