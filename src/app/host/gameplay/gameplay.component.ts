@@ -32,12 +32,21 @@ export class GameplayComponent implements AfterViewInit {
   swapped: any[] = [];
   unAcceptable: boolean = false;
   messageSuccess = true;
+  timer!: number;
 
   constructor(private gameService: GameService, private  router: Router, private ws: WebSocketService) {
   }
 
   ngAfterViewInit() {
     const gameCode = localStorage.getItem('gameCode') as string;
+    this.timer = JSON.parse(localStorage.getItem('timer')!);
+    this.timer = this.timer - Date.now();
+    if (this.timer > 0 && this.timer !== 0) {
+      alert(this.timer);
+      setTimeout(() => {
+        this.endRound();
+      }, this.timer);
+    }
     this.gameService.getGame(gameCode).subscribe((game) => {
       this.messageSuccess =true;
       if (game.rounds[game.currentRound - 1].unAcceptable) {

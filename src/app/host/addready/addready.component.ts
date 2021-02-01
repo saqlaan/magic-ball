@@ -18,7 +18,8 @@ export class AddreadyComponent implements OnInit {
     [-1, 1, 1, 1, -1],
     [-1, -1, -1, -1, -1]
   ];
-  game :any  = {};
+  game: any = {};
+  timer: any;
   copyList: any;
   gameCode!: string;
   selectedBalls: number = 0;
@@ -26,6 +27,7 @@ export class AddreadyComponent implements OnInit {
   whiteBallStatus: any;
   balls: any;
   unacceptable: boolean = false;
+  showTime: number = 0;
   show: boolean;
   readyForm = new FormGroup({
     batchNumber: new FormControl('', [Validators.required]),
@@ -38,6 +40,7 @@ export class AddreadyComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.copyList = [...this.ballsArrangement];
     this.batchCompleted = true;
     this.gameCode = localStorage.getItem('gameCode') as string;
@@ -47,6 +50,7 @@ export class AddreadyComponent implements OnInit {
         this.show = false;
       }
     });
+
   }
 
   onValueChanges(val: any): void {
@@ -56,15 +60,19 @@ export class AddreadyComponent implements OnInit {
     this.batchCompleted = false;
     this.readyForm.value.batchNumber = val;
   }
-  unAcceptable(){
-        this.unacceptable = !this.unacceptable;
+
+  unAcceptable() {
+    this.unacceptable = !this.unacceptable;
   }
+
   addReady() {
+
     const roundData = {
       status: 'playing',
       unAcceptable: this.unacceptable,
       currentBallHolder: this.game.archWizard,
       moved: [],
+      stepEndingTime: Date.now(),
       wastedBalls: this.getWastedBalls(),
       ...this.getRedGreenPlayers(),
     };
@@ -93,7 +101,7 @@ export class AddreadyComponent implements OnInit {
   }
 
   getBallStatus(i: any, j: any) {
-    this.selectedBalls --;
+    this.selectedBalls--;
     if (this.readyForm.value.batchNumber !== this.selectedBalls) {
       this.batchCompleted = false;
     }
@@ -108,7 +116,7 @@ export class AddreadyComponent implements OnInit {
     }
   }
 
-  getRedGreenPlayers () {
+  getRedGreenPlayers() {
     const players = this.game.players.map((player: any) => player.id);
     const redPlayers: any[] = [];
     let greenPlayers: any[];
@@ -123,10 +131,11 @@ export class AddreadyComponent implements OnInit {
     greenPlayers = players.filter((item: any) => !redPlayers.includes(item));
     return {redPlayers, greenPlayers};
   }
+
   getWastedBalls() {
     let wastedBalls = 0;
     for (let i = 0; i < this.ballsArrangement.length; i++) {
-      for (let j = 0; j < this.ballsArrangement[i].length; j++ ) {
+      for (let j = 0; j < this.ballsArrangement[i].length; j++) {
         if (this.ballsArrangement[i][j] == 0) {
           if (i === 0 || i === this.ballsArrangement.length - 1 || j === 0 || j === this.ballsArrangement.length - 1) {
             wastedBalls++;
