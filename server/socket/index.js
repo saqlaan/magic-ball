@@ -22,6 +22,11 @@ const socket = {
         case 'init':
           socket.init(client, data);
           break;
+        case 'connect':
+          client.send(JSON.stringify({
+            method: 'ok',
+          }));
+          break;
         default:
           console.log('No method found');
       }
