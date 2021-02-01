@@ -6,7 +6,7 @@ const {messages} = require("../Utils/constants");
 const GameHandler = {
   gameSettings: async (req, res) => {
     req.body.hostId = req.user.id;
-    if (req.body.players.length >= req.body.maxPlayers) {
+    if (req.body.players.length > req.body.maxPlayers) {
       res.status(401).json({message: "Players are full"});
     }
     let game = await GameService.create(req.body);

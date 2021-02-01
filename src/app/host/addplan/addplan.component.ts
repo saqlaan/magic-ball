@@ -25,7 +25,9 @@ export class AddplanComponent implements AfterViewInit {
   show: boolean = false;
   arch: any = 4;
   timekeeper: any = 5;
+  timer: any;
   swapped: any[] = [];
+  interval: any;
 
 
   constructor(private gameService: GameService, private ws: WebSocketService, private  router: Router) {
@@ -37,6 +39,13 @@ export class AddplanComponent implements AfterViewInit {
       if (this.game.currentRound == 1) {
         this.show = true;
       }
+      this.timer = this.game.rounds[game.currentRound - 1].stepEndingTime - Date.now();
+      // const seconds = Math.floor((this.timer % (1000 * 60)) / 1000);
+      if (this.timer > 0 && this.timer !== 0) {
+        this.interval = setTimeout(() => {
+        this.addPlan();
+        }, this.timer);
+      }
       this.list = [...game.players];
       this.time = game.rounds[game.currentRound - 1].stepEndingTime;
       this.currentTime = this.time - Date.now();
@@ -46,10 +55,12 @@ export class AddplanComponent implements AfterViewInit {
 
   }
   addPlan() {
+    clearInterval(this.interval);
     const gameData = {
       round: {
         roundId: this.game.rounds[this.game.currentRound - 1]._id,
         roundData: {
+          stepEndingTime: 0,
           status: 'estimate'
         }
       }
