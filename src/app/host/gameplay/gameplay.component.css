@@ -189,3 +189,6 @@ mat-icon{
   display: block;
 }
 
+.pointer {
+  cursor: pointer;
+}

@@ -33,6 +33,10 @@ const RoundSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
+    gamePlayEndingTime: {
+      type: Number,
+      required: true,
+    },
     wastedBalls: {
       type: Number,
       required: true,
@@ -52,31 +56,31 @@ const RoundSchema = new mongoose.Schema({
     ballMovement: {},
     arrangement: [{
       _id: false,
-      id:{
+      id: {
         type: mongoose.Schema.ObjectId, ref: 'User'
       },
       incrementalId: Number,
       position: Position,
     }],
-  greenPlayers: [{
-    type: String,
-    required: false,
-  }],
-  redPlayers: [{
-    type: String,
-    required: false,
-  }],
-  moved: [{
-    type: String,
-    required: false,
-  }],
-  currentBallHolder: {
-      type:String,
-      required:false
-  },
-  unAcceptable: {
-      type:Boolean,
-  }
+    greenPlayers: [{
+      type: String,
+      required: false,
+    }],
+    redPlayers: [{
+      type: String,
+      required: false,
+    }],
+    moved: [{
+      type: String,
+      required: false,
+    }],
+    currentBallHolder: {
+      type: String,
+      required: false
+    },
+    unAcceptable: {
+      type: Boolean,
+    }
   })
 ;
 

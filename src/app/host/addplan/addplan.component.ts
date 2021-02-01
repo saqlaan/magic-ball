@@ -25,6 +25,7 @@ export class AddplanComponent implements AfterViewInit {
   show: boolean = false;
   arch: any = 4;
   timekeeper: any = 5;
+  timer: any;
   swapped: any[] = [];
 
 
@@ -36,6 +37,13 @@ export class AddplanComponent implements AfterViewInit {
       this.game = game;
       if (this.game.currentRound == 1) {
         this.show = true;
+      }
+      this.timer = this.game.rounds[game.currentRound - 1].stepEndingTime - Date.now();
+      // const seconds = Math.floor((this.timer % (1000 * 60)) / 1000);
+      if (this.timer > 0 && this.timer !== 0) {
+        setTimeout(() => {
+        this.addPlan();
+        }, this.timer);
       }
       this.list = [...game.players];
       this.time = game.rounds[game.currentRound - 1].stepEndingTime;
@@ -50,6 +58,7 @@ export class AddplanComponent implements AfterViewInit {
       round: {
         roundId: this.game.rounds[this.game.currentRound - 1]._id,
         roundData: {
+          stepEndingTime: 0,
           status: 'estimate'
         }
       }
