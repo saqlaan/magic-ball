@@ -33,6 +33,9 @@ export class GameplayComponent implements AfterViewInit {
   unAcceptable: boolean = false;
   messageSuccess = true;
   timer!: number;
+  timeLeft!: number;
+  interval: any;
+  timeInterval: any;
 
   constructor(private gameService: GameService, private  router: Router, private ws: WebSocketService) {
   }
@@ -43,16 +46,23 @@ export class GameplayComponent implements AfterViewInit {
       this.game = game;
       this.timer = this.game.rounds[game.currentRound - 1].gamePlayEndingTime - Date.now();
       if (this.timer > 0 && this.timer !== 0) {
-        alert(this.timer);
-        setTimeout(() => {
+        this.interval = setTimeout(() => {
           this.endRound();
         }, this.timer);
       }
-      this.messageSuccess =true;
+      this.timeLeft = Math.floor(this.timer/1000 );
+      this.timeInterval = setInterval(() => {
+        if (this.timeLeft > 0) {
+          this.timeLeft--;
+        } else {
+          this.timeLeft = 0;
+        }
+      }, 1000);
+      this.messageSuccess = true;
       if (game.rounds[game.currentRound - 1].unAcceptable) {
         this.unAcceptable = true;
       }
-      console.log(game.rounds[game.currentRound - 1].moved)
+      console.log(game.rounds[game.currentRound - 1].moved);
       this.game = game;
       if (this.game.currentRound == 1) {
         this.show = true;
@@ -63,20 +73,22 @@ export class GameplayComponent implements AfterViewInit {
       this.radius = 100;
 
 
-      setTimeout(()=>{
+      setTimeout(() => {
         this.messageSuccess = false;
       }, 3000);
     });
   }
 
   endRound() {
+    clearInterval(this.interval);
+    clearInterval(this.timeInterval);
     const gameData = {
       totalScore: this.game.rounds[this.game.currentRound - 1].ballsMade + this.game.totalScore,
       round: {
         roundId: this.game.rounds[this.game.currentRound - 1]._id,
         roundData: {
           status: 'end',
-          stepEndingTime: 0,
+          gamePlayEndingTime: 0,
         }
       }
     };
