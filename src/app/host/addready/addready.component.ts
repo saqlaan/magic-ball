@@ -72,7 +72,7 @@ export class AddreadyComponent implements OnInit {
       unAcceptable: this.unacceptable,
       currentBallHolder: this.game.archWizard,
       moved: [],
-      stepEndingTime: Date.now(),
+      gamePlayEndingTime: Date.now() + 120000,
       wastedBalls: this.getWastedBalls(),
       ...this.getRedGreenPlayers(),
     };

@@ -38,10 +38,8 @@ export class AddplanComponent implements AfterViewInit {
       if (this.game.currentRound == 1) {
         this.show = true;
       }
-      this.timer = this.game.rounds[game.currentRound - 1].stepEndingTime;
-      this.timer = this.timer - Date.now();
-      alert(this.timer);
-      const seconds = Math.floor((this.timer % (1000 * 60)) / 1000);
+      this.timer = this.game.rounds[game.currentRound - 1].stepEndingTime - Date.now();
+      // const seconds = Math.floor((this.timer % (1000 * 60)) / 1000);
       if (this.timer > 0 && this.timer !== 0) {
         setTimeout(() => {
         this.addPlan();
@@ -64,6 +62,7 @@ export class AddplanComponent implements AfterViewInit {
         roundId: this.game.rounds[this.game.currentRound - 1]._id,
         roundData: {
           arrangement: this.list,
+          stepEndingTime: 0,
           status: 'estimate'
         }
       }
