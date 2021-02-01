@@ -34,7 +34,7 @@ export class AddplanComponent implements AfterViewInit {
   }
   ngAfterViewInit() {
     const gameCode = localStorage.getItem('gameCode') as string;
-    this.gameService.getGame(gameCode).subscribe((game) => {
+    this.gameService.getGameByCode(gameCode).subscribe((game) => {
       this.game = game;
       if (this.game.currentRound == 1) {
         this.show = true;

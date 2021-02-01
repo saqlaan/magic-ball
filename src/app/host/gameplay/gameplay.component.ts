@@ -42,15 +42,14 @@ export class GameplayComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const gameCode = localStorage.getItem('gameCode') as string;
-    this.gameService.getGame(gameCode).subscribe((game) => {
-      this.game = game;
-      this.timer = this.game.rounds[game.currentRound - 1].gamePlayEndingTime - Date.now();
+    this.gameService.getGameByCode(gameCode).subscribe(game => {
+      this.timer = game.rounds[game.currentRound - 1].gamePlayEndingTime - Date.now();
       if (this.timer > 0 && this.timer !== 0) {
         this.interval = setTimeout(() => {
           this.endRound();
         }, this.timer);
       }
-      this.timeLeft = Math.floor(this.timer/1000 );
+      this.timeLeft = Math.floor(this.timer / 1000 );
       this.timeInterval = setInterval(() => {
         if (this.timeLeft > 0) {
           this.timeLeft--;
@@ -58,6 +57,9 @@ export class GameplayComponent implements AfterViewInit {
           this.timeLeft = 0;
         }
       }, 1000);
+    });
+    this.gameService.getGame(gameCode).subscribe((game) => {
+      this.game = game;
       this.messageSuccess = true;
       if (game.rounds[game.currentRound - 1].unAcceptable) {
         this.unAcceptable = true;

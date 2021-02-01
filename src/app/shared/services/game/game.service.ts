@@ -170,6 +170,10 @@ export class GameService {
     return this.gameSubject;
   }
 
+  public getGameByCode(code: string) {
+    return this.http.get<Game>('/api/game/get-game/' + code);
+  }
+
   public addplayer(
     playerName: string,
   ): Observable<Player> {
