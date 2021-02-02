@@ -3,6 +3,7 @@ import {GameService, WebSocketService} from '@app/shared/services';
 import {Router} from '@angular/router';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import set = Reflect.set;
 
 
 @Component({
@@ -31,11 +32,12 @@ export class GameplayComponent implements AfterViewInit {
   show: boolean = false;
   swapped: any[] = [];
   unAcceptable: boolean = false;
-  messageSuccess = true;
   timer!: number;
-  timeLeft!: number;
+  timeLeft: number = 0;
   interval: any;
   timeInterval: any;
+  visibleTimer: boolean = false;
+  pauseTimer: boolean = false;
 
   constructor(private gameService: GameService, private  router: Router, private ws: WebSocketService) {
   }
@@ -49,7 +51,9 @@ export class GameplayComponent implements AfterViewInit {
           this.endRound();
         }, this.timer);
       }
-      this.timeLeft = Math.floor(this.timer / 1000 );
+      if (this.timer > 0 && this.timer !== 0) {
+        this.timeLeft = Math.floor(this.timer / 1000);
+      }
       this.timeInterval = setInterval(() => {
         if (this.timeLeft > 0) {
           this.timeLeft--;
@@ -60,7 +64,6 @@ export class GameplayComponent implements AfterViewInit {
     });
     this.gameService.getGame(gameCode).subscribe((game) => {
       this.game = game;
-      this.messageSuccess = true;
       if (game.rounds[game.currentRound - 1].unAcceptable) {
         this.unAcceptable = true;
       }
@@ -73,11 +76,6 @@ export class GameplayComponent implements AfterViewInit {
       this.dataSource.sort = this.sort;
       this.div = 360 / this.game.players.length;
       this.radius = 100;
-
-
-      setTimeout(() => {
-        this.messageSuccess = false;
-      }, 3000);
     });
   }
 
@@ -117,5 +115,25 @@ export class GameplayComponent implements AfterViewInit {
     this.visibleRule = !this.visibleRule;
   }
 
+  timerVisibility() {
+    this.visibleTimer = !this.visibleTimer;
+  }
+
+  pauseTime() {
+    clearInterval(this.timeInterval);
+    clearInterval(this.interval);
+    this.pauseTimer = !this.pauseTimer;
+  }
+
+  startTime() {
+    this.pauseTimer = !this.pauseTimer;
+    let bug = this.timeLeft * 1000;
+    this.interval = setInterval(() => {
+      this.timeLeft--;
+    }, 1000);
+    this.timeInterval = setInterval(() => {
+      this.endRound();
+    }, bug);
+  }
 
 }
