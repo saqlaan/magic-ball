@@ -67,12 +67,13 @@ const GameHandler = {
     socket.actions.startRound([...players.map(x => (x.id)), ...viewers, hostId]);
     res.json(updatedGame);
   },
-  moveBall: async (req, res) => {
-    let game = await GameService.findById(req.body.gameId);
+  moveBall: async ({gameId, playerId}) => {
+    let game = await GameService.findById(gameId);
     if (!game) {
-      return res.status(401).json({message: messages.GAME_NOT_EXIST});
+      return console.log({message: messages.GAME_NOT_EXIST});
     }
-    const data = GameHandler.getPlayerNextBallMovement(game, req.body.playerId);
+    const data = GameHandler.getPlayerNextBallMovement(game, playerId);
+    socket.actions.receiveBall([data.currentBallHolder]);
     const gameData = {
       round: {
         roundId: game.rounds[game.currentRound - 1]._id,
@@ -81,14 +82,11 @@ const GameHandler = {
         }
       }
     }
-    console.log(gameData);
-    let updatedGame = await GameService.updateRound(req.body.gameId, gameData);
+    let updatedGame = await GameService.updateRound(gameId, gameData);
     if (!updatedGame) {
-      return res.status(401).json({message: messages.GAME_UPDATE_ERROR});
+      return console.log({message: messages.GAME_UPDATE_ERROR});
     }
-    socket.actions.receiveBall([data.currentBallHolder]);
     socket.actions.moveBall([updatedGame.hostId, ...updatedGame.viewers])
-    res.json(updatedGame);
   },
   addViewer: async (req, res) => {
     let gameCode = req.body.viewerId.split(".");
