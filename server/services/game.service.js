@@ -5,7 +5,7 @@ const GameService = {
     return new Game(gameData).save();
   },
   findById: async (_id) => {
-    return Game.findById(_id);
+    return Game.findById(_id );
   },
   findByCode: async (gameCode) => {
     return Game.findOne({gameCode}).populate({ path: 'players.user', select:'firstName lastName email' })

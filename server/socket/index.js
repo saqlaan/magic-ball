@@ -22,6 +22,10 @@ const socket = {
         case 'init':
           socket.init(client, data);
           break;
+        case 'move-ball':
+          const GameHandler = require('../handlers/game.handler');
+          (async () => await GameHandler.moveBall(data.data))();
+          break;
         case 'connect':
           client.send(JSON.stringify({
             method: 'ok',
